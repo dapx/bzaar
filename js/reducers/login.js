@@ -1,6 +1,6 @@
-import { TYPE_EMAIL, TYPE_PASSWORD, REQUEST_LOGIN, RECEIVE_LOGIN } from '../actionTypes/login.js'
+import { TYPE_EMAIL, TYPE_PASSWORD, REQUEST_LOGIN, RECEIVE_LOGIN, RECEIVE_ERROR } from '../actionTypes/login.js'
 
-export default function loginReducer(state = [], action) {
+export default function login(state = [], action) {
   switch(action.type){
     case TYPE_EMAIL:
       return {...state, email: action.text}
@@ -9,7 +9,18 @@ export default function loginReducer(state = [], action) {
     case REQUEST_LOGIN:
       return {...state, pendingLoginRequest: true}
     case RECEIVE_LOGIN:
-      return {...state, pendingLoginRequest: false}
+      return {...state,
+         user: action.user,
+         jwt: action.jwt,
+         pendingLoginRequest: false,
+         errorMessage: ''
+        }
+    case RECEIVE_ERROR:
+      return {...state,
+         pendingLoginRequest: false,
+         showToast: true,
+         errorMessage: action.text
+      }
     
     default: 
       return state;

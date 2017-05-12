@@ -5,9 +5,8 @@ let ApiUtils = {
     if (response.status >= 200 && response.status < 300) {
       return response;
     } else {
-      error.response = response;
-      error.hasError = true;
-      throw error;
+      let message = JSON.parse(response._bodyText).error;
+      throw new Error(message);
     }
   }
 }
@@ -31,7 +30,7 @@ export let UserService = {
 			return responseJson;
 		})
 		.catch((error) => {
-			return error;
+			throw error;
 		})
 	}
 }
