@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
-import loginReducer from '../reducers/login';
+import login from '../reducers/login';
+import nav from '../reducers/navigation';
 
-export default combineReducers({ loginReducer });
+export default combineReducers({ nav, login });
