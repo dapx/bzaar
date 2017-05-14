@@ -31,27 +31,31 @@ class Home extends Component {
   }
 
   renderItem({item, index}) {
-    return <Text>{item.name}</Text>;
+    return (
+      <View key={index} style={{margin: 5, flexWrap: 'wrap', width: 150, justifyContent: 'center', alignItems: 'center'}}>
+        <Image source={{uri: item.logo, width: 60, height: 60}} />
+        <Text>{item.name}</Text>
+        <Text style={{textAlign: 'center'}}>{item.description}</Text>
+      </View>
+    );
   }
 
   render() {
     return (
       <Container>
-        <Header style={{ backgroundColor: 'white'}} androidStatusBarColor='white'>
+        <Header style={{ backgroundColor: 'white'}} androidStatusBarColor='black'>
           <Image style={{alignSelf: 'center', width: 30, height: 30, resizeMode: 'stretch'}} source={require('../../images/header_logo.png')} />
         </Header>
-        <Content padder>
-          <View>
-            <Text>Id: {this.state.id}</Text>
-            <Text>Email: {this.state.email}</Text>
-            <Text>Name: {this.state.name}</Text>
-          </View>
+        <Content style={{backgroundColor: 'white'}} padder>
           { !!this.state.loadingRequest 
-            ? <Text>Loading..</Text>
+            ? <Spinner />
             : <FlatList
+                columnWrapperStyle={{justifyContent: 'space-between', margin: 10, backgroundColor: 'white'}}
+                numColumns={2}
+                horizontal={false}
                 data={this.state.list}
                 renderItem={this.renderItem}
-                keyExtractor={item => item.name} />
+                keyExtractor={item => item.id} />
           }
         </Content>
       </Container>
@@ -70,5 +74,14 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(Actions, dispatch);
 }
+
+const styles = StyleSheet.create({
+  grid: {
+    justifyContent: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    flex: 1,
+  },
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
