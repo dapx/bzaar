@@ -13,7 +13,7 @@ class Login extends Component {
   constructor(props){
     super(props);
     this.state = {
-        email: '',
+        email: this.props.registerEmail || '',
         password: '',
         pendingLoginRequest: false,
         errorMessage: '',
@@ -78,7 +78,7 @@ class Login extends Component {
               <Button block dark onPress={() => this._handleSubmit(this.state.email, this.state.password)}>
                 <Text>Sign-in</Text>
               </Button>
-              <Button transparent block dark>
+              <Button transparent block dark onPress={() => this.props.goToRegisterPage()}>
                 <Text>Sign-up</Text>
               </Button>
             </View>
@@ -107,7 +107,8 @@ function mapStateToProps(state) {
     password: state.login.password,
     errorMessage: state.login.errorMessage,
     showToast: state.login.showToast,
-    jwt: state.login.jwt
+    jwt: state.login.jwt,
+    //registerEmail: state.register.email,
    };
 }
 

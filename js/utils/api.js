@@ -41,7 +41,7 @@ export let ApiUtils = {
 }
 
 export let UserService = {
-	userLogin: function(email, password) {
+	login: function(email, password) {
 		return fetch(`${api_base_url}/signin`, {
 		  method: 'POST',
       headers: {
@@ -49,13 +49,33 @@ export let UserService = {
         'Content-type': 'application/json',
       },
       body: JSON.stringify({
-        email: email,
-        password: password,
+        email,
+        password,
       })
     })
 		.then(ApiUtils.checkStatus)
 		.then((response) => response.json())
 		.then((json) => json)
 		.catch((error) => {throw error;})
-	}
+	},
+
+  register: function(email, name, surname, password) {
+    return fetch(`${api_base_url}/signup`, {
+		  method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({user: {
+        email,
+        name,
+        surname,
+        password,
+      }})
+    })
+		.then(ApiUtils.checkStatus)
+		.then((response) => response.json())
+		.then((json) => {console.log(json);return json})
+		.catch((error) => {throw error;})
+  }
 }

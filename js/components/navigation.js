@@ -3,10 +3,12 @@ import { connect } from 'react-redux';
 import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 import Login from '../scenes/login';
 import Home from '../scenes/home';
+import Register from '../scenes/register';
 
 export const AppNavigator = StackNavigator({
    LoginPage: { screen: Login },
-   HomePage: { screen: Home }
+   HomePage: { screen: Home },
+   RegisterPage: { screen: Register },
 }, { headerMode: 'screen' });
 
 class AppWithNavigationState extends React.Component {
