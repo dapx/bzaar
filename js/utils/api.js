@@ -28,7 +28,6 @@ export let ApiUtils = {
   },
 
   request: function(endpoint, jwt, method = 'GET'){
-    console.log('REQUEST#############################################');
     return fetch(`${api_base_url}/${endpoint}`, {
       headers: this.headers(jwt),
       method: method,

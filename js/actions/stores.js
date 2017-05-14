@@ -4,8 +4,6 @@ import { ApiUtils } from '../utils/api';
 import { Alert } from 'react-native';
 
 function request() {
-  console.log("REQUEST&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-  console.log(REQUEST_STORES);
   return {
     type: REQUEST_STORES,
   }

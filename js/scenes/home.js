@@ -35,9 +35,6 @@ class Home extends Component {
   }
 
   render() {
-    console.log("RENDER");
-    console.log(!!this.state.loadingRequest);
-    console.log(this.state.list);
     return (
       <Container>
         <Header style={{ backgroundColor: 'white'}} androidStatusBarColor='white'>
@@ -63,8 +60,6 @@ class Home extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log("MAP STATE TO PROPS ######################################################");
-  console.log(state);
   return { 
     user: state.login.user,
     jwt: state.login.jwt,
@@ -73,8 +68,6 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  console.log("HOME - MAP DISPATCH TO PROPS");
-  console.log(dispatch.constructor);
   return bindActionCreators(Actions, dispatch);
 }
 
