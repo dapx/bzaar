@@ -1,17 +1,17 @@
-import * as action from '../actionTypes/login';
+import { RECEIVE_LOGIN, TYPE_EMAIL, TYPE_PASSWORD, REQUEST_LOGIN } from '../actionTypes/login';
+import { RECEIVE_ERROR } from '../actionTypes/error';
 import { UserService } from '../utils/api';
-import { Actions } from 'react-native-router-flux';
 import { Toast } from 'native-base';
 
-function requestLogin(){
+function request(){
   return {
-    type: action.REQUEST_LOGIN,
+    type: REQUEST_LOGIN,
   }
 }
 
-function receiveLogin(data){
+function receive(data){
   return {
-    type: action.RECEIVE_LOGIN,
+    type: RECEIVE_LOGIN,
     user: data.user,
     jwt: data.jwt
   }
@@ -19,10 +19,10 @@ function receiveLogin(data){
 
 export function login(email, password) {
   return dispatch => {
-    dispatch(requestLogin());
+    dispatch(request());
     return UserService.userLogin(email, password)
     .then((data) => {
-      dispatch(receiveLogin(data));
+      dispatch(receive(data));
     })
     .catch((error) => {
       dispatch(receiveError(error.message));
@@ -32,21 +32,21 @@ export function login(email, password) {
 
 export function changingEmailValue(text){
   return {
-    type: action.TYPE_EMAIL,
+    type: TYPE_EMAIL,
     text
   }
 }
 
 export function changingPasswordValue(text){
   return {
-    type: action.TYPE_PASSWORD,
+    type: TYPE_PASSWORD,
     text
   }
 }
 
 export function receiveError(text){
   return {
-    type: action.RECEIVE_ERROR,
+    type: RECEIVE_ERROR,
     text
   }
 }

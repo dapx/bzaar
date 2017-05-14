@@ -1,6 +1,12 @@
-import { TYPE_EMAIL, TYPE_PASSWORD, REQUEST_LOGIN, RECEIVE_LOGIN, RECEIVE_ERROR } from '../actionTypes/login.js'
+import {
+  TYPE_EMAIL,
+  TYPE_PASSWORD,
+  REQUEST_LOGIN,
+  RECEIVE_LOGIN,
+} from '../actionTypes/login'
+import { RECEIVE_ERROR } from '../actionTypes/error';
 
-export default function login(state = [], action) {
+export default function login(state = {}, action) {
   switch(action.type){
     case TYPE_EMAIL:
       return {...state, email: action.text}
