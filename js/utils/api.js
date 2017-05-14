@@ -1,6 +1,23 @@
 const api_base_url = 'https://bzaar-api.herokuapp.com/bzaar/api';
 
-let ApiUtils = {
+const headers = function(jwt) {
+  return {
+        'Accept': 'application/json',
+        'Content-type': 'application/json',
+        'Authorization': `Bearer ${jwt}`
+  }
+};
+
+export let ApiUtils = {
+
+  headers: function(jwt) {
+    return {
+        'Accept': 'application/json',
+        'Content-type': 'application/json',
+        'Authorization': `Bearer ${jwt}`
+    }
+  },
+
   checkStatus: function(response) {
     if (response.status >= 200 && response.status < 300) {
       return response;
@@ -8,7 +25,20 @@ let ApiUtils = {
       let message = JSON.parse(response._bodyText).error;
       throw new Error(message);
     }
-  }
+  },
+
+  request: function(endpoint, jwt, method = 'GET'){
+    console.log('REQUEST#############################################');
+    return fetch(`${api_base_url}/${endpoint}`, {
+      headers: this.headers(jwt),
+      method: method,
+    })
+    .then(this.checkStatus)
+    .then((response) => response.json())
+    .then((json) => json)
+    .catch((error) => {throw error;});
+  },
+
 }
 
 export let UserService = {
@@ -26,11 +56,7 @@ export let UserService = {
     })
 		.then(ApiUtils.checkStatus)
 		.then((response) => response.json())
-		.then((responseJson) => {
-			return responseJson;
-		})
-		.catch((error) => {
-			throw error;
-		})
+		.then((json) => json)
+		.catch((error) => {throw error;})
 	}
 }
