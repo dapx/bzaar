@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Image } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 import { Container, Header, Body, Content, Thumbnail, Toast, Form, Item, Label, Icon, Input, Text, Button, Spinner } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as LoginActions from '../actions/login';
+import * as Actions from '../actions/login';
 
 class Login extends Component {
   static navigationOptions = {
@@ -54,9 +53,10 @@ class Login extends Component {
   render() {
     return (
       <Container>
-        <Content padder>
+        <Content style={{backgroundColor: 'white'}} padder>
           <View>
-            <Image style={{flex: 1, alignSelf: 'center', width: 100, height: 100}} source={{uri: 'https://image.freepik.com/free-icon/clothes-hanger_318-43294.jpg'}} />
+            <Image style={{flex: 1, alignSelf: 'center', width: 140, height: 140}} source={require('../../images/login_logo1.png')} />
+            <Text style={{flex: 1, alignSelf: 'center'}}>Bzaar</Text>
           <Form>
             <Item floatingLabel>
               <Label>E-mail</Label>
@@ -112,7 +112,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(LoginActions, dispatch);
+  return bindActionCreators(Actions, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
