@@ -34,7 +34,7 @@ class Home extends Component {
     return (
       <View key={index} style={{margin: 5, flexWrap: 'wrap', width: 150, justifyContent: 'center', alignItems: 'center'}}>
         <Image source={{uri: item.logo, width: 60, height: 60}} />
-        <Text>{item.name}</Text>
+        <Text style={{textAlign: 'center'}}>{item.name}</Text>
         <Text style={{textAlign: 'center'}}>{item.description}</Text>
       </View>
     );
