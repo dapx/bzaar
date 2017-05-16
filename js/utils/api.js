@@ -1,3 +1,4 @@
+import { Toast } from 'native-base';
 const api_base_url = 'https://bzaar-api.herokuapp.com/bzaar/api';
 
 const headers = function(jwt) {
@@ -27,7 +28,7 @@ export let ApiUtils = {
     }
   },
 
-  request: function(endpoint, jwt, method = 'GET'){
+  request: function(endpoint, jwt, method = 'GET') {
     return fetch(`${api_base_url}/${endpoint}`, {
       headers: this.headers(jwt),
       method: method,
@@ -36,6 +37,16 @@ export let ApiUtils = {
     .then((response) => response.json())
     .then((json) => json)
     .catch((error) => {throw error;});
+  },
+
+  error: function(message){
+    Toast.show({
+        type: 'danger',
+        text: message,
+        duration: 3000,
+        position: 'bottom',
+        buttonText: 'Okay'
+      });
   },
 
 }

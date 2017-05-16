@@ -1,6 +1,6 @@
 import { RECEIVE_LOGIN, TYPE_EMAIL, TYPE_PASSWORD, REQUEST_LOGIN } from '../actionTypes/login';
 import { RECEIVE_ERROR } from '../actionTypes/error';
-import { UserService } from '../utils/api';
+import { UserService, ApiUtils } from '../utils/api';
 import { Toast } from 'native-base';
 import { register } from '../actions/navigation';
 
@@ -27,6 +27,7 @@ export function login(email, password) {
     })
     .catch((error) => {
       dispatch(receiveError(error.message));
+      ApiUtils.error(error.message);
     }).done();
   }
 }

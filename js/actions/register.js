@@ -1,6 +1,6 @@
 import { RECEIVE_REGISTER, REQUEST_REGISTER, TYPE_EMAIL, TYPE_NAME, TYPE_SURNAME, TYPE_PASSWORD, TYPE_CONFIRM_PASSWORD } from '../actionTypes/register';
 import { RECEIVE_ERROR } from '../actionTypes/error';
-import { UserService } from '../utils/api';
+import { UserService, ApiUtils } from '../utils/api';
 import { back } from '../actions/navigation';
 import { Toast } from 'native-base';
 
@@ -69,6 +69,7 @@ export function register(email, name, surname, password) {
     })
     .catch((error) => {
       dispatch(receiveError(error.message));
+      ApiUtils.error(error.message);
     }).done();
   }
 }

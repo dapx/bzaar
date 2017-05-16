@@ -32,6 +32,7 @@ export function list(jwt) {
       })
       .catch((error) => {
         dispatch(receiveError(error.message));
+        ApiUtils.error(error.message);
       })
       .done();
   }
