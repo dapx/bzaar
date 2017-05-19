@@ -4,6 +4,7 @@ import {
   REQUEST_LOGIN,
   RECEIVE_LOGIN,
 } from '../actionTypes/login'
+//import { RECEIVE_REGISTER } from '../actionTypes/register';
 import { RECEIVE_ERROR } from '../actionTypes/error';
 
 export default function login(state = {}, action) {
@@ -13,21 +14,27 @@ export default function login(state = {}, action) {
     case TYPE_PASSWORD:
       return {...state, password: action.text}
     case REQUEST_LOGIN:
-      return {...state, pendingLoginRequest: true}
+      return {...state, pendingRequest: true}
     case RECEIVE_LOGIN:
       return {...state,
          user: action.user,
          jwt: action.jwt,
-         pendingLoginRequest: false,
+         pendingRequest: false,
          errorMessage: ''
         }
     case RECEIVE_ERROR:
       return {...state,
-         pendingLoginRequest: false,
+         pendingRequest: false,
          showToast: true,
          errorMessage: action.text
       }
-    
+    /* Disabled due by bug in floating label input
+    case RECEIVE_REGISTER:
+      return {...state,
+        email: action.email,
+        password: action.password
+      }
+    */
     default: 
       return state;
   }

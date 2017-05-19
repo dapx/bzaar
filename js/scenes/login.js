@@ -4,6 +4,8 @@ import { Container, Header, Body, Content, Thumbnail, Toast, Form, Item, Label, 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../actions/login';
+import * as NavActions from '../actions/navigation';
+import * as RegisterActions from '../actions/register';
 
 class Login extends Component {
   static navigationOptions = {
@@ -13,9 +15,9 @@ class Login extends Component {
   constructor(props){
     super(props);
     this.state = {
-        email: this.props.registerEmail || '',
+        email: this.props.email || '',
         password: '',
-        pendingLoginRequest: false,
+        pendingRequest: false,
         errorMessage: '',
         jwt: '',
         showToast: false
@@ -23,7 +25,7 @@ class Login extends Component {
   }
   
   componentWillReceiveProps(nextProps){
-    this.setState({email: nextProps.email, password: nextProps.password, pendingLoginRequest: nextProps.pendingLoginRequest, errorMessage: nextProps.errorMessage, showToast: nextProps.showToast})
+    this.setState({email: nextProps.email, password: nextProps.password, pendingRequest: nextProps.pendingRequest, errorMessage: nextProps.errorMessage, showToast: nextProps.showToast})
   }
 
   _handleSubmit(email, password) {
@@ -35,7 +37,7 @@ class Login extends Component {
       });
       return;
     }
-    this.props.login(email, password);
+    this.props.loginActions.login(email, password);
   }
 
   _showErrorMessage(message){
@@ -63,22 +65,22 @@ class Login extends Component {
               <Icon active name='person' />
               <Input
                 value={this.state.email}
-                onChangeText={(email) => this.props.changingEmailValue(email)}
+                onChangeText={(email) => this.props.loginActions.changingEmailValue(email)}
                />
             </Item>
             <Item>
               <Icon active name='lock' />
               <Input secureTextEntry
                 placeholder="Password"
-                onChangeText={(password) => this.props.changingPasswordValue(password)}
+                onChangeText={(password) => this.props.loginActions.changingPasswordValue(password)}
                />
             </Item>
-            {this.state.pendingLoginRequest ? (<Spinner />) :
+            {this.state.pendingRequest ? (<Spinner />) :
             <View>
               <Button block dark onPress={() => this._handleSubmit(this.state.email, this.state.password)}>
                 <Text>Sign-in</Text>
               </Button>
-              <Button transparent block dark onPress={() => this.props.goToRegisterPage()}>
+              <Button transparent block dark onPress={() => this.props.navActions.register()}>
                 <Text>Sign-up</Text>
               </Button>
             </View>
@@ -102,7 +104,7 @@ class Login extends Component {
 
 function mapStateToProps(state) {
   return { 
-    pendingLoginRequest: state.login.pendingLoginRequest,
+    pendingRequest: state.login.pendingRequest,
     email: state.login.email,
     password: state.login.password,
     errorMessage: state.login.errorMessage,
@@ -113,7 +115,11 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(Actions, dispatch);
+  return {
+    loginActions: bindActionCreators(Actions, dispatch),
+    registerActions: bindActionCreators(RegisterActions, dispatch),
+    navActions: bindActionCreators(NavActions, dispatch)
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

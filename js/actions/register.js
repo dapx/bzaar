@@ -1,7 +1,6 @@
 import { RECEIVE_REGISTER, REQUEST_REGISTER, TYPE_EMAIL, TYPE_NAME, TYPE_SURNAME, TYPE_PASSWORD, TYPE_CONFIRM_PASSWORD } from '../actionTypes/register';
 import { RECEIVE_ERROR } from '../actionTypes/error';
 import { UserService, ApiUtils } from '../utils/api';
-import { back } from '../actions/navigation';
 import { Toast } from 'native-base';
 
 function request(){
@@ -10,9 +9,11 @@ function request(){
   }
 }
 
-function receive(data){
+function receive(data, email, password){
   return {
     type: RECEIVE_REGISTER,
+    email,
+    password,
   }
 }
 
@@ -65,15 +66,11 @@ export function register(email, name, surname, password) {
     dispatch(request());
     return UserService.register(email, name, surname, password)
     .then((data) => {
-      dispatch(receive(data));
+      dispatch(receive(data, email, password));
     })
     .catch((error) => {
       dispatch(receiveError(error.message));
       ApiUtils.error(error.message);
     }).done();
   }
-}
-
-export function returnPage() {
-  return dispatch => dispatch(back());
 }

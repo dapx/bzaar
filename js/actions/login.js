@@ -2,7 +2,6 @@ import { RECEIVE_LOGIN, TYPE_EMAIL, TYPE_PASSWORD, REQUEST_LOGIN } from '../acti
 import { RECEIVE_ERROR } from '../actionTypes/error';
 import { UserService, ApiUtils } from '../utils/api';
 import { Toast } from 'native-base';
-import { register } from '../actions/navigation';
 
 function request(){
   return {
@@ -51,8 +50,4 @@ export function receiveError(text){
     type: RECEIVE_ERROR,
     text
   }
-}
-
-export function goToRegisterPage(){
-  return dispatch => dispatch(register());
 }

@@ -4,6 +4,7 @@ import { Container, Header, Body, Content, Thumbnail, Toast, Form, Title, Item, 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../actions/register';
+import * as NavActions from '../actions/navigation';
 
 class Register extends Component {
   static navigationOptions = {
@@ -28,7 +29,7 @@ class Register extends Component {
     this.setState({
       email: nextProps.email, name: nextProps.name, surname: nextProps.surname,
       password: nextProps.password, confirmPassword: nextProps.confirmPassword,
-      pendingLoginRequest: nextProps.pendingLoginRequest, errorMessage: nextProps.errorMessage,
+      pendingRequest: nextProps.pendingRequest, errorMessage: nextProps.errorMessage,
       showToast: nextProps.showToast})
   }
 
@@ -49,7 +50,7 @@ class Register extends Component {
       });
       return;
     }
-    this.props.register(email, name, surname, password);
+    this.props.registerActions.register(email, name, surname, password);
   }
 
   _showErrorMessage(message){
@@ -69,7 +70,7 @@ class Register extends Component {
       <Container>
         <Header style={{backgroundColor: 'white'}} androidStatusBarColor='black'>
           <Left style={{flexDirection: 'row'}}>
-            <Button transparent onPress={() => this.props.returnPage()}>
+            <Button transparent onPress={() => this.props.navActions.back()}>
               <Icon style={{color: 'black'}} name='arrow-back' />
             </Button>
             <Title style={{color: 'black', alignSelf: 'center'}}>Register</Title>
@@ -82,41 +83,39 @@ class Register extends Component {
               <Input
                 value={this.state.email}
                 placeholder="email"
-                onChangeText={(email) => this.props.changingEmailValue(email)}
+                onChangeText={(email) => this.props.registerActions.changingEmailValue(email)}
                />
             </Item>
             <Item>
               <Input
                 value={this.state.name}
                 placeholder="name"
-                onChangeText={(name) => this.props.changingNameValue(name)}
+                onChangeText={(name) => this.props.registerActions.changingNameValue(name)}
                />
             </Item>
             <Item>
               <Input
                 value={this.state.surname}
                 placeholder="surname"
-                onChangeText={(surname) => this.props.changingSurnameValue(surname)}
+                onChangeText={(surname) => this.props.registerActions.changingSurnameValue(surname)}
                />
             </Item>
             <Item>
               <Input secureTextEntry
                 placeholder="Password"
-                onChangeText={(password) => this.props.changingPasswordValue(password)}
+                onChangeText={(password) => this.props.registerActions.changingPasswordValue(password)}
                />
             </Item>
             <Item>
               <Input secureTextEntry
                 placeholder="Confirm Password"
-                onChangeText={(confirmPassword) => this.props.changingConfirmPasswordValue(confirmPassword)}
+                onChangeText={(confirmPassword) => this.props.registerActions.changingConfirmPasswordValue(confirmPassword)}
                />
             </Item>
-            {this.state.pendingLoginRequest ? (<Spinner />) :
-            <View>
-              <Button block dark onPress={() => this._handleSubmit(this.state.email, this.state.name, this.state.surname, this.state.password, this.state.confirmPassword)}>
-                <Text>Send</Text>
-              </Button>
-            </View>
+            {this.state.pendingRequest ? (<Spinner />) :
+            <Button block dark onPress={() => this._handleSubmit(this.state.email, this.state.name, this.state.surname, this.state.password, this.state.confirmPassword)}>
+              <Text>Send</Text>
+            </Button>
             }
           </Form>
           </View>
@@ -140,7 +139,10 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(Actions, dispatch);
+  return {
+    registerActions: bindActionCreators(Actions, dispatch),
+    navActions: bindActionCreators(NavActions, dispatch)
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);
