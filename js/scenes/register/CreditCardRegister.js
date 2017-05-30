@@ -4,10 +4,10 @@ import { Container, Header, Body, Content, Thumbnail, Toast, Form, Title, Item, 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import CreditCard from 'react-native-credit-card';
-import * as Actions from '../actions/register';
-import * as NavActions from '../actions/navigation';
+import * as Actions from '../../actions/register';
+import * as NavActions from '../../actions/navigation';
 
-class Register extends Component {
+class CreditCardRegister extends Component {
   static navigationOptions = {
     header: null,
   }
@@ -85,8 +85,8 @@ class Register extends Component {
             <Item>
               <CreditCard 
                  type={this.state.type}
-                 imageFront={require('../../images/card-front.png')}
-                 imageBack={require('../../images/card-back.png')}
+                 imageFront={require('../../../images/card-front.png')}
+                 imageBack={require('../../../images/card-back.png')}
                  shiny={false}
                  bar={false}
                  focused={this.state.focused}
@@ -97,28 +97,9 @@ class Register extends Component {
             </Item>
             <Item>
               <Input
-                value={this.state.email}
-                placeholder="email"
-                onChangeText={(email) => this.props.registerActions.changingEmailValue(email)}
-               />
-            </Item>
-            <Item>
-              <Input
                 value={this.state.name}
                 placeholder="full name"
                 onChangeText={(name) => this.props.registerActions.changingNameValue(name)}
-               />
-            </Item>
-            <Item>
-              <Input secureTextEntry
-                placeholder="Password"
-                onChangeText={(password) => this.props.registerActions.changingPasswordValue(password)}
-               />
-            </Item>
-            <Item>
-              <Input secureTextEntry
-                placeholder="Confirm Password"
-                onChangeText={(confirmPassword) => this.props.registerActions.changingConfirmPasswordValue(confirmPassword)}
                />
             </Item>
             <Item>
@@ -168,4 +149,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(CreditCardRegister);

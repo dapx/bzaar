@@ -59,12 +59,10 @@ export function receiveError(text){
   }
 }
 
-export function register(email, name, surname, password) {
-  console.log("REGISTER ACTION");
+export function register(email, name, password) {
   return dispatch => {
-    console.log("DISPATCHING");
     dispatch(request());
-    return UserService.register(email, name, surname, password)
+    return UserService.register(email, name, password)
     .then((data) => {
       dispatch(receive(data, email, password));
     })

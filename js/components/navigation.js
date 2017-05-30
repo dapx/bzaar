@@ -3,13 +3,19 @@ import { connect } from 'react-redux';
 import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 import Login from '../scenes/login';
 import Home from '../scenes/home';
-import Register from '../scenes/register';
+import UserRegister from '../scenes/register/UserRegister';
+import CreditCardRegister from '../scenes/register/CreditCardRegister';
+
+const RegisterNavigator = StackNavigator({
+  UserPage: { screen: UserRegister },
+  CreditCardPage: { screen: CreditCardRegister },
+});
 
 export const AppNavigator = StackNavigator({
-   LoginPage: { screen: Login },
-   HomePage: { screen: Home },
-   RegisterPage: { screen: Register },
-}, { headerMode: 'screen' });
+  LoginPage: { screen: Login },
+  HomePage: { screen: Home },
+  RegisterPage: { screen: RegisterNavigator },
+});
 
 class AppWithNavigationState extends React.Component {
   render() {

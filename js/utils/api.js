@@ -70,7 +70,7 @@ export let UserService = {
 		.catch((error) => {throw error;})
 	},
 
-  register: function(email, name, surname, password) {
+  register: function(email, name, password) {
     return fetch(`${api_base_url}/signup`, {
 		  method: 'POST',
       headers: {
@@ -80,7 +80,7 @@ export let UserService = {
       body: JSON.stringify({user: {
         email,
         name,
-        surname,
+        surname: 'teste',
         password,
       }})
     })

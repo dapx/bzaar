@@ -1,8 +1,14 @@
-import { REGISTER, BACK } from '../actionTypes/navigation';
+import { USER_REGISTER, CREDITCARD_REGISTER, BACK } from '../actionTypes/navigation';
 
-export function register() {
+export function userRegister() {
   return {
-    type: REGISTER,
+    type: USER_REGISTER,
+  }
+}
+
+export function creditCard() {
+  return {
+    type: CREDITCARD_REGISTER,
   }
 }
 

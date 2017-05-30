@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../actions/login';
 import * as NavActions from '../actions/navigation';
-import * as RegisterActions from '../actions/register';
 
 class Login extends Component {
   static navigationOptions = {
@@ -80,7 +79,7 @@ class Login extends Component {
               <Button block dark onPress={() => this._handleSubmit(this.state.email, this.state.password)}>
                 <Text>Sign-in</Text>
               </Button>
-              <Button transparent block dark onPress={() => this.props.navActions.register()}>
+              <Button transparent block dark onPress={() => this.props.navActions.userRegister()}>
                 <Text>Sign-up</Text>
               </Button>
             </View>
@@ -110,14 +109,12 @@ function mapStateToProps(state) {
     errorMessage: state.login.errorMessage,
     showToast: state.login.showToast,
     jwt: state.login.jwt,
-    //registerEmail: state.register.email,
    };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     loginActions: bindActionCreators(Actions, dispatch),
-    registerActions: bindActionCreators(RegisterActions, dispatch),
     navActions: bindActionCreators(NavActions, dispatch)
   }
 }

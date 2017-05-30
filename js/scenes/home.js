@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Image, FlatList } from 'react-native';
-import { Container, Header, Body, Content, Thumbnail, Title, Form, Item, Label, Icon, Input, Text, Button, Spinner } from 'native-base';
+import { Container, Header, Body, Content, Thumbnail, Title, Tabs, Tab, Form, Item, Label, Icon, Input, Text, Button, Spinner } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../actions/stores';
@@ -43,21 +43,35 @@ class Home extends Component {
   render() {
     return (
       <Container>
-        <Header style={{ backgroundColor: 'white'}} androidStatusBarColor='black'>
+        <Header hasTabs style={{ backgroundColor: 'white', flexDirection: 'column' }} androidStatusBarColor='black'>
           <Image style={{alignSelf: 'center', width: 30, height: 30, resizeMode: 'stretch'}} source={require('../../images/header_logo.png')} />
         </Header>
-        <Content style={{backgroundColor: 'white'}} padder>
-          { !!this.state.loadingRequest 
-            ? <Spinner />
-            : <FlatList
-                columnWrapperStyle={{justifyContent: 'space-between', margin: 10, backgroundColor: 'white'}}
-                numColumns={2}
-                horizontal={false}
-                data={this.state.list}
-                renderItem={this.renderItem}
-                keyExtractor={item => item.id} />
-          }
-        </Content>
+          <Tabs>
+            <Tab tabStyle={{ backgroundColor: 'white' }} activeTabStyle={{ backgroundColor: 'white' }}
+              textStyle={{ color: 'black' }} activeTextStyle={{ color: 'black' }}
+              heading="Stores">
+            { !!this.state.loadingRequest 
+              ? <Spinner />
+              : <FlatList
+                  columnWrapperStyle={{justifyContent: 'space-between', margin: 10, backgroundColor: 'white'}}
+                  numColumns={2}
+                  horizontal={false}
+                  data={this.state.list}
+                  renderItem={this.renderItem}
+                  keyExtractor={item => item.id} />
+            }
+            </Tab>
+            <Tab tabStyle={{ backgroundColor: 'white' }} activeTabStyle={{ backgroundColor: 'white' }}
+              textStyle={{ color: 'black' }} activeTextStyle={{ color: 'black' }}
+              heading="Sacola">
+              <Text>Empty</Text>
+            </Tab>
+            <Tab tabStyle={{ backgroundColor: 'white' }} activeTabStyle={{ backgroundColor: 'white' }}
+              textStyle={{ color: 'black' }} activeTextStyle={{ color: 'black' }}
+              heading="My Stores">
+              <Text>Empty</Text>
+            </Tab>
+          </Tabs>
       </Container>
     )
   }
