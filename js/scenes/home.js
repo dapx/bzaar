@@ -12,7 +12,7 @@ class Home extends Component {
     header: null,
   }
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
         name: this.props.user.name,
@@ -54,7 +54,7 @@ class Home extends Component {
             { !!this.state.loadingRequest 
               ? <Spinner />
               : <FlatList
-                  columnWrapperStyle={{justifyContent: 'space-between', margin: 10, backgroundColor: 'white'}}
+                  columnWrapperStyle={{justifyContent: 'space-around', margin: 10, backgroundColor: 'white'}}
                   numColumns={2}
                   horizontal={false}
                   data={this.state.list}
