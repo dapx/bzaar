@@ -7,8 +7,6 @@
     "test": "jest"
   },
   "dependencies": {
-    "@expo/vector-icons": "^4.0.0",
-    "exp": "^41.0.0",
     "native-base": "^2.1.3",
     "react": "16.0.0-alpha.6",
     "react-native": "0.44.0",
