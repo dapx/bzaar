@@ -13,7 +13,13 @@ const RegisterNavigator = StackNavigator({
 
 export const AppNavigator = StackNavigator({
   LoginPage: { screen: Login },
-  HomePage: { screen: Home },
+  HomePage: { screen: Home,
+  navigationOptions: {
+      visible: false,
+      header: null,
+      gesturesEnabled: false
+    },
+  },
   RegisterPage: { screen: RegisterNavigator },
 });
 

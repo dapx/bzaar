@@ -8,9 +8,6 @@ import theme from '../../native-base-theme/variables/commonColor';
 import getTheme from '../../native-base-theme/components';
 
 class Home extends Component {
-  static navigationOptions = {
-    header: null,
-  }
 
   constructor(props) {
     super(props);
