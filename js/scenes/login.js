@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Image } from 'react-native';
-import { Container, Header, Body, Content, Thumbnail, Toast, Form, Item, Label, Icon, Input, Text, Button, Spinner } from 'native-base';
+import { StyleProvider, Container, Header, Body, Content, Thumbnail, Toast, Form, Item, Label, Icon, Input, Text, Button, Spinner } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../actions/login';
 import * as NavActions from '../actions/navigation';
+import theme from '../../native-base-theme/variables/commonColor';
+import getTheme from '../../native-base-theme/components';
 
 class Login extends Component {
   static navigationOptions = {
@@ -53,10 +55,11 @@ class Login extends Component {
 
   render() {
     return (
+      <StyleProvider style={getTheme(theme)}>
       <Container>
         <Content style={{backgroundColor: 'white'}} padder>
           <View>
-            <Image style={{flex: 1, alignSelf: 'center', width: 140, height: 140}} source={require('../../images/login_logo1.png')} />
+            <Image style={{flex: 1, alignSelf: 'center', marginTop: 10, width: 140, height: 140}} source={require('../../images/login_logo1.png')} />
             <Text style={{flex: 1, alignSelf: 'center'}}>Bzaar</Text>
           <Form>
             <Item floatingLabel>
@@ -97,6 +100,7 @@ class Login extends Component {
           <Text>Teste</Text>
         </Toast>
       </Container>
+      </StyleProvider>
     )
   }
 }
