@@ -59,7 +59,7 @@ class Login extends Component {
       <Container>
         <Content style={{backgroundColor: 'white'}} padder>
           <View>
-            <Image style={{flex: 1, alignSelf: 'center', marginTop: 10, width: 140, height: 140}} source={require('../../images/login_logo1.png')} />
+            <Image style={{flex: 1, alignSelf: 'center', marginTop: 20, width: 140, height: 140}} source={require('../../images/login_logo1.png')} />
             <Text style={{flex: 1, alignSelf: 'center'}}>Bzaar</Text>
           <Form>
             <Item floatingLabel>
