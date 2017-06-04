@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Image } from 'react-native';
-import { StyleProvider, Container, Header, Body, Content, Thumbnail, Toast, Form, Item, Label, Icon, Input, Text, Button, Spinner } from 'native-base';
+import { Container, Header, Body, Content, Thumbnail, Toast, Form, Item, Label, Icon, Input, Text, Button, Spinner } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../actions/login';
 import * as NavActions from '../actions/navigation';
-import theme from '../../native-base-theme/variables/commonColor';
-import getTheme from '../../native-base-theme/components';
 
 class Login extends Component {
   static navigationOptions = {
@@ -55,7 +53,6 @@ class Login extends Component {
 
   render() {
     return (
-      <StyleProvider style={getTheme(theme)}>
       <Container>
         <Content style={{backgroundColor: 'white'}} padder>
           <View>
@@ -100,7 +97,6 @@ class Login extends Component {
           <Text>Teste</Text>
         </Toast>
       </Container>
-      </StyleProvider>
     )
   }
 }

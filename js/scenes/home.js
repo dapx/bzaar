@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Image, FlatList } from 'react-native';
-import { StyleProvider, Container, Header, Body, Content, Thumbnail, Title, Tabs, Tab, Form, Item, Label, Icon, Input, Text, Button, Spinner } from 'native-base';
+import { Container, Header, Body, Content, Thumbnail, Title, Tabs, Tab, Form, Item, Label, Icon, Input, Text, Button, Spinner } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../actions/stores';
-import theme from '../../native-base-theme/variables/commonColor';
-import getTheme from '../../native-base-theme/components';
 
 class Home extends Component {
 
@@ -39,7 +37,6 @@ class Home extends Component {
 
   render() {
     return (
-      <StyleProvider style={getTheme(theme)}>
       <Container>
         <Header hasTabs style={{ backgroundColor: 'white', flexDirection: 'column' }} androidStatusBarColor='black'>
           <Image style={{alignSelf: 'center', width: 30, height: 30, resizeMode: 'stretch'}} source={require('../../images/header_logo.png')} />
@@ -65,7 +62,6 @@ class Home extends Component {
             </Tab>
           </Tabs>
       </Container>
-      </StyleProvider>
     )
   }
 }
