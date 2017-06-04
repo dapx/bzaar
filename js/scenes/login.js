@@ -24,7 +24,7 @@ class Login extends Component {
   }
   
   componentWillReceiveProps(nextProps){
-    this.setState({email: nextProps.email, password: nextProps.password, pendingRequest: nextProps.pendingRequest, errorMessage: nextProps.errorMessage, showToast: nextProps.showToast})
+    this.setState({ pendingRequest: nextProps.pendingRequest, errorMessage: nextProps.errorMessage, showToast: nextProps.showToast})
   }
 
   _handleSubmit(email, password) {
@@ -64,14 +64,14 @@ class Login extends Component {
               <Icon active name='person' />
               <Input
                 value={this.state.email}
-                onChangeText={(email) => this.props.loginActions.changingEmailValue(email)}
+                onChangeText={(email) => this.setState({email})}
                />
             </Item>
             <Item>
               <Icon active name='lock' />
               <Input secureTextEntry
                 placeholder="Password"
-                onChangeText={(password) => this.props.loginActions.changingPasswordValue(password)}
+                onChangeText={(password) => this.setState({password})}
                />
             </Item>
             {this.state.pendingRequest ? (<Spinner />) :
@@ -104,8 +104,6 @@ class Login extends Component {
 function mapStateToProps(state) {
   return { 
     pendingRequest: state.login.pendingRequest,
-    email: state.login.email,
-    password: state.login.password,
     errorMessage: state.login.errorMessage,
     showToast: state.login.showToast,
     jwt: state.login.jwt,
