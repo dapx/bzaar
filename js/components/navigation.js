@@ -1,6 +1,8 @@
 import React from 'react';
+import { BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 import { addNavigationHelpers, StackNavigator } from 'react-navigation';
+import { back } from '../actions/navigation';
 import Login from '../scenes/login';
 import Home from '../scenes/home';
 import UserRegister from '../scenes/register/UserRegister';
@@ -20,10 +22,35 @@ export const AppNavigator = StackNavigator({
       gesturesEnabled: false
     },
   },
-  RegisterPage: { screen: RegisterNavigator },
+  RegisterPage: { screen: RegisterNavigator,
+    navigationOptions: {
+      visible: false,
+      header: null,
+      gesturesEnabled: false
+    },
+  },
 });
 
 class AppWithNavigationState extends React.Component {
+
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+  }
+
+  onBackPress = () => {
+    const { dispatch, nav } = this.props;
+    if (nav.index === 0) {
+      return false;
+    }
+
+    dispatch(back());
+    return true;
+  };
+
   render() {
     return (
       <AppNavigator navigation={addNavigationHelpers({
