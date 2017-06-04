@@ -30,8 +30,6 @@ class UserRegister extends Component {
   
   componentWillReceiveProps(nextProps){
     this.setState({
-      email: nextProps.email, name: nextProps.name, surname: nextProps.surname,
-      password: nextProps.password, confirmPassword: nextProps.confirmPassword,
       pendingRequest: nextProps.pendingRequest, errorMessage: nextProps.errorMessage,
       showToast: nextProps.showToast})
   }
@@ -86,33 +84,33 @@ class UserRegister extends Component {
               <Input
                 value={this.state.email}
                 placeholder="E-mail"
-                onChangeText={(email) => this.props.registerActions.changingEmailValue(email)}
+                onChangeText={(email) => this.setState({email})}
                />
             </Item>
             <Item>
               <Input
                 value={this.state.name}
                 placeholder="Name"
-                onChangeText={(name) => this.props.registerActions.changingNameValue(name)}
+                onChangeText={(name) => this.setState({name})}
                />
             </Item>
             <Item>
               <Input
                 value={this.state.surname}
                 placeholder="Surname"
-                onChangeText={(surname) => this.props.registerActions.changingSurnameValue(surname)}
+                onChangeText={(surname) => this.setState({surname})}
                />
             </Item>
             <Item>
               <Input secureTextEntry
                 placeholder="Password"
-                onChangeText={(password) => this.props.registerActions.changingPasswordValue(password)}
+                onChangeText={(password) => this.setState({password})}
                />
             </Item>
             <Item>
               <Input secureTextEntry
                 placeholder="Confirm Password"
-                onChangeText={(confirmPassword) => this.props.registerActions.changingConfirmPasswordValue(confirmPassword)}
+                onChangeText={(confirmPassword) => this.setState({confirmPassword})}
                />
             </Item>
             {this.state.pendingRequest ? (<Spinner />) :
@@ -131,11 +129,6 @@ class UserRegister extends Component {
 function mapStateToProps(state) {
   return { 
     pendingRequest: state.register.pendingRequest,
-    email: state.register.email,
-    name: state.register.name,
-    surname: state.register.surname,
-    password: state.register.password,
-    confirmPassword: state.register.confirmPassword,
     errorMessage: state.login.errorMessage,
     showToast: state.login.showToast,
    };
