@@ -7,7 +7,7 @@ import CreditCard from 'react-native-credit-card';
 import * as Actions from '../../actions/register';
 import * as NavActions from '../../actions/navigation';
 
-class CreditCardRegister extends Component {
+class CreditCardPage extends Component {
   static navigationOptions = {
     header: null,
   }
@@ -15,11 +15,6 @@ class CreditCardRegister extends Component {
   constructor(props){
     super(props);
     this.state = {
-        email: '',
-        name: '',
-        password: '',
-        surname: '',
-        confirmPassword: '',
         pendingRequest: false,
         errorMessage: '',
         showToast: false,
@@ -74,15 +69,14 @@ class CreditCardRegister extends Component {
         <Header style={{backgroundColor: 'white'}} androidStatusBarColor='black'>
           <Left style={{flexDirection: 'row'}}>
             <Button transparent onPress={() => this.props.navActions.back()}>
-              <Icon style={{color: 'black'}} name='arrow-back' />
+              <Icon style={{color: 'black'}} name='arrow-left' />
             </Button>
-            <Title style={{color: 'black', alignSelf: 'center'}}>Register</Title>
+            <Title style={{color: 'black', alignSelf: 'center'}}>Cadastrar Cartão de Crédito</Title>
           </Left>
         </Header>
         <Content style={{backgroundColor: 'white'}} padder>
-          <View>
           <Form>
-            <Item>
+            <Item style={{justifyContent: 'center', alignItems: 'center'}}>
               <CreditCard 
                  type={this.state.type}
                  imageFront={require('../../../images/card-front.png')}
@@ -90,7 +84,7 @@ class CreditCardRegister extends Component {
                  shiny={false}
                  bar={false}
                  focused={this.state.focused}
-                 number={this.state.number}
+                 number={this.state.creditNumber}
                  name={this.state.name}
                  expiry={this.state.expiry}
                  cvc={this.state.cvc}/>
@@ -98,23 +92,23 @@ class CreditCardRegister extends Component {
             <Item>
               <Input
                 value={this.state.name}
-                placeholder="full name"
-                onChangeText={(name) => this.props.registerActions.changingNameValue(name)}
-               />
+                placeholder="Complete name"
+                onChangeText={(name) => this.setState({name})}
+              />
             </Item>
             <Item>
               <Input
-                value={this.state.number}
+                value={this.state.creditNumber}
                 placeholder="number"
-                onChangeText={(number) => { this.setState({number: number}); }}
-               />
-               </Item>
-               <Item>
-               <Input
-                value={this.state.cvc}
-                placeholder="number"
-                onChangeText={(cvc) => { this.setState({cvc: cvc}); }}
-               />
+                onChangeText={(creditNumber) => this.setState({creditNumber})}
+              />
+            </Item>
+            <Item>
+              <Input
+              value={this.state.cvc}
+              placeholder="number"
+              onChangeText={(cvc) => this.setState({cvc: cvc})}
+              />
             </Item>
             {this.state.pendingRequest ? (<Spinner />) :
             <Button block dark onPress={() => this._handleSubmit(this.state.email, this.state.name, this.state.password, this.state.confirmPassword)}>
@@ -122,7 +116,6 @@ class CreditCardRegister extends Component {
             </Button>
             }
           </Form>
-          </View>
         </Content>
       </Container>
     )
@@ -132,12 +125,8 @@ class CreditCardRegister extends Component {
 function mapStateToProps(state) {
   return { 
     pendingRequest: state.register.pendingRequest,
-    email: state.register.email,
-    name: state.register.name,
-    surname: state.register.surname,
-    password: state.register.password,
-    confirmPassword: state.register.confirmPassword,
-    errorMessage: state.login.errorMessage,
+    cvc: state.register.cvc,
+    creditNumber: state.register.creditNumber,
     showToast: state.login.showToast,
    };
 }
@@ -149,4 +138,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreditCardRegister);
+export default connect(mapStateToProps, mapDispatchToProps)(CreditCardPage);

@@ -5,12 +5,14 @@ import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 import { back } from '../actions/navigation';
 import Login from '../scenes/login';
 import Home from '../scenes/home';
-import UserRegister from '../scenes/register/UserRegister';
-import CreditCardRegister from '../scenes/register/CreditCardRegister';
+import UserRegister from '../scenes/perfil/User';
+import Signup from '../scenes/signup';
+import CreditCard from '../scenes/perfil/CreditCard';
+import Bag from '../scenes/bag';
 
-const RegisterNavigator = StackNavigator({
-  UserPage: { screen: UserRegister },
-  CreditCardPage: { screen: CreditCardRegister },
+const UserNavigator = StackNavigator({
+  User: { screen: UserRegister },
+  CreditCardPage: { screen: CreditCard },
 });
 
 export const AppNavigator = StackNavigator({
@@ -22,7 +24,21 @@ export const AppNavigator = StackNavigator({
       gesturesEnabled: false
     },
   },
-  RegisterPage: { screen: RegisterNavigator,
+  UserPage: { screen: UserNavigator,
+    navigationOptions: {
+      visible: false,
+      header: null,
+      gesturesEnabled: false
+    },
+  },
+  Signup: { screen: Signup,
+    navigationOptions: {
+      visible: false,
+      header: null,
+      gesturesEnabled: false
+    },
+  },
+  BagPage: { screen: Bag,
     navigationOptions: {
       visible: false,
       header: null,

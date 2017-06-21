@@ -159,7 +159,7 @@ export default {
 
     // Header
   toolbarBtnColor: '#fff',
-  toolbarDefaultBg: '#2874F0',
+  toolbarDefaultBg: '#000',
   toolbarHeight: (platform === 'ios') ? 64 : 56,
   toolbarIconSize: (platform === 'ios') ? 20 : 22,
   toolbarSearchIconSize: (platform === 'ios') ? 20 : 23,
@@ -175,7 +175,7 @@ export default {
 
 
     // Icon
-  iconFamily: 'Ionicons',
+  iconFamily: 'FontAwesome',
   iconFontSize: (platform === 'ios') ? 30 : 28,
   iconMargin: 7,
   iconHeaderSize: (platform === 'ios') ? 33 : 24,

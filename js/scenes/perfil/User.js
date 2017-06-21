@@ -35,91 +35,26 @@ class UserRegister extends Component {
   }
 
   _handleSubmit(email, name, password, confirmPassword) {
-    if (email === '' || password === '' || name === ''){
-      Toast.show({
-        text: 'Existe campos não preenchidos!',
-        position: 'bottom',
-        buttonText: 'Okay'
-      });
-      return;
-    }
-    if (password !== confirmPassword){
-      Toast.show({
-        text: 'As senhas não conferem!',
-        position: 'bottom',
-        buttonText: 'Okay'
-      });
-      return;
-    }
-    this.props.registerActions.register(email, name, password);
+    alert("TESTE");
   }
-
-  _showErrorMessage(message){
-    if (message !== ''){
-      Toast.show({
-        text: message,
-        type: 'warning',
-        duration: 10000,
-        position: 'bottom',
-        buttonText: 'Okay'
-      });
-    }
-  }
-
   render() {
     return (
       <Container>
         <Header style={{backgroundColor: 'white'}} androidStatusBarColor='black'>
           <Left style={{flexDirection: 'row'}}>
             <Button transparent onPress={() => this.props.navActions.back()}>
-              <Icon style={{color: 'black'}} name='arrow-back' />
+              <Icon style={{color: 'black'}} name='arrow-left' />
             </Button>
-            <Title style={{color: 'black', alignSelf: 'center'}}>Register</Title>
+            <Title style={{color: 'black', alignSelf: 'center'}}>Seu Perfil</Title>
           </Left>
         </Header>
         <Content style={{backgroundColor: 'white'}} padder>
-          <View>
-          <Form>
-            <Item>
-              <Input
-                value={this.state.email}
-                placeholder="E-mail"
-                onChangeText={(email) => this.setState({email})}
-               />
-            </Item>
-            <Item>
-              <Input
-                value={this.state.name}
-                placeholder="Name"
-                onChangeText={(name) => this.setState({name})}
-               />
-            </Item>
-            <Item>
-              <Input
-                value={this.state.surname}
-                placeholder="Surname"
-                onChangeText={(surname) => this.setState({surname})}
-               />
-            </Item>
-            <Item>
-              <Input secureTextEntry
-                placeholder="Password"
-                onChangeText={(password) => this.setState({password})}
-               />
-            </Item>
-            <Item>
-              <Input secureTextEntry
-                placeholder="Confirm Password"
-                onChangeText={(confirmPassword) => this.setState({confirmPassword})}
-               />
-            </Item>
-            {this.state.pendingRequest ? (<Spinner />) :
+          <Text>Informacoes de usuário</Text>
+          {this.state.pendingRequest ? (<Spinner />) :
             <Button block dark onPress={() => this._handleSubmit(this.state.email, this.state.name, this.state.password, this.state.confirmPassword)}>
               <Text>Send</Text>
             </Button>
-            }
-          </Form>
-          </View>
+          }
         </Content>
       </Container>
     )

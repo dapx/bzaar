@@ -61,7 +61,7 @@ class Login extends Component {
           <Form>
             <Item floatingLabel>
               <Label>E-mail</Label>
-              <Icon active name='person' />
+              <Icon active name='user' />
               <Input
                 value={this.state.email}
                 onChangeText={(email) => this.setState({email})}
@@ -77,10 +77,10 @@ class Login extends Component {
             {this.state.pendingRequest ? (<Spinner />) :
             <View>
               <Button block dark onPress={() => this._handleSubmit(this.state.email, this.state.password)}>
-                <Text>Sign-in</Text>
+                <Text>Conectar-se</Text>
               </Button>
               <Button transparent block dark onPress={() => this.props.navActions.userRegister()}>
-                <Text>Sign-up</Text>
+                <Text>Registrar-se</Text>
               </Button>
             </View>
             }
