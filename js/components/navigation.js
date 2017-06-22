@@ -9,6 +9,7 @@ import UserRegister from '../scenes/perfil/User';
 import Signup from '../scenes/signup';
 import CreditCard from '../scenes/perfil/CreditCard';
 import Bag from '../scenes/bag';
+import Store from '../scenes/store';
 
 const UserNavigator = StackNavigator({
   User: { screen: UserRegister },
@@ -39,6 +40,13 @@ export const AppNavigator = StackNavigator({
     },
   },
   BagPage: { screen: Bag,
+    navigationOptions: {
+      visible: false,
+      header: null,
+      gesturesEnabled: false
+    },
+  },
+  StorePage: { screen: Store,
     navigationOptions: {
       visible: false,
       header: null,

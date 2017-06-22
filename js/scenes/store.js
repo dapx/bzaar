@@ -3,7 +3,7 @@ import { StyleSheet, View, Image, FlatList, TouchableOpacity } from 'react-nativ
 import { Container, Header, Left, Body, Right, Content, Thumbnail, Title, Tabs, Tab, Form, Item, Label, Icon, Input, Text, Button, Spinner } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as Actions from '../actions/stores';
+import * as Actions from '../actions/store';
 import * as NavActions from '../actions/navigation';
 import { getDeviceWidth } from '../styles';
 
@@ -28,40 +28,38 @@ const styles = StyleSheet.create({
   }
 });
 
-class Home extends Component {
+class Store extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-        name: this.props.user.name,
-        id: this.props.user.id,
-        email: this.props.user.email,
-        jwt: this.props.jwt,
-        list: this.props.stores.list || [],
-        loadingRequest: !!this.props.stores.loadingRequest,
+      id: this.props.store.id,
+      name: this.props.store.name,
+      logo: this.props.store.logo,
+      email: this.props.store.email,
+      description: this.props.store.description,
+      list: this.props.store.list || [],
+      jwt: this.props.jwt,
+      loadingRequest: !!this.props.store.loadingRequest,
     }
   }
 
   componentWillMount(){
-    this.props.storeActions.list(this.props.jwt);
+    this.props.storeActions.listProductsByStore(this.props.jwt, this.props.store.id);
   }
 
-  componentWillReceiveProps(nextProps){
-    this.setState({name: nextProps.user.name, id: nextProps.user.id, email: nextProps.user.email, jwt: nextProps.jwt, loadingRequest: nextProps.stores.loadingRequest, list: nextProps.stores.list});
+  componentWillReceiveProps(nextProps) {
+    this.setState({name: nextProps.store.name, id: nextProps.store.id, email: nextProps.store.email, loadingRequest: nextProps.store.loadingRequest, list: nextProps.store.list, jwt: nextProps.jwt});
   }
 
-  pressItem(item) {
-    this.props.storeActions.openStore(item);
+  pressItem() {
+    this.props.navActions.creditCard();
   }
 
   renderItem({item, index}) {
-    let size = this.state.list.length-1;
-    let imageStyle = ((size) == index && this.state.list.length % 2 > 0)
-      ? styles.storeUniqueImage
-      : styles.storeImage;
     return (
-      <TouchableOpacity key={index} style={styles.imageContainer} onPress={() => this.pressItem(item)}>
-        <Image source={{uri: item.logo}} style={imageStyle} />
+      <TouchableOpacity key={index} style={styles.imageContainer} onPress={() => this.pressItem()}>
+        <Text>Item: {item.name}</Text>
       </TouchableOpacity>
     );
   }
@@ -71,12 +69,12 @@ class Home extends Component {
       <Container>
         <Header hasTabs style={{ backgroundColor: 'white' }} androidStatusBarColor='black'>
           <Left style={{flex: 1}}>
-            <TouchableOpacity onPress={() => this.props.navActions.user()}>
-              <Icon style={{color: 'black'}} name='user-circle' />
+            <TouchableOpacity onPress={() => this.props.navActions.back()}>
+              <Icon style={{color: 'black'}} name='arrow-left' />
             </TouchableOpacity>
           </Left>
           <Body style={{flex: 1}}>
-            <Image style={{alignSelf: 'center', width: 30, height: 30, resizeMode: 'contain'}} source={require('../../images/header_logo.png')} />
+            <Image style={{alignSelf: 'center', width: 50, height: 50, resizeMode: 'contain'}} source={{uri: this.props.store.logo}} />
           </Body>
           <Right>
             <TouchableOpacity onPress={() => this.props.navActions.bag()}>
@@ -85,8 +83,8 @@ class Home extends Component {
           </Right>
         </Header>
           <Tabs>
-            <Tab heading="Lojas">
-            { !!this.state.loadingRequest 
+            <Tab heading="Todos">
+            { !!this.state.loadingRequest
               ? <Spinner />
               : <FlatList
                   numColumns={2}
@@ -99,9 +97,6 @@ class Home extends Component {
                   keyExtractor={item => item.id} />
             }
             </Tab>
-            <Tab heading="Minhas Lojas">
-              <Text>Você nao possui lojas cadastradas</Text>
-            </Tab>
           </Tabs>
       </Container>
     )
@@ -109,10 +104,9 @@ class Home extends Component {
 }
 
 function mapStateToProps(state) {
-  return { 
-    user: state.login.user,
-    jwt: state.login.jwt,
-    stores: state.stores,
+  return {
+    store: state.store,
+    jwt: state.login.jwt
    };
 }
 
@@ -123,4 +117,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Store);

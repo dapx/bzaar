@@ -1,5 +1,5 @@
 import { Toast } from 'native-base';
-const api_base_url = 'https://bzaar-api.herokuapp.com/bzaar/api';
+const api_base_url = 'https://bzaar-api.herokuapp.com/bzaar';
 
 const headers = function(jwt) {
   return {
@@ -29,7 +29,7 @@ export let ApiUtils = {
   },
 
   request: function(endpoint, jwt, method = 'GET') {
-    return fetch(`${api_base_url}/${endpoint}`, {
+    return fetch(`${api_base_url}/secured/${endpoint}`, {
       headers: this.headers(jwt),
       method: method,
     })
@@ -53,7 +53,7 @@ export let ApiUtils = {
 
 export let UserService = {
 	login: function(email, password) {
-		return fetch(`${api_base_url}/signin`, {
+		return fetch(`${api_base_url}/auth/signin`, {
 		  method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -71,7 +71,7 @@ export let UserService = {
 	},
 
   register: function(email, name, password) {
-    return fetch(`${api_base_url}/signup`, {
+    return fetch(`${api_base_url}/auth/signup`, {
 		  method: 'POST',
       headers: {
         'Accept': 'application/json',

@@ -1,2 +1,3 @@
 export const REQUEST_STORES = 'REQUEST_STORES';
 export const RECEIVE_STORES = 'RECEIVE_STORES';
+export const OPEN_STORE = 'OPEN_STORE';
