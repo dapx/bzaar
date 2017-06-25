@@ -22,9 +22,10 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   storeUniqueImage: {
-    width: getDeviceWidth(100),
+    width: getDeviceWidth(35),
     height: getDeviceWidth(35),
-    resizeMode: 'stretch',
+    alignSelf: 'center',
+    resizeMode: 'contain',
   }
 });
 
