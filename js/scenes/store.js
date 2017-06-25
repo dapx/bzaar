@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, Animated, View, ScrollView, Image, FlatList, TouchableOpacity, Dimensions } from 'react-native';
 import { Container, Header, Left, Body, Right, Content, Thumbnail, Title, Tabs, Tab, Form, Item, Label, Icon, Input, Text, Button, Spinner } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../actions/store';
 import * as NavActions from '../actions/navigation';
 import { getDeviceWidth } from '../styles';
+
+const HEADER_MAX_HEIGHT = 200;
+const HEADER_MIN_HEIGHT = 60;
+const HEADER_SCROLL_DISTANCE = 200; //HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 const styles = StyleSheet.create({
   imageContainer: {
@@ -22,10 +26,46 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   storeUniqueImage: {
-    width: getDeviceWidth(100),
+    width: getDeviceWidth(35),
     height: getDeviceWidth(35),
-    resizeMode: 'stretch',
-  }
+    alignSelf: 'center',
+    resizeMode: 'contain',
+  },
+  header: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: 'white',
+    overflow: 'hidden',
+  },
+  bar: {
+    marginTop: 28,
+    height: 32,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {
+    backgroundColor: 'transparent',
+    color: 'white',
+    fontSize: 18,
+  },
+  scrollViewContent: {
+    marginTop: HEADER_MAX_HEIGHT,
+  },
+  backgroundImage: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    width: null,
+    height: HEADER_MAX_HEIGHT,
+    resizeMode: 'cover',
+  },
 });
 
 class Store extends Component {
@@ -41,6 +81,7 @@ class Store extends Component {
       list: this.props.store.list || [],
       jwt: this.props.jwt,
       loadingRequest: !!this.props.store.loadingRequest,
+      scrollY: new Animated.Value(0),
     }
   }
 
@@ -57,33 +98,64 @@ class Store extends Component {
   }
 
   renderItem({item, index}) {
+    let size = this.state.list.length-1;
+    let imageStyle = ((size) == index && this.state.list.length % 2 > 0)
+      ? styles.storeUniqueImage
+      : styles.storeImage;
     return (
       <TouchableOpacity key={index} style={styles.imageContainer} onPress={() => this.pressItem()}>
-        <Text>Item: {item.name}</Text>
+        <Image style={imageStyle} source={{uri: item.image}} />
       </TouchableOpacity>
     );
   }
 
   render() {
+    const imageOpacity = this.state.scrollY.interpolate({
+      inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
+      outputRange: [1, 1, 0],
+      extrapolate: 'clamp',
+    });
+    const imageOpacityInverse = this.state.scrollY.interpolate({
+      inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
+      outputRange: [0, 0, 1],
+      extrapolate: 'clamp',
+    });
+    const imageSize = this.state.scrollY.interpolate({
+      inputRange: [0, HEADER_SCROLL_DISTANCE],
+      outputRange: [130, 50],
+      extrapolate: 'clamp',
+    });
+    const headerHeight = this.state.scrollY.interpolate({
+      inputRange: [0, HEADER_SCROLL_DISTANCE],
+      outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+      extrapolate: 'clamp',
+    });
+    const fontSize = this.state.scrollY.interpolate({
+      inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
+      outputRange: [18, 0, 0],
+      extrapolate: 'clamp',
+    });
     return (
       <Container>
-        <Header hasTabs style={{ backgroundColor: 'white' }} androidStatusBarColor='black'>
-          <Left style={{flex: 1}}>
-            <TouchableOpacity onPress={() => this.props.navActions.back()}>
-              <Icon style={{color: 'black'}} name='arrow-left' />
-            </TouchableOpacity>
-          </Left>
-          <Body style={{flex: 1}}>
-            <Image style={{alignSelf: 'center', width: 50, height: 50, resizeMode: 'contain'}} source={{uri: this.props.store.logo}} />
-          </Body>
-          <Right>
+          <Animated.View style={[styles.header, {height: headerHeight}]}>
+          <Animated.View style={{marginLeft: 10}}>
+          <TouchableOpacity onPress={() => this.props.navActions.back()}>
+            <Icon style={{color: 'black'}} name='arrow-left' />
+          </TouchableOpacity>
+          </Animated.View>
+          <View>
+            <Animated.Image style={{alignSelf: 'center', width: imageSize, height: imageSize, resizeMode: 'contain'}} source={{uri: this.state.logo}} />
+            <Animated.Text style={{opacity: imageOpacity, alignSelf: 'center', fontSize: fontSize}}>{this.state.description}</Animated.Text>
+          </View>
+          <Animated.View style={{marginRight: 10, opacity: imageOpacityInverse}}>
             <TouchableOpacity onPress={() => this.props.navActions.bag()}>
               <Icon style={{color: 'black'}} name='shopping-bag' />
             </TouchableOpacity>
-          </Right>
-        </Header>
-          <Tabs>
-            <Tab heading="Todos">
+          </Animated.View>
+        </Animated.View>
+        <Animated.View style={{flex: 1, marginTop: headerHeight}}>
+        <Tabs>
+          <Tab heading="Todos">
             { !!this.state.loadingRequest
               ? <Spinner />
               : <FlatList
@@ -94,10 +166,15 @@ class Store extends Component {
                   )}
                   data={this.state.list}
                   renderItem={this.renderItem.bind(this)}
-                  keyExtractor={item => item.id} />
+                  keyExtractor={item => item.id}
+                  scrollEventThrottle={16}
+                  onScroll={Animated.event(
+                    [{nativeEvent: {contentOffset: {y: this.state.scrollY}}}]
+                  )} />
             }
             </Tab>
           </Tabs>
+          </Animated.View>
       </Container>
     )
   }
