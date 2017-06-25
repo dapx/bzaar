@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, Image, Animated } from 'react-native';
 import { Container, Header, Body, Content, Thumbnail, Toast, Form, Item, Label, Icon, Input, Text, Button, Spinner } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -13,6 +13,7 @@ class Login extends Component {
   
   constructor(props){
     super(props);
+    this.logoAnimationValue = new Animated.Value(0.3)
     this.state = {
         email: this.props.email || '',
         password: '',
@@ -25,6 +26,10 @@ class Login extends Component {
   
   componentWillReceiveProps(nextProps){
     this.setState({ pendingRequest: nextProps.pendingRequest, errorMessage: nextProps.errorMessage, showToast: nextProps.showToast})
+  }
+
+  componentDidMount() {
+    this.showLogo();
   }
 
   _handleSubmit(email, password) {
@@ -51,12 +56,31 @@ class Login extends Component {
     }
   }
 
+  showLogo() {
+    this.logoAnimationValue.setValue(0.5)
+    Animated.spring(this.logoAnimationValue,
+    {
+      toValue: 1,
+      friction: 1
+    }).start();
+  }
+
   render() {
     return (
       <Container>
         <Content style={{backgroundColor: 'white'}} padder>
           <View>
-            <Image style={{flex: 1, alignSelf: 'center', marginTop: 20, width: 140, height: 140}} source={require('../../images/login_logo1.png')} />
+            <Animated.Image
+              style={{
+                flex: 1,
+                alignSelf: 'center',
+                marginTop: 20,
+                width: 140,
+                height: 140,
+                transform: [{scale: this.logoAnimationValue}]
+              }}
+              source={require('../../images/login_logo1.png')}
+            />
             <Text style={{flex: 1, alignSelf: 'center'}}>Bzaar</Text>
           <Form>
             <Item floatingLabel>
