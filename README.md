@@ -7,8 +7,7 @@ For buyers, they will search and buy your products.
 
 below, login page.
 
-![alt login](bzaar-app.png)
+## Test in your phone
 
-And the stores list page.
+[exp.host/@dap1995/bzaar](https://exp.host/@dap1995/bzaar)
 
-![alt stores](bzaar-app2.png)
