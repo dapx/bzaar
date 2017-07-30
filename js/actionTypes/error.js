@@ -1,1 +1,3 @@
-export const RECEIVE_ERROR = 'RECEIVE_ERROR';
+const RECEIVE_ERROR = 'RECEIVE_ERROR';
+
+export default RECEIVE_ERROR;

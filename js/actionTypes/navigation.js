@@ -3,3 +3,4 @@ export const CREDITCARD_REGISTER = 'nav/CREDITCARD_REGISTER';
 export const BACK = 'nav/BACK';
 export const USER = 'nav/USER';
 export const BAG = 'nav/BAG';
+export const PRODUCT = 'nav/PRODUCT';

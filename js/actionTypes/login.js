@@ -1,4 +1,2 @@
-export const TYPE_EMAIL = 'TYPE_EMAIL';
-export const TYPE_PASSWORD = 'TYPE_PASSWORD';
 export const REQUEST_LOGIN = 'REQUEST_LOGIN';
 export const RECEIVE_LOGIN = 'RECEIVE_LOGIN';

@@ -6,9 +6,9 @@ import store from '../reducers/store';
 import register from '../reducers/register';
 
 export default combineReducers({
-   nav,
-   login,
-   stores,
-   register,
-   store,
+  nav,
+  login,
+  stores,
+  register,
+  store,
 });

@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
-import { StyleSheet, Animated, View, ScrollView, Image, FlatList, TouchableOpacity, Dimensions } from 'react-native';
-import { Container, Header, Left, Body, Right, Content, Thumbnail, Title, Tabs, Tab, Form, Item, Label, Icon, Input, Text, Button, Spinner } from 'native-base';
+import { StyleSheet, Animated, Image, FlatList, TouchableOpacity, Platform } from 'react-native';
+import { Container, Tabs, Tab, Icon, Spinner } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
 import * as Actions from '../actions/store';
 import * as NavActions from '../actions/navigation';
 import { getDeviceWidth } from '../styles';
 
-const HEADER_MAX_HEIGHT = 200;
-const HEADER_MIN_HEIGHT = 60;
-const HEADER_SCROLL_DISTANCE = 200; //HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+const HEADER_MIN_HEIGHT = Platform.OS === 'ios' ? 60 : 73;
+const HEADER_MAX_HEIGHT = 300;
+const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 const styles = StyleSheet.create({
   imageContainer: {
@@ -18,7 +21,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: '#ccc',
-    borderWidth: 1
+    borderWidth: 1,
   },
   storeImage: {
     width: getDeviceWidth(35),
@@ -37,6 +40,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     flex: 1,
+    marginTop: Platform.OS === 'ios' ? 20 : 0,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -44,7 +48,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   bar: {
-    marginTop: 28,
+    marginTop: Platform.OS === 'ios' ? 28 : 38,
     height: 32,
     alignItems: 'center',
     justifyContent: 'center',
@@ -82,29 +86,37 @@ class Store extends Component {
       jwt: this.props.jwt,
       loadingRequest: !!this.props.store.loadingRequest,
       scrollY: new Animated.Value(0),
-    }
+    };
+    this.renderItem = this.renderItem.bind(this);
   }
 
-  componentWillMount(){
+  componentWillMount() {
     this.props.storeActions.listProductsByStore(this.props.jwt, this.props.store.id);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({name: nextProps.store.name, id: nextProps.store.id, email: nextProps.store.email, loadingRequest: nextProps.store.loadingRequest, list: nextProps.store.list, jwt: nextProps.jwt});
+    this.setState({
+      name: nextProps.store.name,
+      id: nextProps.store.id,
+      email: nextProps.store.email,
+      loadingRequest: nextProps.store.loadingRequest,
+      list: nextProps.store.list,
+      jwt: nextProps.jwt,
+    });
   }
 
   pressItem() {
-    this.props.navActions.creditCard();
+    this.props.navActions.product();
   }
 
-  renderItem({item, index}) {
-    let size = this.state.list.length-1;
-    let imageStyle = ((size) == index && this.state.list.length % 2 > 0)
+  renderItem({ item, index }) {
+    const size = this.state.list.length - 1;
+    const imageStyle = (size === index && this.state.list.length % 2 > 0)
       ? styles.storeUniqueImage
       : styles.storeImage;
     return (
       <TouchableOpacity key={index} style={styles.imageContainer} onPress={() => this.pressItem()}>
-        <Image style={imageStyle} source={{uri: item.image}} />
+        <Image style={imageStyle} source={{ uri: item.image }} />
       </TouchableOpacity>
     );
   }
@@ -122,7 +134,7 @@ class Store extends Component {
     });
     const imageSize = this.state.scrollY.interpolate({
       inputRange: [0, HEADER_SCROLL_DISTANCE],
-      outputRange: [130, 50],
+      outputRange: [1, 0.5],
       extrapolate: 'clamp',
     });
     const headerHeight = this.state.scrollY.interpolate({
@@ -137,54 +149,75 @@ class Store extends Component {
     });
     return (
       <Container>
-          <Animated.View style={[styles.header, {height: headerHeight}]}>
-          <Animated.View style={{marginLeft: 10}}>
-          <TouchableOpacity onPress={() => this.props.navActions.back()}>
-            <Icon style={{color: 'black'}} name='arrow-left' />
-          </TouchableOpacity>
+        <Animated.View style={[styles.header, { height: headerHeight }]}>
+          <Animated.View style={{ marginLeft: 10 }}>
+            <TouchableOpacity onPress={() => this.props.navActions.back()}>
+              <Icon style={{ color: 'black' }} name="arrow-left" />
+            </TouchableOpacity>
           </Animated.View>
-          <View>
-            <Animated.Image style={{alignSelf: 'center', width: imageSize, height: imageSize, resizeMode: 'contain'}} source={{uri: this.state.logo}} />
-            <Animated.Text style={{opacity: imageOpacity, alignSelf: 'center', fontSize: fontSize}}>{this.state.description}</Animated.Text>
-          </View>
-          <Animated.View style={{marginRight: 10, opacity: imageOpacityInverse}}>
+          <Animated.View>
+            <Animated.Image
+              style={{
+                alignSelf: 'center',
+                width: 120,
+                height: 120,
+                transform: [
+                  { scaleY: imageSize },
+                  { scaleX: imageSize },
+                ],
+                resizeMode: 'contain',
+              }}
+              source={{ uri: this.state.logo }}
+            />
+            <Animated.Text style={{ opacity: imageOpacity, alignSelf: 'center', fontSize }}>
+              {this.state.description}
+            </Animated.Text>
+          </Animated.View>
+          <Animated.View style={{ marginRight: 10, opacity: imageOpacityInverse }}>
             <TouchableOpacity onPress={() => this.props.navActions.bag()}>
-              <Icon style={{color: 'black'}} name='shopping-bag' />
+              <Icon style={{ color: 'black' }} name="shopping-bag" />
             </TouchableOpacity>
           </Animated.View>
         </Animated.View>
-        <Animated.View style={{flex: 1, marginTop: headerHeight}}>
-        <Tabs>
-          <Tab heading="Todos">
-            { !!this.state.loadingRequest
-              ? <Spinner />
-              : <FlatList
-                  numColumns={2}
-                  horizontal={false}
-                  getItemLayout={(data, index) => (
-                    {width: styles.storeImage.width, height: styles.storeImage.height, offset: styles.storeImage.height * index, index}
-                  )}
-                  data={this.state.list}
-                  renderItem={this.renderItem.bind(this)}
-                  keyExtractor={item => item.id}
-                  scrollEventThrottle={16}
-                  onScroll={Animated.event(
-                    [{nativeEvent: {contentOffset: {y: this.state.scrollY}}}]
-                  )} />
-            }
+        <Animated.View style={{ flex: 1, marginTop: headerHeight }}>
+          <Tabs>
+            <Tab heading="Todos">
+              { this.state.loadingRequest
+                ? <Spinner />
+                : <Animated.View>
+                  <AnimatedFlatList
+                    ref={(ref) => { this.listRef = ref; }}
+                    numColumns={2}
+                    horizontal={false}
+                    getItemLayout={(data, index) => ({
+                      width: styles.storeImage.width,
+                      height: styles.storeImage.height,
+                      offset: styles.storeImage.height * index,
+                      index,
+                    })}
+                    data={this.state.list}
+                    renderItem={this.renderItem}
+                    keyExtractor={item => item.id}
+                    scrollEventThrottle={1}
+                    onScroll={Animated.event(
+                      [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+                    )}
+                  />
+                </Animated.View>
+              }
             </Tab>
           </Tabs>
-          </Animated.View>
+        </Animated.View>
       </Container>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
   return {
     store: state.store,
-    jwt: state.login.jwt
-   };
+    jwt: state.login.jwt,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -193,5 +226,26 @@ function mapDispatchToProps(dispatch) {
     navActions: bindActionCreators(NavActions, dispatch),
   };
 }
+
+Store.propTypes = {
+  jwt: PropTypes.string.isRequired,
+  store: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    logo: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    list: PropTypes.arrayOf(PropTypes.object),
+    loadingRequest: PropTypes.bool,
+  }).isRequired,
+  storeActions: PropTypes.shape({
+    listProductsByStore: PropTypes.func.isRequired,
+  }).isRequired,
+  navActions: PropTypes.shape({
+    bag: PropTypes.func.isRequired,
+    back: PropTypes.func.isRequired,
+    product: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Store);

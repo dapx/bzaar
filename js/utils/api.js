@@ -1,92 +1,81 @@
 import { Toast } from 'native-base';
-const api_base_url = 'https://bzaar-api.herokuapp.com/bzaar';
 
-const headers = function(jwt) {
-  return {
-        'Accept': 'application/json',
-        'Content-type': 'application/json',
-        'Authorization': `Bearer ${jwt}`
-  }
-};
+const API_BASE_URL = 'https://bzaar-api.herokuapp.com/bzaar';
 
-export let ApiUtils = {
+export const ApiUtils = {
 
-  headers: function(jwt) {
+  headers(jwt) {
     return {
-        'Accept': 'application/json',
-        'Content-type': 'application/json',
-        'Authorization': `Bearer ${jwt}`
-    }
+      Accept: 'application/json',
+      Authorization: `Bearer ${jwt}`,
+      'Content-type': 'application/json',
+    };
   },
 
-  checkStatus: function(response) {
+  checkStatus(response) {
     if (response.status >= 200 && response.status < 300) {
       return response;
-    } else {
-      let message = JSON.parse(response._bodyText).error;
-      throw new Error(message);
     }
+    const message = JSON.parse(response.bodyText).error;
+    throw new Error(message);
   },
 
-  request: function(endpoint, jwt, method = 'GET') {
-    return fetch(`${api_base_url}/secured/${endpoint}`, {
+  request(endpoint, jwt, method = 'GET') {
+    return fetch(`${API_BASE_URL}/secured/${endpoint}`, {
       headers: this.headers(jwt),
-      method: method,
+      method,
     })
     .then(this.checkStatus)
-    .then((response) => response.json())
-    .then((json) => json)
-    .catch((error) => {throw error;});
+    .then(response => response.json())
+    .catch((error) => { throw error; });
   },
 
-  error: function(message){
+  error(message) {
     Toast.show({
-        type: 'danger',
-        text: message,
-        duration: 3000,
-        position: 'bottom',
-        buttonText: 'Okay'
-      });
+      type: 'danger',
+      text: message,
+      duration: 3000,
+      position: 'bottom',
+      buttonText: 'Okay',
+    });
   },
+};
 
-}
-
-export let UserService = {
-	login: function(email, password) {
-		return fetch(`${api_base_url}/auth/signin`, {
-		  method: 'POST',
+export const UserService = {
+  login(email, password) {
+    return fetch(`${API_BASE_URL}/auth/signin`, {
+      method: 'POST',
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-type': 'application/json',
       },
       body: JSON.stringify({
         email,
         password,
-      })
+      }),
     })
-		.then(ApiUtils.checkStatus)
-		.then((response) => response.json())
-		.then((json) => json)
-		.catch((error) => {throw error;})
-	},
+    .then(ApiUtils.checkStatus)
+    .then(response => response.json())
+    .catch((error) => { throw error; });
+  },
 
-  register: function(email, name, password) {
-    return fetch(`${api_base_url}/auth/signup`, {
-		  method: 'POST',
+  register(email, name, password) {
+    return fetch(`${API_BASE_URL}/auth/signup`, {
+      method: 'POST',
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-type': 'application/json',
       },
-      body: JSON.stringify({user: {
+      body: JSON.stringify({ user: {
         email,
         name,
         surname: 'teste',
         password,
-      }})
+      },
+      }),
     })
-		.then(ApiUtils.checkStatus)
-		.then((response) => response.json())
-		.then((json) => {console.log(json);return json})
-		.catch((error) => {throw error;})
-  }
-}
+    .then(ApiUtils.checkStatus)
+    .then(response => response.json())
+    .catch((error) => { throw error; });
+  },
+};
