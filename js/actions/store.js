@@ -22,7 +22,7 @@ function receiveError(error) {
   };
 }
 
-export default function listProductsByStore(jwt, storeId) {
+export function listProductsByStore(jwt, storeId) {
   return (dispatch) => {
     dispatch(request());
     return ApiUtils.request(`stores/${storeId}/products`, jwt)
