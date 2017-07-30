@@ -1,9 +1,9 @@
 import Expo from "expo";
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Bzaar from './js/app.js';
+import Bzaar from './js/app';
 
-export default class App extends React.Component {
+export default class App extends Component {
   constructor() {
     super();
     this.state = {
