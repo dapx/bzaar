@@ -14,8 +14,20 @@ import Store from '../scenes/store';
 import Product from '../scenes/product';
 
 const UserNavigator = StackNavigator({
-  User: { screen: UserRegister },
-  CreditCardPage: { screen: CreditCard },
+  User: { screen: UserRegister,
+    navigationOptions: {
+      visible: false,
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  CreditCardPage: { screen: CreditCard,
+    navigationOptions: {
+      visible: false,
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
 });
 
 export const AppNavigator = StackNavigator({
@@ -33,13 +45,7 @@ export const AppNavigator = StackNavigator({
       gesturesEnabled: false,
     },
   },
-  UserPage: { screen: UserNavigator,
-    navigationOptions: {
-      visible: false,
-      header: null,
-      gesturesEnabled: false,
-    },
-  },
+  UserPage: { screen: UserNavigator },
   Signup: { screen: Signup,
     navigationOptions: {
       visible: false,
