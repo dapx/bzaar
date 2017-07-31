@@ -144,10 +144,15 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
+Products.defaultProps = {
+  list: [],
+  loadingRequest: false,
+};
+
 Products.propTypes = {
   jwt: PropTypes.string.isRequired,
-  list: PropTypes.arrayOf(PropTypes.object).isRequired,
-  loadingRequest: PropTypes.bool.isRequired,
+  list: PropTypes.arrayOf(PropTypes.object),
+  loadingRequest: PropTypes.bool,
   productsActions: PropTypes.shape({
     list: PropTypes.func.isRequired,
   }).isRequired,
