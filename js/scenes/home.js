@@ -4,6 +4,7 @@ import { Container, Header, Left, Body, Right, Tabs, Tab, Icon, Text, Spinner } 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import Products from './products';
 import * as Actions from '../actions/stores';
 import * as NavActions from '../actions/navigation';
 import { getDeviceWidth } from '../styles';
@@ -127,6 +128,9 @@ class Home extends Component {
                 keyExtractor={item => item.id}
               />
             }
+          </Tab>
+          <Tab heading="Produtos">
+            <Products />
           </Tab>
           <Tab heading="Minhas Lojas">
             <Text>Você nao possui lojas cadastradas</Text>
