@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Dimensions, Text, Image, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, View, Dimensions, Text, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Container, Header, Left, Button, Icon, Title, Content, Body } from 'native-base';
@@ -10,7 +10,7 @@ import * as style from '../styles/index';
 
 const imageWidth = style.getDeviceWidth(100);
 const imageHeight = style.getDeviceHeight(60);
-const { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
@@ -38,21 +38,13 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     alignSelf: 'center',
   },
+  footerButton: {
+    flex: 2,
+    justifyContent: 'center',
+  },
 });
 
 class Product extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      width: width,
-    };
-  }
-
-  componentWillMount() {
-  }
-
-  componentWillUnmount() {
-  }
 
   render() {
     return (
@@ -75,30 +67,37 @@ class Product extends Component {
               pageStyle={styles.slide}
               autoplay={false}
               pageInfo
-              onAnimateNextPage={(p) => console.log(p)}
             >
               <View style={styles.slide}>
-                <Image style={styles.images} source={{url: "https://www.tuberia.com.br/media/catalog/product/cache/1/image/800x/9df78eab33525d08d6e5fb8d27136e95/t/r/tri_ngulos_manga_preta-min.png"}} />
+                <Image
+                  style={styles.images}
+                  source={{ url: 'https://www.tuberia.com.br/media/catalog/product/cache/1/image/800x/9df78eab33525d08d6e5fb8d27136e95/t/r/tri_ngulos_manga_preta-min.png' }}
+                />
               </View>
               <View style={styles.slide}>
-                <Image style={styles.images} source={{url: "https://cdn.shopify.com/s/files/1/2010/5247/products/IMG_4090_7d5ce64d-1098-4920-9845-bc5e3ffc61c2.jpg"}} />
+                <Image
+                  style={styles.images}
+                  source={{ url: 'https://cdn.shopify.com/s/files/1/2010/5247/products/IMG_4090_7d5ce64d-1098-4920-9845-bc5e3ffc61c2.jpg' }}
+                />
               </View>
             </Carousel>
             <View style={{
               flex: 1,
               flexDirection: 'row',
               alignItems: 'center',
-              }}
+            }}
             >
-              <View style={{flex: 2, alignItems: 'center'}}>
+              <View style={{ flex: 2, alignItems: 'center' }}>
                 <Text style={{ fontSize: 20 }}>R$190</Text>
               </View>
               <Button
-                style={{flex: 2, justifyContent: 'center'}}
+                style={styles.footerButton}
                 transparent
-                onPress={() => console.log("TESTE")}>
-                <Icon style={{ color: 'black' }}
-                  name="heart" 
+                onPress={() => console.log('TESTE')}
+              >
+                <Icon
+                  style={{ color: 'black' }}
+                  name="heart"
                 />
               </Button>
             </View>
