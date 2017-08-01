@@ -1,8 +1,8 @@
 {
   "name": "bzaar",
   "version": "0.0.0",
-  "description": "Hello Expo!",
-  "author": null,
+  "description": "Bzaar is a application for smartphones to small markets buying and selling clothes. This is a react-native app for IOS and Android.",
+  "author": "Daniel André da Silva",
   "private": true,
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
@@ -22,9 +22,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-19.0.0.tar.gz",
     "react-native-credit-card": "^0.1.9",
     "react-native-elements": "^0.12.2",
-    "react-native-image-slider": "^1.1.5",
-    "react-native-router-flux": "3.38.0",
-    "react-native-tab-view": "0.0.65",
+    "react-native-looped-carousel": "^0.1.7",
     "react-native-vector-icons": "4.1.1",
     "react-navigation": "^1.0.0-beta.9",
     "react-redux": "^5.0.4",

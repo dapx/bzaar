@@ -1,51 +1,116 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View, Dimensions, Text, Image, TouchableWithoutFeedback } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import ImageSlider from 'react-native-image-slider';
+import { Container, Header, Left, Button, Icon, Title, Content, Body } from 'native-base';
+import Carousel from 'react-native-looped-carousel';
 import * as Actions from '../actions/store';
 import * as NavActions from '../actions/navigation';
+import * as style from '../styles/index';
+
+const imageWidth = style.getDeviceWidth(100);
+const imageHeight = style.getDeviceHeight(60);
+const { width, height } = Dimensions.get("window");
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
+  title: {
+    flex: 1,
+    margin: 10,
+    color: 'black',
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
+  slide: {
+    width,
+    height,
+  },
+  carrousel: {
+    width,
+    height: imageHeight,
+  },
+  images: {
+    width: imageWidth,
+    height: imageHeight,
+    resizeMode: 'contain',
+    alignSelf: 'center',
+  },
+});
 
 class Product extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      position: 1,
-      interval: null,
-      imageList: [
-        'https://www.smashingmagazine.com/images/wildlife/susp.jpg',
-        'https://www.smashingmagazine.com/images/wildlife/golden.jpg',
-        'https://en.bcdn.biz/Images/2016/5/18/2fa8fc5a-f2bb-4404-92e8-efc6ec53adb6.jpg',
-      ],
+      width: width,
     };
   }
 
   componentWillMount() {
-    this.setState({ interval: setInterval(() => {
-      this.setState({ position: this.state.position === 2 ? 0 : this.state.position + 1 });
-    }, 5000) });
   }
 
   componentWillUnmount() {
-    clearInterval(this.state.interval);
   }
 
   render() {
     return (
-      <View>
-        <ImageSlider
-          images={this.state.imageList}
-          position={this.state.position}
-          onPositionChanged={position => this.setState({ position })}
-        />
-      </View>
+      <Container style={styles.container}>
+        <Header style={{ backgroundColor: 'white' }} androidStatusBarColor="black">
+          <Left style={{ flexDirection: 'row' }}>
+            <Button transparent onPress={() => this.props.navActions.back()}>
+              <Icon style={{ color: 'black' }} name="arrow-left" />
+            </Button>
+            <Title style={{ color: 'black', alignSelf: 'center' }}>Produto</Title>
+          </Left>
+        </Header>
+        <Content>
+          <Body>
+            <Title style={styles.title}>
+              Camisa Modelo XY
+            </Title>
+            <Carousel
+              style={styles.carrousel}
+              pageStyle={styles.slide}
+              autoplay={false}
+              pageInfo
+              onAnimateNextPage={(p) => console.log(p)}
+            >
+              <View style={styles.slide}>
+                <Image style={styles.images} source={{url: "https://www.tuberia.com.br/media/catalog/product/cache/1/image/800x/9df78eab33525d08d6e5fb8d27136e95/t/r/tri_ngulos_manga_preta-min.png"}} />
+              </View>
+              <View style={styles.slide}>
+                <Image style={styles.images} source={{url: "https://cdn.shopify.com/s/files/1/2010/5247/products/IMG_4090_7d5ce64d-1098-4920-9845-bc5e3ffc61c2.jpg"}} />
+              </View>
+            </Carousel>
+            <View style={{
+              flex: 1,
+              flexDirection: 'row',
+              alignItems: 'center',
+              }}
+            >
+              <View style={{flex: 2, alignItems: 'center'}}>
+                <Text style={{ fontSize: 20 }}>R$190</Text>
+              </View>
+              <Button
+                style={{flex: 2, justifyContent: 'center'}}
+                transparent
+                onPress={() => console.log("TESTE")}>
+                <Icon style={{ color: 'black' }}
+                  name="heart" 
+                />
+              </Button>
+            </View>
+          </Body>
+        </Content>
+      </Container>
     );
   }
 }
 
 function mapStateToProps(state) {
   return {
-    store: state.store,
     jwt: state.login.jwt,
   };
 }
