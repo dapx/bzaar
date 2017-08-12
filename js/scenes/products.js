@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import * as Actions from '../actions/products';
-import * as NavActions from '../actions/navigation';
 import { getDeviceWidth } from '../styles';
 
 const styles = StyleSheet.create({
@@ -96,7 +95,7 @@ class Products extends Component {
       ? styles.storeUniqueImage
       : styles.storeImage;
     return (
-      <TouchableOpacity key={'products_' + index} style={styles.imageContainer} onPress={() => this.pressItem(item)}>
+      <TouchableOpacity key={`products_${index}`} style={styles.imageContainer} onPress={() => this.pressItem(item)}>
         <Image style={imageStyle} source={{ uri: item.image }} />
       </TouchableOpacity>
     );
@@ -140,7 +139,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     productsActions: bindActionCreators(Actions, dispatch),
-    navActions: bindActionCreators(NavActions, dispatch),
   };
 }
 
@@ -155,9 +153,7 @@ Products.propTypes = {
   loadingRequest: PropTypes.bool,
   productsActions: PropTypes.shape({
     list: PropTypes.func.isRequired,
-  }).isRequired,
-  navActions: PropTypes.shape({
-    product: PropTypes.func.isRequired,
+    showProduct: PropTypes.func.isRequired,
   }).isRequired,
 };
 
