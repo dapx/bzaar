@@ -86,7 +86,7 @@ class Home extends Component {
   render() {
     return (
       <Container>
-        <Header hasTabs style={{ backgroundColor: 'white' }} androidStatusBarColor="black">
+        <Header hasTabs style={{ backgroundColor: 'white' }}>
           <Left style={{ flex: 1 }}>
             <TouchableOpacity onPress={() => this.props.navActions.user()}>
               <Icon style={{ color: 'black' }} name="user-circle" />
