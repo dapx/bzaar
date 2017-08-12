@@ -86,8 +86,8 @@ class Products extends Component {
     });
   }
 
-  pressItem() {
-    this.props.navActions.product();
+  pressItem(item) {
+    this.props.productsActions.showProduct(item);
   }
 
   renderItem({ item, index }) {
@@ -96,7 +96,7 @@ class Products extends Component {
       ? styles.storeUniqueImage
       : styles.storeImage;
     return (
-      <TouchableOpacity key={index} style={styles.imageContainer} onPress={() => this.pressItem()}>
+      <TouchableOpacity key={'products_' + index} style={styles.imageContainer} onPress={() => this.pressItem(item)}>
         <Image style={imageStyle} source={{ uri: item.image }} />
       </TouchableOpacity>
     );

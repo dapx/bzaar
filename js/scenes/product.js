@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux';
 import { Container, Header, Left, Button, Icon, Title, Content, Body, Footer } from 'native-base';
 import PropTypes from 'prop-types';
 import Carousel from 'react-native-looped-carousel';
-import * as Actions from '../actions/store';
 import * as NavActions from '../actions/navigation';
 import * as style from '../styles/index';
 
@@ -73,17 +72,30 @@ class Product extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: 'Camisa Basica XYZ',
-      description: 'Camisa com tecido muito bom e que combina com varias calças',
-      price: 198.00,
+      name: '',
+      description: '',
+      price: 0,
       image: '',
       images: [
-        'https://www.tuberia.com.br/media/catalog/product/cache/1/image/800x/9df78eab33525d08d6e5fb8d27136e95/t/r/tri_ngulos_manga_preta-min.png',
-        'https://cdn.shopify.com/s/files/1/2010/5247/products/IMG_4090_7d5ce64d-1098-4920-9845-bc5e3ffc61c2.jpg',
       ],
-      quantity: 2,
-      size: 'M',
+      quantity: 0,
+      size: '',
     };
+  }
+
+  componentWillMount() {
+    this.setState({
+      jwt: this.props.jwt,
+      ...this.props.product,
+      images: [ this.props.product.image ],
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+  }
+
+  componentReceivedProps() {
+    console.warn("componentReceivedProps");
   }
 
   render() {
@@ -108,8 +120,8 @@ class Product extends Component {
               autoplay={false}
               pageInfo
             >
-              { this.state.images.map(image => (
-                <View style={styles.slide}>
+              { this.state.images.map((image, i) => (
+                <View key={'product_' + i} style={styles.slide}>
                   <Image
                     style={styles.images}
                     source={{ url: image }}
@@ -154,12 +166,12 @@ class Product extends Component {
 function mapStateToProps(state) {
   return {
     jwt: state.login.jwt,
+    product: state.products.product,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    storeActions: bindActionCreators(Actions, dispatch),
     navActions: bindActionCreators(NavActions, dispatch),
   };
 }

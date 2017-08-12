@@ -1,4 +1,4 @@
-import { REQUEST_PRODUCTS, RECEIVE_PRODUCTS } from '../actionTypes/products';
+import { REQUEST_PRODUCTS, RECEIVE_PRODUCTS, SHOW_PRODUCT } from '../actionTypes/products';
 
 export default function products(state = {}, action) {
   switch (action.type) {
@@ -13,6 +13,12 @@ export default function products(state = {}, action) {
         ...state,
         list: action.data,
         loadingRequest: false,
+      };
+
+    case SHOW_PRODUCT:
+      return {
+        ...state,
+        product: action.data,
       };
 
     default:

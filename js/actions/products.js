@@ -1,4 +1,4 @@
-import { REQUEST_PRODUCTS, RECEIVE_PRODUCTS } from '../actionTypes/products';
+import { REQUEST_PRODUCTS, RECEIVE_PRODUCTS, SHOW_PRODUCT } from '../actionTypes/products';
 import { RECEIVE_ERROR } from '../actionTypes/error';
 import { ApiUtils } from '../utils/api';
 
@@ -33,4 +33,8 @@ export function list(jwt) {
       })
       .done();
   };
+}
+
+export function showProduct(data) {
+  return dispatch => dispatch({ type: SHOW_PRODUCT, data });
 }
