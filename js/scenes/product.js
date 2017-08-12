@@ -87,15 +87,8 @@ class Product extends Component {
     this.setState({
       jwt: this.props.jwt,
       ...this.props.product,
-      images: [ this.props.product.image ],
+      images: [this.props.product.image],
     });
-  }
-
-  componentWillReceiveProps(nextProps) {
-  }
-
-  componentReceivedProps() {
-    console.warn("componentReceivedProps");
   }
 
   render() {
@@ -120,8 +113,8 @@ class Product extends Component {
               autoplay={false}
               pageInfo
             >
-              { this.state.images.map((image, i) => (
-                <View key={'product_' + i} style={styles.slide}>
+              { this.state.images.map(image => (
+                <View key={`product_${image}`} style={styles.slide}>
                   <Image
                     style={styles.images}
                     source={{ url: image }}
@@ -177,6 +170,16 @@ function mapDispatchToProps(dispatch) {
 }
 
 Product.propTypes = {
+  jwt: PropTypes.string.isRequired,
+  product: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired,
+    images: PropTypes.arrayOf(PropTypes.string).isRequired,
+    quantity: PropTypes.number.isRequired,
+    size: PropTypes.string.isRequired,
+  }).isRequired,
   navActions: PropTypes.shape({
     back: PropTypes.func.isRequired,
     bag: PropTypes.func.isRequired,
