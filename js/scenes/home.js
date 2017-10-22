@@ -83,6 +83,10 @@ class Home extends Component {
     );
   }
 
+  handleRefresh() {
+    this.props.storeActions.list(this.props.jwt);
+  }
+
   render() {
     return (
       <Container>
@@ -110,27 +114,27 @@ class Home extends Component {
           </Right>
         </Header>
         <Tabs>
-          <Tab heading="Lojas">
-            { this.state.loadingRequest
-              ? <Spinner />
-              : <FlatList
-                numColumns={2}
-                horizontal={false}
-                getItemLayout={(data, index) => ({
-                  width: styles.storeImage.width,
-                  height: styles.storeImage.height,
-                  offset: styles.storeImage.height * index,
-                  index,
-                })
-                }
-                data={this.state.list}
-                renderItem={this.renderItem}
-                keyExtractor={item => item.id}
-              />
-            }
-          </Tab>
           <Tab heading="Produtos">
             <Products />
+          </Tab>
+          <Tab heading="Lojas">
+            <FlatList
+              numColumns={2}
+              horizontal={false}
+              getItemLayout={(data, index) => ({
+                width: styles.storeImage.width,
+                height: styles.storeImage.height,
+                offset: styles.storeImage.height * index,
+                index,
+              })
+              }
+              data={this.state.list}
+              renderItem={this.renderItem}
+              keyExtractor={item => item.id}
+              refreshing={this.state.loadingRequest}
+              onRefresh={() => this.handleRefresh()}
+              ListEmptyComponent={<Text>Não foi possivel encontrar lojas.</Text>}
+            />
           </Tab>
           <Tab heading="Minhas Lojas">
             <Text>Você nao possui lojas cadastradas</Text>

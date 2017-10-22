@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Animated, Image, FlatList, TouchableOpacity, Platform } from 'react-native';
-import { Spinner } from 'native-base';
+import { Spinner, Text } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -101,10 +101,12 @@ class Products extends Component {
     );
   }
 
+  handleRefresh() {
+    this.props.productsActions.list(this.props.jwt);
+  }
+
   render() {
-    const render = this.state.loadingRequest
-      ? <Spinner />
-      : (
+    const render = (
         <FlatList
           ref={(ref) => { this.listRef = ref; }}
           numColumns={2}
@@ -122,6 +124,9 @@ class Products extends Component {
           onScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
           )}
+          refreshing={this.state.loadingRequest}
+          onRefresh={() => this.handleRefresh()}
+          ListEmptyComponent={<Text>Não foi possivel encontrar produtos.</Text>}
         />
       );
     return render;

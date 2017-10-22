@@ -3,7 +3,7 @@ import { AppNavigator } from '../components/navigation';
 import { RECEIVE_LOGIN } from '../actionTypes/login';
 import { RECEIVE_REGISTER } from '../actionTypes/register';
 import { USER_REGISTER, CREDITCARD_REGISTER, BACK, USER, BAG } from '../actionTypes/navigation';
-import { SHOW_PRODUCT } from '../actionTypes/products';
+import { SHOW_PRODUCT, ADDED_PRODUCT_TO_BAG } from '../actionTypes/products';
 import { OPEN_STORE } from '../actionTypes/stores';
 
 const initialState = AppNavigator.router.getStateForAction(AppNavigator.router.getActionForPathAndParams('LoginPage'));
@@ -11,6 +11,7 @@ const initialState = AppNavigator.router.getStateForAction(AppNavigator.router.g
 export default function nav(state = initialState, action) {
   switch (action.type) {
     case 'Login':
+    case RECEIVE_REGISTER:
       return AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'LoginPage' }), state);
     case RECEIVE_LOGIN:
       return AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'HomePage' }), state);
@@ -19,13 +20,12 @@ export default function nav(state = initialState, action) {
     case USER:
       return AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'UserPage' }), state);
     case BAG:
+    case ADDED_PRODUCT_TO_BAG:
       return AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'BagPage' }), state);
     case CREDITCARD_REGISTER:
       return AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'CreditCardPage' }), state);
     case BACK:
       return AppNavigator.router.getStateForAction(NavigationActions.back(), state);
-    case RECEIVE_REGISTER:
-      return AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'LoginPage' }), state);
     case OPEN_STORE:
       return AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'StorePage' }), state);
     case SHOW_PRODUCT:

@@ -37,7 +37,7 @@ class Signup extends Component {
     });
   }
 
-  handleSubmit(email, name, password, confirmPassword) {
+  handleSubmit(email, name, surname, password, confirmPassword) {
     if (email === '' || password === '' || name === '') {
       Toast.show({
         text: 'Existe campos não preenchidos!',
@@ -54,7 +54,7 @@ class Signup extends Component {
       });
       return;
     }
-    this.props.registerActions.register(email, name, password);
+    this.props.registerActions.register(email, name, surname, password);
   }
 
   render() {
@@ -104,6 +104,7 @@ class Signup extends Component {
                 onPress={() => this.handleSubmit(
                   this.state.email,
                   this.state.name,
+                  this.state.surname,
                   this.state.password,
                   this.state.confirmPassword,
                   )}

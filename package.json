@@ -19,7 +19,7 @@
     "native-base-shoutem-theme": "^0.1.7",
     "prop-types": "^15.5.10",
     "react": "16.0.0-alpha.12",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-19.0.0.tar.gz",
+    "react-native": "^0.46.4",
     "react-native-credit-card": "^0.1.9",
     "react-native-elements": "^0.12.2",
     "react-native-looped-carousel": "^0.1.7",

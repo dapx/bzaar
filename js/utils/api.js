@@ -1,13 +1,20 @@
 import { Toast } from 'native-base';
 
-const API_BASE_URL = 'https://bzaar-api.herokuapp.com/bzaar';
+const API_BASE_URL = 'http://localhost:4000/bzaar';
 
 export const ApiUtils = {
 
-  headers(jwt) {
+  secureheader(jwt) {
     return {
       Accept: 'application/json',
       Authorization: `Bearer ${jwt}`,
+      'Content-type': 'application/json',
+    };
+  },
+
+  header() {
+    return {
+      Accept: 'application/json',
       'Content-type': 'application/json',
     };
   },
@@ -16,25 +23,43 @@ export const ApiUtils = {
     if (response.status >= 200 && response.status < 300) {
       return response;
     }
-    const message = JSON.parse(response.bodyText).error;
+    const message = JSON.parse(response._bodyText).error;
     throw new Error(message);
   },
 
-  request(endpoint, jwt, method = 'GET') {
+  request(endpoint, jwt) {
     return fetch(`${API_BASE_URL}/secured/${endpoint}`, {
-      headers: this.headers(jwt),
+      method: 'GET',
+      headers: this.secureheader(jwt),
+    })
+    .then(this.checkStatus)
+    .then(response => response.json());
+  },
+
+  create(endpoint, jwt, data, method = 'POST') {
+    return fetch(`${API_BASE_URL}/secured/${endpoint}`, {
+      headers: this.secureheader(jwt),
+      method,
+      body: JSON.stringify(data),
+    })
+    .then(this.checkStatus)
+    .then(response => response.json());
+  },
+
+  delete(endpoint, jwt, id, method = 'DELETE') {
+    return fetch(`${API_BASE_URL}/secured/${endpoint}/${id}`, {
+      headers: this.secureheader(jwt),
       method,
     })
     .then(this.checkStatus)
-    .then(response => response.json())
-    .catch((error) => { throw error; });
+    .then(response => response.json());
   },
 
   error(message) {
     Toast.show({
       type: 'danger',
       text: message,
-      duration: 3000,
+      duration: 5000,
       position: 'bottom',
       buttonText: 'Okay',
     });
@@ -45,37 +70,29 @@ export const UserService = {
   login(email, password) {
     return fetch(`${API_BASE_URL}/auth/signin`, {
       method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-type': 'application/json',
-      },
+      headers: ApiUtils.header(),
       body: JSON.stringify({
         email,
         password,
       }),
     })
     .then(ApiUtils.checkStatus)
-    .then(response => response.json())
-    .catch((error) => { throw error; });
+    .then(response => response.json());
   },
 
-  register(email, name, password) {
+  register(email, name, surname, password) {
     return fetch(`${API_BASE_URL}/auth/signup`, {
       method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-type': 'application/json',
-      },
+      headers: ApiUtils.header(),
       body: JSON.stringify({ user: {
         email,
         name,
-        surname: 'teste',
+        surname,
         password,
       },
       }),
     })
     .then(ApiUtils.checkStatus)
-    .then(response => response.json())
-    .catch((error) => { throw error; });
+    .then(response => response.json());
   },
 };

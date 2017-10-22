@@ -1,5 +1,5 @@
 import { RECEIVE_LOGIN, REQUEST_LOGIN } from '../actionTypes/login';
-import { RECEIVE_ERROR } from '../actionTypes/error';
+import RECEIVE_ERROR from '../actionTypes/error';
 import { UserService, ApiUtils } from '../utils/api';
 
 function request() {

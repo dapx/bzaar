@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
-import { StyleProvider } from 'native-base';
+import { StyleProvider, Root } from 'native-base';
 import reducer from './reducers/index';
 import AppWithNavigationState from './components/navigation';
 import getTheme from '../native-base-theme/components';
@@ -21,7 +21,9 @@ const store = createStore(reducer, applyMiddleware(thunkMiddleware, loggerMiddle
 const bzaar = () => (
   <Provider store={store}>
     <StyleProvider style={getTheme(theme)}>
-      <AppWithNavigationState />
+      <Root>
+        <AppWithNavigationState />
+      </Root>
     </StyleProvider>
   </Provider>
 );

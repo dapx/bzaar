@@ -6,6 +6,7 @@ import { Container, Header, Left, Button, Icon, Title, Content, Body, Footer } f
 import PropTypes from 'prop-types';
 import Carousel from 'react-native-looped-carousel';
 import * as NavActions from '../actions/navigation';
+import * as ProductsActions from '../actions/products';
 import * as style from '../styles/index';
 
 const imageWidth = style.getDeviceWidth(100);
@@ -72,6 +73,7 @@ class Product extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: 0,
       name: '',
       description: '',
       price: 0,
@@ -87,8 +89,19 @@ class Product extends Component {
     this.setState({
       jwt: this.props.jwt,
       ...this.props.product,
-      images: [this.props.product.image],
+      images: [{url: this.props.product.image, sequence: 0}, ...this.props.product.images],
     });
+  }
+
+  addProduct(jwt, productId) {
+    const productData = {
+      item_cart: {
+        quantity: 1,
+        status: 0, // Define o produto como aguardando confirmação do lojista
+        product_id: productId,
+      }
+    }
+    this.props.productsActions.addProductToBag(jwt, productData);
   }
 
   render() {
@@ -117,7 +130,7 @@ class Product extends Component {
                 <View key={`product_${image}`} style={styles.slide}>
                   <Image
                     style={styles.images}
-                    source={{ url: image }}
+                    source={{ url: image.url }}
                   />
                 </View>
                 ))
@@ -143,7 +156,7 @@ class Product extends Component {
           <Button
             style={styles.footerButton}
             transparent
-            onPress={this.props.navActions.bag}
+            onPress={() => this.addProduct(this.state.jwt, this.state.id)}
           >
             <Icon
               style={styles.buyButton}
@@ -166,6 +179,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     navActions: bindActionCreators(NavActions, dispatch),
+    productsActions: bindActionCreators(ProductsActions, dispatch),
   };
 }
 
@@ -176,13 +190,16 @@ Product.propTypes = {
     description: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
-    images: PropTypes.arrayOf(PropTypes.string).isRequired,
+    images: PropTypes.arrayOf(PropTypes.object).isRequired,
     quantity: PropTypes.number.isRequired,
     size: PropTypes.string.isRequired,
   }).isRequired,
   navActions: PropTypes.shape({
     back: PropTypes.func.isRequired,
     bag: PropTypes.func.isRequired,
+  }).isRequired,
+  productsActions: PropTypes.shape({
+    addProductToBag: PropTypes.func.isRequired,
   }).isRequired,
 };
 

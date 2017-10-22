@@ -1,3 +1,9 @@
 export const REQUEST_PRODUCTS = 'products/REQUEST_PRODUCTS';
 export const RECEIVE_PRODUCTS = 'products/RECEIVE_PRODUCTS';
+export const REQUEST_BAG_ITEMS = 'bag/REQUEST';
+export const RECEIVE_BAG_ITEMS = 'bag/RECEIVE';
 export const SHOW_PRODUCT = 'products/SHOW_PRODUCT';
+export const ADD_PRODUCT_TO_BAG = 'products/ADD_PRODUCT_TO_BAG';
+export const ADDED_PRODUCT_TO_BAG = 'bag/ADDED_PRODUCT_TO_BAG';
+export const REMOVE_BAG_ITEMS = 'bag/REMOVE_BAG_ITEMS';
+export const REMOVED_BAG_ITEMS = 'bag/REMOVED_BAG_ITEMS';

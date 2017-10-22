@@ -1,10 +1,11 @@
 import { combineReducers } from 'redux';
-import login from '../reducers/login';
-import nav from '../reducers/navigation';
-import stores from '../reducers/stores';
-import products from '../reducers/products';
-import store from '../reducers/store';
-import register from '../reducers/register';
+import login from './login';
+import nav from './navigation';
+import stores from './stores';
+import products from './products';
+import store from './store';
+import register from './register';
+import bag from './bag';
 
 export default combineReducers({
   nav,
@@ -13,4 +14,5 @@ export default combineReducers({
   products,
   register,
   store,
+  bag,
 });
