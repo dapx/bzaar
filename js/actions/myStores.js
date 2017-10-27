@@ -1,0 +1,40 @@
+import { REQUEST_STORES, RECEIVE_STORES, OPEN_STORE } from '../actionTypes/myStores';
+import { RECEIVE_ERROR } from '../actionTypes/error';
+import { ApiUtils } from '../utils/api';
+
+function request() {
+  return {
+    type: REQUEST_STORES,
+  };
+}
+
+function receive(data) {
+  return {
+    type: RECEIVE_STORES,
+    ...data,
+  };
+}
+
+function receiveError(error) {
+  return {
+    type: RECEIVE_ERROR,
+    error,
+  };
+}
+
+export function list(jwt) {
+  return (dispatch) => {
+    dispatch(request());
+    return ApiUtils.request('my_stores', jwt)
+      .then(data => dispatch(receive(data)))
+      .catch((error) => {
+        dispatch(receiveError(error.message));
+        ApiUtils.error(error.message);
+      })
+      .done();
+  };
+}
+
+export function openStore(store) {
+  return dispatch => dispatch({ type: OPEN_STORE, store });
+}
