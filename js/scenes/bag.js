@@ -4,18 +4,11 @@ import { Container, Header, Content, Title, Left, Right, Icon, Text, Button, Car
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import HeaderBack from '../components/headerBack';
+import BagItem from "../components/bagItem";
 import * as NavActions from '../actions/navigation';
 import * as ProductsActions from '../actions/products';
 import { getDeviceWidth } from '../styles';
-
-const styles = StyleSheet.create({
-  storeUniqueImage: {
-    width: getDeviceWidth(35),
-    height: getDeviceWidth(35),
-    alignSelf: 'center',
-    resizeMode: 'contain',
-  },
-});
 
 class Bag extends Component {
 
@@ -51,65 +44,19 @@ class Bag extends Component {
 
   renderItem({ item, index }) {
     return (
-      <Card style={{flex: 0}}>
-      <CardItem header>
-        <Left>
-          <Text>{item.product_name}</Text>
-        </Left>
-        <Right>
-          <TouchableOpacity onPress={() => this.deleteBagItem(item.id)}>
-            <Text>X</Text>
-          </TouchableOpacity>
-        </Right>
-      </CardItem>
-      <CardItem style={{flex: 1}}>
-          <Left style={{flex: 1}}>
-            <Image source={{uri: item.product_image}}
-              style={{height: getDeviceWidth(20), width: getDeviceWidth(20)}}
-            />
-          </Left>
-
-          <Left style={{flex: 3, flexDirection: 'column'}}>
-            <Text style={{fontSize: 18}}>
-              Preço: R$ {item.product_price}
-            </Text>
-            <Text>
-              Qtde. Disponível: {item.quantity}
-            </Text>
-          </Left>
-      </CardItem>
-      <CardItem footer style={{justifyContent: 'space-between'}}>
-        <View style={{flexDirection: 'row'}}>
-          <View style={{justifyContent: 'center'}}>
-            <Text>
-              Qtde.Total: {item.quantity}
-            </Text>
-          </View>
-        </View>
-        <View style={{flexDirection: 'row'}}>
-          <View style={{justifyContent: 'center', paddingRight: 10}}>
-            <Text>Total R$: {item.product_price}</Text>
-          </View>
-          <Button small dark>
-            <Text>Pedir</Text>
-          </Button>
-        </View>
-      </CardItem>
-      </Card>
+      <BagItem
+        key={`bag_item_${item.id}`}
+        item={item}
+        imageWidth={getDeviceWidth(20)}
+        onRemove={() => this.deleteBagItem(item.id)}
+      />
     );
   }
 
   render() {
     return (
       <Container>
-        <Header style={{ backgroundColor: 'white' }} androidStatusBarColor="black">
-          <Left style={{ flexDirection: 'row' }}>
-            <Button transparent onPress={() => this.props.navActions.back()}>
-              <Icon style={{ color: 'black' }} name="arrow-left" />
-            </Button>
-            <Title style={{ color: 'black', alignSelf: 'center' }}>Sacola de Compras</Title>
-          </Left>
-        </Header>
+        <HeaderBack title="Sacola de Compras" back={this.props.navActions.back} />
         <FlatList
               style={{ backgroundColor: 'white' }}
               numColumns={1}

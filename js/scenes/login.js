@@ -73,7 +73,11 @@ class Login extends Component {
               }}
               source={logo}
             />
-            <Text style={{ flex: 1, alignSelf: 'center' }}>Bzaar</Text>
+            <Text style={{
+                flex: 1,
+                alignSelf: 'center',
+                backgroundColor: 'transparent',
+              }}>Bzaar</Text>
             <Form>
               <Item floatingLabel>
                 <Label>E-mail</Label>

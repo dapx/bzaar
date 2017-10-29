@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { Container, Header, Left, Button, Icon, Title, Content, Body, Footer } from 'native-base';
 import PropTypes from 'prop-types';
 import Carousel from 'react-native-looped-carousel';
+import HeaderBack from '../components/headerBack';
 import * as NavActions from '../actions/navigation';
 import * as ProductsActions from '../actions/products';
 import * as style from '../styles/index';
@@ -107,14 +108,7 @@ class Product extends Component {
   render() {
     return (
       <Container style={styles.container}>
-        <Header style={{ backgroundColor: 'white' }} androidStatusBarColor="black">
-          <Left style={{ flexDirection: 'row' }}>
-            <Button transparent onPress={() => this.props.navActions.back()}>
-              <Icon style={{ color: 'black' }} name="arrow-left" />
-            </Button>
-            <Title style={{ color: 'black', alignSelf: 'center' }}>Produto</Title>
-          </Left>
-        </Header>
+      <HeaderBack title="Produto" back={() => this.props.navActions.back()} />
         <Content>
           <Body>
             <Title style={styles.title}>

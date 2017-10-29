@@ -94,7 +94,7 @@ class Home extends Component {
         <Header hasTabs style={{ backgroundColor: 'white' }}>
           <Left style={{ flex: 1 }}>
             <TouchableOpacity onPress={() => this.props.navActions.user()}>
-              <Icon style={{ color: 'black' }} name="user-circle" />
+              <Icon style={{ color: 'black' }} name="user-circle-o" />
             </TouchableOpacity>
           </Left>
           <Body style={{ flex: 1 }}>

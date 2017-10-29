@@ -4,6 +4,7 @@ import { Container, Header, Content, Title, Left, Icon, Text, Button, Spinner } 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import HeaderBack from '../../components/headerBack';
 // import * as Actions from '../../actions/register';
 import * as NavActions from '../../actions/navigation';
 
@@ -38,14 +39,7 @@ class User extends Component {
   render() {
     return (
       <Container>
-        <Header style={{ backgroundColor: 'white' }} androidStatusBarColor="black">
-          <Left style={{ flexDirection: 'row' }}>
-            <Button transparent onPress={() => this.props.navActions.back()}>
-              <Icon style={{ color: 'black' }} name="arrow-left" />
-            </Button>
-            <Title style={{ color: 'black', alignSelf: 'center' }}>Seu Perfil</Title>
-          </Left>
-        </Header>
+        <HeaderBack title="Seu Perfil" back={() => this.props.navActions.back()} />
         <Content style={{ backgroundColor: 'white' }} padder>
           <Text>Informacoes de usuário</Text>
           {this.state.pendingRequest
@@ -76,9 +70,9 @@ function mapDispatchToProps(dispatch) {
 }
 
 User.propTypes = {
-  pendingRequest: PropTypes.bool.isRequired,
-  errorMessage: PropTypes.string.isRequired,
-  showToast: PropTypes.bool.isRequired,
+  pendingRequest: PropTypes.bool,
+  errorMessage: PropTypes.string,
+  showToast: PropTypes.bool,
   navActions: PropTypes.shape({
     back: PropTypes.func.isRequired,
   }).isRequired,
