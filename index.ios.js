@@ -2,6 +2,6 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
 } from 'react-native';
-import bzaar from './js/app.js';
+import Bzaar from './js/app.js';
 
-AppRegistry.registerComponent('bzaar', () => bzaar);
+AppRegistry.registerComponent('bzaar', () => Bzaar);

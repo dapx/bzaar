@@ -4,7 +4,8 @@
  * @flow
  */
 
-import React from 'react';
+import React, { Component } from 'react';
+import { AppState, Platform } from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
@@ -12,20 +13,44 @@ import { createLogger } from 'redux-logger';
 import { StyleProvider, Root } from 'native-base';
 import reducer from './reducers/index';
 import AppWithNavigationState from './components/navigation';
+import PushController from './components/pushController';
 import getTheme from '../native-base-theme/components';
 import theme from '../native-base-theme/variables/commonColor';
-
+import PushNotification from 'react-native-push-notification';
 const loggerMiddleware = createLogger();
 const store = createStore(reducer, applyMiddleware(thunkMiddleware, loggerMiddleware));
 
-const bzaar = () => (
-  <Provider store={store}>
-    <StyleProvider style={getTheme(theme)}>
-      <Root>
-        <AppWithNavigationState />
-      </Root>
-    </StyleProvider>
-  </Provider>
-);
+class Bzaar extends Component {
+  componentDidMount() {
+    AppState.addEventListener('change', this.handleAppStateChange)
+  }
 
-export default bzaar;
+  componentWillUnmount() {
+    AppState.addEventListener('change', this.handleAppStateChange)
+  }
+
+  handleAppStateChange(appState) {
+    if (appState == 'background') {
+      PushNotification.localNotificationSchedule({
+        message: "Volta aqui!!!", // (required)
+        date: new Date(Date.now() + (1 * 1000)) // in 60 secs
+      });
+      console.log('The app is in background');
+    }
+  }
+
+  render() {
+    return (
+      <Provider store={store}>
+        <StyleProvider style={getTheme(theme)}>
+          <Root>
+            <AppWithNavigationState />
+            <PushController />
+          </Root>
+        </StyleProvider>
+      </Provider>
+    );
+  }
+}
+
+export default Bzaar;
