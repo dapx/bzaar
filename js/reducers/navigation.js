@@ -5,7 +5,7 @@ import { RECEIVE_REGISTER } from '../actionTypes/register';
 import { USER_REGISTER, CREDITCARD_REGISTER, BACK, USER, BAG } from '../actionTypes/navigation';
 import { SHOW_PRODUCT, ADDED_PRODUCT_TO_BAG } from '../actionTypes/products';
 import { OPEN_STORE } from '../actionTypes/stores';
-import { OPEN_MYSTORE, EDIT_STORE } from '../actionTypes/myStores';
+import { OPEN_MYSTORE, EDIT_STORE, OPEN_NEW_STORE } from '../actionTypes/myStores';
 
 const initialState = AppNavigator.router.getStateForAction(AppNavigator.router.getActionForPathAndParams('LoginPage'));
 
@@ -31,6 +31,7 @@ export default function nav(state = initialState, action) {
       return AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'StorePage' }), state);
     case OPEN_MYSTORE:
       return AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'MyStorePage' }), state);
+    case OPEN_NEW_STORE:
     case EDIT_STORE:
       return AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'StoreEditPage' }), state);
     case SHOW_PRODUCT:

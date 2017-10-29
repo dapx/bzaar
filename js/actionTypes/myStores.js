@@ -1,7 +1,7 @@
 export const REQUEST_MYSTORES = 'myStores/REQUEST_STORES';
 export const RECEIVE_MYSTORES = 'myStores/RECEIVE_STORES';
 export const OPEN_MYSTORE = 'myStores/OPEN_STORE';
-
+export const OPEN_NEW_STORE = 'myStores/OPEN_NEW_STORE';
 export const EDIT_STORE = 'myStores/EDIT_STORE';
 export const OPEN_PRODUCTS = 'myStores/OPEN_PRODUCTS';
 export const OPEN_DISPATCHERS = 'myStores/OPEN_DISPATCHERS';

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Animated, Image, FlatList, TouchableOpacity, Platform } from 'react-native';
-import { Spinner, Text } from 'native-base';
+import { StyleSheet, Animated, View, Image, FlatList, TouchableOpacity, Platform } from 'react-native';
+import { Spinner, Text, Button } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -89,6 +89,10 @@ class MyStores extends Component {
     this.props.storesActions.openStore(item);
   }
 
+  openNew() {
+    this.props.storesActions.openNewStore();
+  }
+
   renderItem({ item, index }) {
     const size = this.state.list.length - 1;
     const imageStyle = (size === index && this.state.list.length % 2 > 0)
@@ -106,7 +110,14 @@ class MyStores extends Component {
   }
 
   render() {
-    const render = (
+    return (
+      <View>
+        <Button full
+          style={{backgroundColor: '#bcb3c5', opacity: 0.8}}
+          onPress={() => this.openNew()}
+        >
+          <Text>Criar nova loja</Text>
+        </Button>
         <FlatList
           ref={(ref) => { this.listRef = ref; }}
           numColumns={2}
@@ -128,8 +139,8 @@ class MyStores extends Component {
           onRefresh={() => this.handleRefresh()}
           ListEmptyComponent={<Text>Não foi possivel encontrar produtos.</Text>}
         />
-      );
-    return render;
+      </View>
+    );
   }
 }
 
@@ -159,6 +170,7 @@ MyStores.propTypes = {
   storesActions: PropTypes.shape({
     list: PropTypes.func.isRequired,
     openStore: PropTypes.func.isRequired,
+    openNewStore: PropTypes.func.isRequired,
   }).isRequired,
 };
 

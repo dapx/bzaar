@@ -3,6 +3,7 @@ import {
   RECEIVE_MYSTORES,
   OPEN_MYSTORE,
   EDIT_STORE,
+  OPEN_NEW_STORE,
 } from '../actionTypes/myStores';
 
 export default function stores(state = {}, action) {
@@ -23,6 +24,7 @@ export default function stores(state = {}, action) {
 
     case EDIT_STORE:
     case OPEN_MYSTORE:
+    case OPEN_NEW_STORE:
       return {
         ...state,
         store: action.store,

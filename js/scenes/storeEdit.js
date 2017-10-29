@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Dimensions, Text, Image } from 'react-native';
+import { StyleSheet, View, Dimensions, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Container, Header, Left, Button, Icon, Title, Content, Body, Footer, Form, Input, Item, Label } from 'native-base';
+import { Container, Header, Left, Button, Icon, Title, Content, Body, Footer, Form, Input, Item, Label, Text } from 'native-base';
 import { Text as TextBase } from 'native-base';
 import PropTypes from 'prop-types';
 import Carousel from 'react-native-looped-carousel';
@@ -89,15 +89,32 @@ class StoreEdit extends Component {
     });
   }
 
+  isNew() {
+    return this.state.id === 0
+  }
+
+  onPressButton() {
+
+  }
+
   render() {
+    const buttonText = this.isNew() ? 'Criar' : 'Salvar';
+    const resizeMode = this.isNew() ? 'stretch' : 'contain';
+    const uri = this.isNew() 
+      ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWPbrAYB2nxO2MTkMlVPkWfccHoott1Eu5NaLsdYjOFHpvStMO'
+      : this.state.logo;
     return (
       <Container style={styles.container}>
         <HeaderBack title={`Edit ${this.state.name}`} back={() => this.props.navActions.back()} />
         <Content style={{flex: 1}}>
+          <Image style={{
+              width: imageWidth,
+              height: imageHeight,
+              resizeMode,
+              }}
+              source={{ uri }} 
+          />
           <Form style={{flex: 2}}>
-            <Item>
-              <Image style={{width: imageWidth, height: imageHeight, resizeMode: 'contain',}} source={{ uri: this.state.logo }} />
-            </Item>
             <Item stackedLabel>
               <Label>Name</Label>
               <Input value={this.state.name} onChange={(e) => this.setState({name: e.target.value})} />
@@ -107,6 +124,12 @@ class StoreEdit extends Component {
               <Input value={this.state.description} />
             </Item>
           </Form>
+          <Button full
+            style={{backgroundColor: 'black'}}
+            onPress={this.onPressButton}
+          >
+            <Text>{buttonText}</Text>
+          </Button>
         </Content>
       </Container>
     );

@@ -4,6 +4,7 @@ import {
   OPEN_MYSTORE,
   EDIT_STORE,
   OPEN_PRODUCTS,
+  OPEN_NEW_STORE,
  } from '../actionTypes/myStores';
 import { RECEIVE_ERROR } from '../actionTypes/error';
 import { ApiUtils } from '../utils/api';
@@ -43,6 +44,16 @@ export function list(jwt) {
 
 export function openStore(store) {
   return dispatch => dispatch({ type: OPEN_MYSTORE, store });
+}
+
+export function openNewStore() {
+  const store = {
+    id: 0,
+    name: '',
+    description: '',
+    logo: '',
+  }
+  return dispatch => dispatch({ type: OPEN_NEW_STORE, store });
 }
 
 export function editStore(store) {
