@@ -12,6 +12,8 @@ import CreditCard from '../scenes/perfil/CreditCard';
 import Bag from '../scenes/bag';
 import Store from '../scenes/store';
 import Product from '../scenes/product';
+import MyStore from '../scenes/myStore';
+import StoreEdit from '../scenes/storeEdit';
 
 const UserNavigator = StackNavigator({
   User: { screen: UserRegister,
@@ -68,6 +70,20 @@ export const AppNavigator = StackNavigator({
     },
   },
   ProductPage: { screen: Product,
+    navigationOptions: {
+      visible: false,
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  MyStorePage: { screen: MyStore,
+    navigationOptions: {
+      visible: false,
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  StoreEditPage: { screen: StoreEdit,
     navigationOptions: {
       visible: false,
       header: null,

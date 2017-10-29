@@ -1,16 +1,22 @@
-import { REQUEST_STORES, RECEIVE_STORES, OPEN_STORE } from '../actionTypes/myStores';
+import {
+  REQUEST_MYSTORES,
+  RECEIVE_MYSTORES,
+  OPEN_MYSTORE,
+  EDIT_STORE,
+  OPEN_PRODUCTS,
+ } from '../actionTypes/myStores';
 import { RECEIVE_ERROR } from '../actionTypes/error';
 import { ApiUtils } from '../utils/api';
 
 function request() {
   return {
-    type: REQUEST_STORES,
+    type: REQUEST_MYSTORES,
   };
 }
 
 function receive(data) {
   return {
-    type: RECEIVE_STORES,
+    type: RECEIVE_MYSTORES,
     ...data,
   };
 }
@@ -36,5 +42,13 @@ export function list(jwt) {
 }
 
 export function openStore(store) {
-  return dispatch => dispatch({ type: OPEN_STORE, store });
+  return dispatch => dispatch({ type: OPEN_MYSTORE, store });
+}
+
+export function editStore(store) {
+  return dispatch => dispatch({ type: EDIT_STORE, store });
+}
+
+export function openProducts(store_id) {
+  return dispatch => dispatch({ type: OPEN_PRODUCTS, store_id });
 }
