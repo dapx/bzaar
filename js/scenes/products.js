@@ -73,7 +73,7 @@ class Products extends Component {
     this.renderItem = this.renderItem.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.productsActions.list(this.props.jwt);
   }
 

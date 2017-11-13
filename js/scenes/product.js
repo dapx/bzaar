@@ -86,7 +86,7 @@ class Product extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.setState({
       jwt: this.props.jwt,
       ...this.props.product,

@@ -58,7 +58,7 @@ class Store extends Component {
     this.renderItem = this.renderItem.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.storeActions.listProductsByStore(this.props.jwt, this.props.store.id);
   }
 
@@ -161,9 +161,6 @@ class Store extends Component {
                   keyExtractor={item => item.id}
                 />
               }
-            </Tab>
-            <Tab heading="Teste">
-              <Animated.Text>Daniel</Animated.Text>
             </Tab>
           </Tabs>
         </Animated.View>

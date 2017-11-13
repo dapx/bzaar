@@ -49,7 +49,7 @@ class Home extends Component {
     this.renderItem = this.renderItem.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.storeActions.list(this.props.jwt);
   }
 

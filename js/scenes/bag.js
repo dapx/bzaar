@@ -30,7 +30,7 @@ class Bag extends Component {
     });
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.bagActions.listBagItems(this.props.jwt);
   }
 

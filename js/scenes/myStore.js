@@ -84,7 +84,7 @@ class MyStore extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.setState({
       jwt: this.props.jwt,
       store: this.props.store,
