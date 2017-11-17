@@ -122,12 +122,6 @@ class MyStores extends Component {
           ref={(ref) => { this.listRef = ref; }}
           numColumns={2}
           horizontal={false}
-          getItemLayout={(data, index) => ({
-            width: styles.storeImage.width,
-            height: styles.storeImage.height,
-            offset: styles.storeImage.height * index,
-            index,
-          })}
           data={this.state.list}
           renderItem={this.renderItem}
           keyExtractor={item => item.id}
