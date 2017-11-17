@@ -58,7 +58,7 @@ export const ApiUtils = {
   error(message) {
     Toast.show({
       type: 'danger',
-      text: message,
+      text: message.toString(),
       duration: 5000,
       position: 'bottom',
       buttonText: 'Okay',
@@ -90,6 +90,18 @@ export const UserService = {
         surname,
         password,
       },
+      }),
+    })
+    .then(ApiUtils.checkStatus)
+    .then(response => response.json());
+  },
+
+  loginFacebook(access_token) {
+    return fetch(`${API_BASE_URL}/auth/facebook`, {
+      method: 'POST',
+      headers: ApiUtils.header(),
+      body: JSON.stringify({
+        access_token,
       }),
     })
     .then(ApiUtils.checkStatus)

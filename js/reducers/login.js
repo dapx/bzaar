@@ -3,11 +3,13 @@ import {
   TYPE_PASSWORD,
   REQUEST_LOGIN,
   RECEIVE_LOGIN,
+  AUTHORIZED_FACEBOOK,
 } from '../actionTypes/login';
 import RECEIVE_ERROR from '../actionTypes/error';
 
 export default function login(state = {}, action) {
   switch (action.type) {
+    case AUTHORIZED_FACEBOOK:
     case REQUEST_LOGIN:
       return { ...state, pendingRequest: true };
     case RECEIVE_LOGIN:

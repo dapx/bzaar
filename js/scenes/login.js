@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Animated } from 'react-native';
 import { Container, Content, Toast, Form, Item, Label, Icon, Input, Text, Button, Spinner } from 'native-base';
+import { SocialIcon } from 'react-native-elements'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -46,6 +47,10 @@ class Login extends Component {
       return;
     }
     this.props.loginActions.login(email, password);
+  }
+
+  handleFacebook() {
+    this.props.loginActions.facebookLogin();
   }
 
   showLogo() {
@@ -107,6 +112,12 @@ class Login extends Component {
                 >
                   <Text>Conectar-se</Text>
                 </Button>
+                <SocialIcon
+                  title='Conectar-se com o Facebook'
+                  button
+                  type='facebook'
+                  onPress={() => this.handleFacebook()}
+                />
                 <Button transparent block dark onPress={() => this.props.navActions.userRegister()}>
                   <Text>Registrar-se</Text>
                 </Button>
@@ -160,6 +171,7 @@ Login.propTypes = {
   showToast: PropTypes.bool,
   loginActions: PropTypes.shape({
     login: PropTypes.func.isRequired,
+    facebookLogin: PropTypes.func.isRequired,
   }).isRequired,
   navActions: PropTypes.shape({
     userRegister: PropTypes.func.isRequired,
