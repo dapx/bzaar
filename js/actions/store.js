@@ -27,10 +27,8 @@ export function listProductsByStore(jwt, storeId) {
     dispatch(request());
     return ApiUtils.request(`stores/${storeId}/products`, jwt)
       .then(data => dispatch(receive(data)))
-      .catch((error) => {
-        dispatch(receiveError(error.message));
+      .catch(error => {
         ApiUtils.error(error.message);
       })
-      .done();
   };
 }
