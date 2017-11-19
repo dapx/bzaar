@@ -5,61 +5,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import * as Actions from '../actions/myStores';
-import { getDeviceWidth } from '../styles';
+import { stores } from '../styles';
 
-const styles = StyleSheet.create({
-  imageContainer: {
-    flex: 1,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: '#ccc',
-    borderWidth: 1,
-  },
-  storeImage: {
-    width: getDeviceWidth(35),
-    height: getDeviceWidth(35),
-    resizeMode: 'contain',
-  },
-  storeUniqueImage: {
-    width: getDeviceWidth(35),
-    height: getDeviceWidth(35),
-    alignSelf: 'center',
-    resizeMode: 'contain',
-  },
-  header: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    flex: 1,
-    marginTop: Platform.OS === 'ios' ? 20 : 0,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: 'white',
-    overflow: 'hidden',
-  },
-  bar: {
-    marginTop: Platform.OS === 'ios' ? 28 : 38,
-    height: 32,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    backgroundColor: 'transparent',
-    color: 'white',
-    fontSize: 18,
-  },
-  backgroundImage: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    width: null,
-    resizeMode: 'cover',
-  },
-});
+const styles = StyleSheet.create(stores);
 
 class MyStores extends Component {
 
@@ -111,7 +59,7 @@ class MyStores extends Component {
 
   render() {
     return (
-      <View>
+      <View style={{flex: 1}}>
         <Button full
           style={{backgroundColor: '#bcb3c5', opacity: 0.8}}
           onPress={() => this.openNew()}

@@ -6,33 +6,12 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import Products from './products';
 import MyStores from './myStores';
+import Stores from './Stores';
 import * as Actions from '../actions/stores';
 import * as NavActions from '../actions/navigation';
 import { getDeviceWidth } from '../styles';
 
 const logo = require('../../images/header_logo.png');
-
-const styles = StyleSheet.create({
-  imageContainer: {
-    flex: 1,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: '#ccc',
-    borderWidth: 1,
-  },
-  storeImage: {
-    width: getDeviceWidth(35),
-    height: getDeviceWidth(35),
-    resizeMode: 'contain',
-  },
-  storeUniqueImage: {
-    width: getDeviceWidth(35),
-    height: getDeviceWidth(35),
-    alignSelf: 'center',
-    resizeMode: 'contain',
-  },
-});
 
 class Home extends Component {
 
@@ -43,14 +22,7 @@ class Home extends Component {
       id: this.props.user.id,
       email: this.props.user.email,
       jwt: this.props.jwt,
-      list: this.props.stores.list || [],
-      loadingRequest: !!this.props.stores.loadingRequest,
     };
-    this.renderItem = this.renderItem.bind(this);
-  }
-
-  componentDidMount() {
-    this.props.storeActions.list(this.props.jwt);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -59,33 +31,7 @@ class Home extends Component {
       id: nextProps.user.id,
       email: nextProps.user.email,
       jwt: nextProps.jwt,
-      loadingRequest: nextProps.stores.loadingRequest,
-      list: nextProps.stores.list,
     });
-  }
-
-  pressItem(item) {
-    this.props.storeActions.openStore(item);
-  }
-
-  renderItem({ item, index }) {
-    const size = this.state.list.length - 1;
-    const imageStyle = (size === index && this.state.list.length % 2 > 0)
-      ? styles.storeUniqueImage
-      : styles.storeImage;
-    return (
-      <TouchableOpacity
-        key={index}
-        style={styles.imageContainer}
-        onPress={() => this.pressItem(item)}
-      >
-        <Image source={{ uri: item.logo }} style={imageStyle} />
-      </TouchableOpacity>
-    );
-  }
-
-  handleRefresh() {
-    this.props.storeActions.list(this.props.jwt);
   }
 
   render() {
@@ -119,16 +65,7 @@ class Home extends Component {
             <Products />
           </Tab>
           <Tab heading="Lojas">
-            <FlatList
-              numColumns={2}
-              horizontal={false}
-              data={this.state.list}
-              renderItem={this.renderItem}
-              keyExtractor={item => item.id}
-              refreshing={this.state.loadingRequest}
-              onRefresh={() => this.handleRefresh()}
-              ListEmptyComponent={<Text>Não foi possivel encontrar lojas.</Text>}
-            />
+            <Stores />
           </Tab>
           <Tab heading="Minhas Lojas">
             <MyStores />
@@ -161,14 +98,6 @@ Home.propTypes = {
     email: PropTypes.string,
   }).isRequired,
   jwt: PropTypes.string.isRequired,
-  stores: PropTypes.shape({
-    list: PropTypes.arrayOf(PropTypes.object),
-    loadingRequest: PropTypes.bool,
-  }).isRequired,
-  storeActions: PropTypes.shape({
-    list: PropTypes.func.isRequired,
-    openStore: PropTypes.func.isRequired,
-  }).isRequired,
   navActions: PropTypes.shape({
     user: PropTypes.func.isRequired,
     bag: PropTypes.func.isRequired,
