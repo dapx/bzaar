@@ -4,7 +4,58 @@ import {
   OPEN_MYSTORE,
   EDIT_STORE,
   OPEN_NEW_STORE,
+  REQUEST_IMAGE,
+  RECEIVE_IMAGE,
+  UPLOAD_IMAGE,
+  UPLOADED_IMAGE,
+  SAVE_STORE,
+  SAVED_STORE,
 } from '../actionTypes/myStores';
+
+function store(state = {}, action) {
+  switch (action.type) {
+    case RECEIVE_IMAGE:
+      const presigned_url = action.data.signed_url;
+      const image_path = action.data.image_path;
+      const image_url = action.data.image_url;
+      return {
+        ...state,
+        presigned_url,
+        image_url,
+        image_path,
+      };
+
+    case UPLOAD_IMAGE:
+      return {
+        ...state,
+        uploading: true,
+      };
+
+    case UPLOADED_IMAGE:
+      return {
+        ...state,
+        uploading: false,
+        logo: state.image_url,
+      };
+
+    case SAVE_STORE:
+      return {
+        ...state,
+        loadingRequest: true,
+      }
+
+    case SAVED_STORE:
+      const storeUpdated = action.data;
+      return {
+        ...state,
+        ...storeUpdated,
+        loadingRequest: false,
+      }
+
+    default:
+      return state;
+  }
+}
 
 export default function stores(state = {}, action) {
   switch (action.type) {
@@ -24,11 +75,24 @@ export default function stores(state = {}, action) {
 
     case EDIT_STORE:
     case OPEN_MYSTORE:
-    case OPEN_NEW_STORE:
+    case OPEN_NEW_STORE: {
       return {
         ...state,
         store: action.store,
       };
+    }
+
+    case UPLOAD_IMAGE:
+    case UPLOADED_IMAGE:
+    case SAVE_STORE:
+    case SAVED_STORE:
+    case RECEIVE_IMAGE: {
+      const newStore = store(state.store, action);
+      return  {
+        ...state,
+        store: newStore,
+      }
+    }
 
     default:
       return state;

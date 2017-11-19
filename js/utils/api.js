@@ -55,9 +55,37 @@ export const ApiUtils = {
     .then(response => response.json());
   },
 
+  upload(url, file, mimetype, method = 'PUT') {
+    return new Promise(function (resolve, reject) {
+      const xhr = new XMLHttpRequest();
+      xhr.open(method, url, true);
+      xhr.setRequestHeader('Content-Type', mimetype);
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+          if(xhr.status === 200) {
+            resolve(xhr.response);
+          } else {
+            reject(xhr.response);
+          }
+        }
+      };
+      const data = { uri: file };
+      xhr.send(data);
+    });
+  },
+
   error(message) {
     Toast.show({
       type: 'danger',
+      text: message.toString(),
+      duration: 5000,
+      position: 'bottom',
+      buttonText: 'Okay',
+    });
+  },
+
+  success(message) {
+    Toast.show({
       text: message.toString(),
       duration: 5000,
       position: 'bottom',

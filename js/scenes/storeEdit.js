@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Dimensions, Image } from 'react-native';
+import { StyleSheet, View, Dimensions, Image, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Container, Header, Left, Button, Icon, Title, Content, Body, Footer, Form, Input, Item, Label, Text } from 'native-base';
+import { Container, Header, Left, Button, Icon, Title, Content, Body, Footer, Form, Input, Item, Label, Text, Spinner } from 'native-base';
 import { Text as TextBase } from 'native-base';
 import PropTypes from 'prop-types';
-import Carousel from 'react-native-looped-carousel';
+import ImagePicker from 'react-native-image-picker';
 import HeaderBack from '../components/headerBack';
 import * as NavActions from '../actions/navigation';
 import * as StoresActions from '../actions/myStores';
 import * as style from '../styles/index';
+import { ApiUtils } from '../utils/api';
 
 const imageWidth = style.getDeviceWidth(100);
 const imageHeight = style.getDeviceHeight(30);
@@ -79,57 +80,159 @@ class StoreEdit extends Component {
       name: '',
       description: '',
       logo: '',
+      email: '',
+      isNew: true,
+      presigned_url: '',
+      image_data: '',
+      mimetype: '',
+      image_path: '',
+      loadingRequest: false,
+      uploading: false,
     };
+    this.onPressImage = this.onPressImage.bind(this);
+    this.onPressButton = this.onPressButton.bind(this);
   }
 
   componentDidMount() {
+    const isNew = this.props.store.id === 0;
     this.setState({
       jwt: this.props.jwt,
       ...this.props.store,
+      isNew
     });
   }
 
-  isNew() {
-    return this.state.id === 0
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      presigned_url: nextProps.store.presigned_url,
+      uploading: !!nextProps.store.uploading,
+      loadingRequest: !!nextProps.store.loadingRequest,
+      image_path: nextProps.store.image_path,
+    });
+  }
+
+  renderButton() {
+    return (
+      <Button disabled={this.state.uploading}
+        full
+        dark={!this.state.uploading}
+        onPress={this.onPressButton}
+      >
+        <Text>Salvar</Text>
+      </Button>
+    );
+  }
+
+  renderImage() {
+    const hasImage = this.state.logo.length > 0;
+    const uri = hasImage
+      ? this.state.logo
+      : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWPbrAYB2nxO2MTkMlVPkWfccHoott1Eu5NaLsdYjOFHpvStMO';
+    const resizeMode = 'contain';
+    return this.state.uploading  
+    ? <Spinner />
+    : (<TouchableOpacity onPress={this.onPressImage}>
+      <Image style={{
+          width: imageWidth,
+          height: imageHeight,
+          resizeMode,
+        }}
+        source={{ uri }} 
+      />
+    </TouchableOpacity>);
   }
 
   onPressButton() {
+    const signedURL = this.state.presigned_url;
+    const image_data = this.state.logo;
+    const storeData = {
+      store: {
+        id: this.state.id,
+        name: this.state.name,
+        description: this.state.description,
+        logo: this.state.image_path,
+        email: this.state.email,
+      },
+    }
+    const isNew = this.state.isNew;
+    if (isNew) {
+      this.props.storesActions.createStore(this.state.jwt, storeData);
+    } else {
+      this.props.storesActions.sendImage(signedURL, image_data, this.state.mimetype)
+        .then(() =>
+          this.props.storesActions.updateStore(this.state.jwt, storeData)
+        );
+    }
+  }
 
+  onPressImage() {
+    const options = {
+      title: 'Select Store Image',
+      storageOptions: {
+        skipBackup: true,
+        noData: true,
+        path: 'images'
+      }
+    };
+    ImagePicker.launchImageLibrary(options, response => {
+        if (response.didCancel) {
+          ApiUtils.error('Escolha de imagem cancelada.');
+        }
+        else if (response.error) {
+          ApiUtils.error('ImagePicker Error: ' + response.error);
+        }
+        else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
+        }
+        else {
+          const logo = response.uri;
+          const fileSize = response.fileSize;
+          const megaByte = 1000000;
+          if (fileSize > (1.5 * megaByte)) {
+            ApiUtils.error('Imagem muito grande, tente diminuir a qualidade da imagem.')
+          } else {
+            const image_name = response.fileName;
+            const mimetype = `image/${image_name.split('.').pop().toLowerCase()}`
+            console.log(mimetype);
+            if (mimetype !== 'image/jpg' && mimetype !== 'image/png') {
+              ApiUtils.error('A imagem não corresponde aos formatos permitidos. Os formatos permitidos são JPG ou PNG.');
+            } else {
+              const metaDataImage = { id: this.state.id, image_name, mimetype };
+              this.props.storesActions.requestSignedURL(this.state.jwt, metaDataImage).then((data) => {
+                this.setState({
+                  isNew: false,
+                  logo,
+                  mimetype,
+                });  
+              });
+            }
+          }
+        }
+    })
   }
 
   render() {
-    const buttonText = this.isNew() ? 'Criar' : 'Salvar';
-    const resizeMode = this.isNew() ? 'stretch' : 'contain';
-    const uri = this.isNew() 
-      ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWPbrAYB2nxO2MTkMlVPkWfccHoott1Eu5NaLsdYjOFHpvStMO'
-      : this.state.logo;
+    const storeName = this.state.name;
     return (
       <Container style={styles.container}>
-        <HeaderBack title={`Edit ${this.state.name}`} back={() => this.props.navActions.back()} />
+        <HeaderBack title={`Edit ${storeName}`} back={() => this.props.navActions.back()} />
         <Content style={{flex: 1}}>
-          <Image style={{
-              width: imageWidth,
-              height: imageHeight,
-              resizeMode,
-              }}
-              source={{ uri }} 
-          />
+          { !this.state.isNew && this.renderImage() }
           <Form style={{flex: 2}}>
             <Item stackedLabel>
-              <Label>Name</Label>
-              <Input value={this.state.name} onChange={(e) => this.setState({name: e.target.value})} />
+              <Label>Nome da Loja</Label>
+              <Input value={this.state.name} onChangeText={name => this.setState({name})} />
             </Item>
-            <Item stackedLabel last>
-              <Label>description</Label>
-              <Input value={this.state.description} />
+            <Item stackedLabel>
+              <Label>Descrição da Loja</Label>
+              <Input value={this.state.description} onChangeText={description => this.setState({description})} />
+            </Item>
+            <Item stackedLabel>
+              <Label>E-mail da Loja</Label>
+              <Input value={this.state.email} onChangeText={email => this.setState({email})} />
             </Item>
           </Form>
-          <Button full
-            style={{backgroundColor: 'black'}}
-            onPress={this.onPressButton}
-          >
-            <Text>{buttonText}</Text>
-          </Button>
+          { this.renderButton() }
         </Content>
       </Container>
     );
@@ -146,7 +249,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     navActions: bindActionCreators(NavActions, dispatch),
-    StoresActions: bindActionCreators(StoresActions, dispatch),
+    storesActions: bindActionCreators(StoresActions, dispatch),
   };
 }
 
@@ -157,12 +260,17 @@ StoreEdit.propTypes = {
     name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     logo: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
   }).isRequired,
   navActions: PropTypes.shape({
     back: PropTypes.func.isRequired,
     bag: PropTypes.func.isRequired,
   }).isRequired,
-  StoresActions: PropTypes.shape({
+  storesActions: PropTypes.shape({
+    requestSignedURL: PropTypes.func.isRequired,
+    sendImage: PropTypes.func.isRequired,
+    updateStore: PropTypes.func.isRequired,
+    createStore: PropTypes.func.isRequired,
   }).isRequired,
 };
 
