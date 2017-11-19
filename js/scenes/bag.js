@@ -56,7 +56,7 @@ class Bag extends Component {
   render() {
     return (
       <Container>
-        <HeaderBack title="Sacola de Compras" back={this.props.navActions.back} />
+        <HeaderBack title="Sacola" back={this.props.navActions.back} />
         <FlatList
               style={{ backgroundColor: 'white' }}
               numColumns={1}
