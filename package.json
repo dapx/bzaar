@@ -25,6 +25,7 @@
     "react-native-credit-card": "^0.1.9",
     "react-native-elements": "^0.18.2",
     "react-native-fbsdk": "^0.6.3",
+    "react-native-image-picker": "^0.26.7",
     "react-native-looped-carousel": "git+https://github.com/phil-r/react-native-looped-carousel.git",
     "react-native-push-notification": "^3.0.1",
     "react-native-svg": "^6.0.0",
