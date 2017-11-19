@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import Products from './products';
 import MyStores from './myStores';
-import Stores from './Stores';
+import Stores from './stores';
 import * as Actions from '../actions/stores';
 import * as NavActions from '../actions/navigation';
 import { getDeviceWidth } from '../styles';
