@@ -16,7 +16,7 @@ import AppWithNavigationState from './components/navigation';
 import PushController from './components/pushController';
 import getTheme from '../native-base-theme/components';
 import theme from '../native-base-theme/variables/commonColor';
-import PushNotification from 'react-native-push-notification';
+// import PushNotification from 'react-native-push-notification';
 const loggerMiddleware = createLogger();
 const store = createStore(reducer, applyMiddleware(thunkMiddleware, loggerMiddleware));
 
@@ -31,11 +31,12 @@ class Bzaar extends Component {
 
   handleAppStateChange(appState) {
     if (appState == 'background') {
-      PushNotification.localNotificationSchedule({
+      /**PushNotification.localNotificationSchedule({
         message: "Volta aqui!!!", // (required)
         date: new Date(Date.now() + (1 * 1000)) // in 60 secs
       });
       console.log('The app is in background');
+      */
     }
   }
 
