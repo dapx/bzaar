@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Image, FlatList, TouchableOpacity } from 'react-native';
-import { Container, Header, Left, Body, Right, Tabs, Tab, Icon, Text, Spinner } from 'native-base';
+import { Container, Header, Left, Body, Right, Content, Tabs, Tab, Icon, Text, Spinner } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -37,7 +37,7 @@ class Home extends Component {
   render() {
     return (
       <Container>
-        <Header hasTabs style={{ backgroundColor: 'white' }}>
+        <Header hasTabs>
           <Left style={{ flex: 1 }}>
             <TouchableOpacity onPress={() => this.props.navActions.user()}>
               <Icon style={{ color: 'black' }} name="user-circle-o" />

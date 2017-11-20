@@ -40,7 +40,7 @@ export default {
   checkboxTickColor: '#fff',
 
   // Segment
-  segmentBackgroundColor: '#3F51B5',
+  segmentBackgroundColor: '#fff',
   segmentActiveBackgroundColor: '#fff',
   segmentTextColor: '#fff',
   segmentActiveTextColor: '#3F51B5',
@@ -213,6 +213,7 @@ export default {
 
 
     // List
+  listBg: "#fff",
   listBorderColor: '#c9c9c9',
   listDividerBg: '#f4f4f4',
   listItemHeight: 45,
@@ -253,7 +254,7 @@ export default {
 
 
     // Tabs
-  tabBgColor: '#F8F8F8',
+  tabBgColor: '#fff',
   tabFontSize: 15,
   tabTextColor: '#222222',
 
