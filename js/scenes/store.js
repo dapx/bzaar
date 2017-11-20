@@ -7,43 +7,14 @@ import PropTypes from 'prop-types';
 import * as Actions from '../actions/store';
 import * as NavActions from '../actions/navigation';
 import * as ProductsActions from '../actions/products';
-import { getDeviceWidth, getDeviceHeight } from '../styles';
+import { getDeviceWidth, getDeviceHeight, store } from '../styles';
 
 const HEADER_MIN_HEIGHT = Platform.OS === 'ios' ? 60 : 73;
 const HEADER_MAX_HEIGHT = getDeviceHeight(100);
 
 const AnimatedHeader = Animated.createAnimatedComponent(Header);
 
-const styles = StyleSheet.create({
-  imageContainer: {
-    flex: 1,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: '#ccc',
-    borderWidth: 1,
-  },
-  storeImage: {
-    width: getDeviceWidth(35),
-    height: getDeviceWidth(35),
-    resizeMode: 'contain',
-  },
-  storeUniqueImage: {
-    width: getDeviceWidth(35),
-    height: getDeviceWidth(35),
-    alignSelf: 'center',
-    resizeMode: 'contain',
-  },
-  header: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    overflow: 'hidden',
-  },
-});
+const styles = StyleSheet.create(store);
 
 class Store extends Component {
 
