@@ -29,3 +29,16 @@ export const stores = {
     resizeMode: 'cover',
   },
 };
+
+export const storeEdit = {
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
+  image: {
+    width: getDeviceWidth(50),
+    height: getDeviceWidth(50),
+    resizeMode: 'cover',
+    alignSelf: 'center',
+  },
+};
