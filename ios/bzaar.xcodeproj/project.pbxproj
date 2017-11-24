@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -40,6 +41,10 @@
 		3DC1ACEFA9074357B9C964FE /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D5E064EE75DC4D798F4B1B9A /* Roboto.ttf */; };
 		3E35FBC6663040E19B9FD023 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 44CE20F84CFA425992C1853B /* FontAwesome.ttf */; };
 		3EDD85C7E03A40A48FED4D0A /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C50957AC89044ABF876294EC /* Entypo.ttf */; };
+		3F2BE2C51FC5D5140007601E /* QBImagePicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2BE2C11FC5D4570007601E /* QBImagePicker.framework */; };
+		3F2BE2C61FC5D5140007601E /* QBImagePicker.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2BE2C11FC5D4570007601E /* QBImagePicker.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3F2BE2C91FC5D51A0007601E /* RSKImageCropper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2BE2C81FC5D51A0007601E /* RSKImageCropper.framework */; };
+		3F2BE2CA1FC5D51A0007601E /* RSKImageCropper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2BE2C81FC5D51A0007601E /* RSKImageCropper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3F459D851FA6052E00AF82AC /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F459D811FA604E800AF82AC /* libRCTPushNotification.a */; };
 		3F7220921FC21121009B90A6 /* QBImagePicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F7220901FC21121009B90A6 /* QBImagePicker.framework */; };
 		3F7220931FC21121009B90A6 /* RSKImageCropper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F7220911FC21121009B90A6 /* RSKImageCropper.framework */; };
@@ -367,6 +372,21 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		3F2BE2C71FC5D5140007601E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				3F2BE2C61FC5D5140007601E /* QBImagePicker.framework in Embed Frameworks */,
+				3F2BE2CA1FC5D51A0007601E /* RSKImageCropper.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTActionSheet.xcodeproj; path = "../node_modules/react-native/Libraries/ActionSheetIOS/RCTActionSheet.xcodeproj"; sourceTree = "<group>"; };
@@ -399,6 +419,8 @@
 		2D02E47B1E0B4A5D006451C7 /* bzaar-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "bzaar-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* bzaar-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "bzaar-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		327FB305F36B4D67B82FFA64 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/native-base/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		3F2BE2C11FC5D4570007601E /* QBImagePicker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = QBImagePicker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F2BE2C81FC5D51A0007601E /* RSKImageCropper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RSKImageCropper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F459D7A1FA602C100AF82AC /* bzaar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = bzaar.entitlements; path = bzaar/bzaar.entitlements; sourceTree = "<group>"; };
 		3F459D7B1FA604E700AF82AC /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		3F7220901FC21121009B90A6 /* QBImagePicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QBImagePicker.framework; path = "../node_modules/react-native-image-crop-picker/ios/ImageCropPickerSDK/QBImagePicker.framework"; sourceTree = "<group>"; };
@@ -448,11 +470,13 @@
 			files = (
 				3FD5604F1FBA69EE002FC444 /* libRCTFBSDK.a in Frameworks */,
 				3FAC68291FBA671700BBCBED /* Bolts.framework in Frameworks */,
+				3F2BE2C91FC5D51A0007601E /* RSKImageCropper.framework in Frameworks */,
 				3FAC682A1FBA671700BBCBED /* FBSDKCoreKit.framework in Frameworks */,
 				3FAC682B1FBA671700BBCBED /* FBSDKLoginKit.framework in Frameworks */,
 				3FAC682C1FBA671700BBCBED /* FBSDKShareKit.framework in Frameworks */,
 				3F459D851FA6052E00AF82AC /* libRCTPushNotification.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
+				3F2BE2C51FC5D5140007601E /* QBImagePicker.framework in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
@@ -645,7 +669,6 @@
 			children = (
 				AF06920D728B467E9BD07BDC /* libRNVectorIcons.a */,
 				09FC74560072462E9169A822 /* libRNVectorIcons-tvOS.a */,
-				2E55771C017048A9A641F144 /* libRNImagePicker.a */,
 				A859CEC465E4478C895F2863 /* libRNSVG.a */,
 				B1FA19D6302841379D76AF9C /* libimageCropPicker.a */,
 			);
@@ -760,6 +783,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				3F2BE2C81FC5D51A0007601E /* RSKImageCropper.framework */,
+				3F2BE2C11FC5D4570007601E /* QBImagePicker.framework */,
 				13B07FAE1A68108700A75B9A /* bzaar */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* bzaarTests */,
@@ -812,6 +837,7 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				3F2BE2C71FC5D5140007601E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1429,9 +1455,7 @@
 				INFOPLIST_FILE = bzaarTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1457,9 +1481,7 @@
 				INFOPLIST_FILE = bzaarTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1478,6 +1500,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 37K2TNE5GR;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1494,6 +1517,8 @@
 				);
 				INFOPLIST_FILE = bzaar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1512,6 +1537,7 @@
 				CODE_SIGN_ENTITLEMENTS = bzaar/bzaar.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 37K2TNE5GR;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1528,6 +1554,7 @@
 				);
 				INFOPLIST_FILE = bzaar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1560,9 +1587,7 @@
 				);
 				INFOPLIST_FILE = "bzaar-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1596,9 +1621,7 @@
 				);
 				INFOPLIST_FILE = "bzaar-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1624,9 +1647,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "bzaar-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.bzaar-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
@@ -1648,9 +1669,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "bzaar-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.bzaar-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
