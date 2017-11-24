@@ -42,3 +42,34 @@ export const storeEdit = {
     alignSelf: 'center',
   },
 };
+
+export const store = {
+  imageContainer: {
+    flex: 1,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: '#ccc',
+    borderWidth: 1,
+  },
+  storeImage: {
+    width: getDeviceWidth(35),
+    height: getDeviceWidth(35),
+    resizeMode: 'contain',
+  },
+  storeUniqueImage: {
+    width: getDeviceWidth(35),
+    height: getDeviceWidth(35),
+    alignSelf: 'center',
+    resizeMode: 'contain',
+  },
+  header: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    overflow: 'hidden',
+  },
+};

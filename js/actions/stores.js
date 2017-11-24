@@ -28,7 +28,6 @@ export function list(jwt) {
     return ApiUtils.request('stores', jwt)
       .then(data => dispatch(receive(data)))
       .catch((error) => {
-        dispatch(receiveError(error.message));
         ApiUtils.error(error.message);
       })
       .done();
