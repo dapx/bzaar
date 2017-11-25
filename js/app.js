@@ -11,6 +11,7 @@ import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import { StyleProvider, Root } from 'native-base';
+import codePush from "react-native-code-push";
 import reducer from './reducers/index';
 import AppWithNavigationState from './components/navigation';
 import PushController from './components/pushController';
@@ -19,6 +20,12 @@ import theme from '../native-base-theme/variables/commonColor';
 // import PushNotification from 'react-native-push-notification';
 const loggerMiddleware = createLogger();
 const store = createStore(reducer, applyMiddleware(thunkMiddleware, loggerMiddleware));
+
+
+const codePushOptions = {
+  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+  installMode: codePush.InstallMode.IMMEDIATE,
+};
 
 class Bzaar extends Component {
   componentDidMount() {
@@ -54,4 +61,4 @@ class Bzaar extends Component {
   }
 }
 
-export default Bzaar;
+export default codePush(codePushOptions)(Bzaar);

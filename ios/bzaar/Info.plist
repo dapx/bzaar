@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Permissão para você fazer upload de imagens</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Permissão para você fazer upload de imagens</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -33,6 +29,10 @@
 			</array>
 		</dict>
 	</array>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+	<key>CodePushDeploymentKey</key>
+	<string>SKOg5jfwNDkaOQSce4qG_gt5GKN505927706-9d92-4bfe-95b3-b5649f1381a9</string>
 	<key>FacebookAppID</key>
 	<string>1825404777750817</string>
 	<key>FacebookDisplayName</key>
@@ -57,8 +57,12 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Permissão para você fazer upload de imagens</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Permissão para você fazer upload de imagens</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Andale Mono.ttf</string>

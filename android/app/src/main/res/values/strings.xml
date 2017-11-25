@@ -1,4 +1,5 @@
 <resources>
+    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">fpRO8e8UZGH2kaJWRIWatsyFGKuc05927706-9d92-4bfe-95b3-b5649f1381a9</string>
     <string name="app_name">bzaar</string>
     <string name="facebook_app_id">1825404777750817</string>
     <string name="fb_login_protocol_scheme">fb1825404777750817</string>
