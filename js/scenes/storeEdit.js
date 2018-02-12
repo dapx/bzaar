@@ -90,9 +90,7 @@ class StoreEdit extends Component {
     }
     const isNew = this.state.isNew;
     if (isNew) {
-      this.props.storesActions.createStore(this.state.jwt, storeData)
-        .then(() => this.setState({isNew: false}));
-
+      this.props.storesActions.createStore(this.state.jwt, storeData);
     } else {
       this.props.storesActions.sendImage(signedURL, image_data, this.state.mimetype)
         .then(() =>
