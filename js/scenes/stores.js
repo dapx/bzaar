@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, Image, FlatList, TouchableOpacity } from 'react-native';
-import { Container, Header, Left, Body, Right, Tabs, Tab, Icon, Text, Spinner } from 'native-base';
+import { StyleSheet, ImageBackground, FlatList, TouchableOpacity, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import Products from './products';
-import MyStores from './myStores';
 import * as Actions from '../actions/stores';
-import * as NavActions from '../actions/navigation';
 import { stores } from '../styles';
 
 const styles = StyleSheet.create(stores);
@@ -39,30 +35,43 @@ class Stores extends Component {
     this.props.storeActions.openStore(item);
   }
 
+  handleRefresh() {
+    this.props.storeActions.list(this.props.jwt);
+  }
+
   renderItem({ item, index }) {
-    const size = this.state.list.length - 1;
-    const imageStyle = (size === index && this.state.list.length % 2 > 0)
-      ? styles.storeUniqueImage
-      : styles.storeImage;
+    const imageStyle = styles.storeExtendedImage;
     return (
       <TouchableOpacity
         key={index}
         style={styles.imageContainer}
         onPress={() => this.pressItem(item)}
       >
-        <Image source={{ uri: item.logo }} style={imageStyle} />
+        <ImageBackground
+          source={{ uri: item.logo }}
+          blurRadius={10}
+          style={[imageStyle, {
+            justifyContent: 'center',
+            alignItems: 'center',
+          }]}
+        >
+          <Text style={{
+            backgroundColor: 'transparent',
+            color: 'white',
+            fontSize: 40,
+          }}
+          >
+            {item.name}
+          </Text>
+        </ImageBackground>
       </TouchableOpacity>
     );
-  }
-
-  handleRefresh() {
-    this.props.storeActions.list(this.props.jwt);
   }
 
   render() {
     return (
       <FlatList
-        numColumns={2}
+        numColumns={1}
         horizontal={false}
         data={this.state.list}
         renderItem={this.renderItem}

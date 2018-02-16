@@ -28,6 +28,10 @@ export const stores = {
     alignSelf: 'center',
     resizeMode: 'cover',
   },
+  storeExtendedImage: {
+    width: getDeviceWidth(100),
+    height: getDeviceWidth(49),
+  },
 };
 
 export const storeEdit = {
@@ -62,14 +66,5 @@ export const store = {
     height: getDeviceWidth(35),
     alignSelf: 'center',
     resizeMode: 'contain',
-  },
-  header: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    overflow: 'hidden',
   },
 };
