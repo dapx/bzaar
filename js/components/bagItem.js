@@ -38,8 +38,8 @@ const CardFooter = props => (
 const CardBody = props => (
   <CardItem style={{flex: 1}}>
     <Left style={{flex: 1}}>
-      <Image source={{uri: props.item.product_image}}
-        style={{height: props.imageWidth, width: props.imageWidth}}
+      <Image source={{ uri: props.item.product_image, cache: 'force-cache' }}
+        style={{ height: props.imageWidth, width: props.imageWidth }}
       />
     </Left>
     <Left style={{flex: 3, flexDirection: 'column'}}>

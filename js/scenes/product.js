@@ -124,7 +124,7 @@ class Product extends Component {
                 <View key={`product_${image}`} style={styles.slide}>
                   <Image
                     style={styles.images}
-                    source={{ url: image.url }}
+                    source={{ url: image.url, cache: 'force-cache' }}
                   />
                 </View>
                 ))

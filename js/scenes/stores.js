@@ -48,7 +48,7 @@ class Stores extends Component {
         onPress={() => this.pressItem(item)}
       >
         <ImageBackground
-          source={{ uri: item.logo }}
+          source={{ uri: item.logo, cache: 'force-cache' }}
           blurRadius={10}
           style={[imageStyle, {
             justifyContent: 'center',

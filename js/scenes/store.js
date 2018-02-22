@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Animated, Image, FlatList, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Animated, Image, FlatList, TouchableOpacity, View, Text } from 'react-native';
 import { Container, Header, Body, Left, Right, Tabs, Tab, Title, Icon, Spinner } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -50,7 +50,8 @@ class Store extends Component {
         style={styles.imageContainer}
         onPress={() => this.pressItem(item)}
       >
-        <Image style={imageStyle} source={{ uri: item.image }} />
+        <Image style={imageStyle} source={{ uri: item.image, cache: 'force-cache' }} />
+        <Text style={{ textAlign: 'center' }}>{item.name}</Text>
       </TouchableOpacity>
     );
   }
