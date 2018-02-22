@@ -10,6 +10,9 @@ import {
   UPLOADED_IMAGE,
   SAVE_STORE,
   SAVED_STORE,
+  REQUEST_PRODUCTS,
+  RECEIVE_PRODUCTS,
+  EDIT_PRODUCT,
 } from '../actionTypes/myStores';
 
 function store(state = {}, action) {
@@ -88,11 +91,31 @@ export default function stores(state = {}, action) {
     case SAVED_STORE:
     case RECEIVE_IMAGE: {
       const newStore = store(state.store, action);
-      return  {
+      return {
         ...state,
         store: newStore,
-      }
+      };
     }
+
+    case RECEIVE_PRODUCTS:
+      return {
+        ...state,
+        products: action.data,
+        loadingProducts: false,
+      };
+
+    case REQUEST_PRODUCTS:
+      return {
+        ...state,
+        loadingProducts: true,
+      };
+
+    case EDIT_PRODUCT:
+      console.log("action.product ", action.product);
+      return {
+        ...state,
+        product: action.product,
+      };
 
     default:
       return state;

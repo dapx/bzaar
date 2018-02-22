@@ -105,7 +105,7 @@ class MyStore extends Component {
             </Button>
           </View>
           <View style={{flex: 2, flexDirection: 'row'}}>
-            <Button large style={{backgroundColor: '#7CFC00', flex: 1, margin: 1}} onPress={() => this.props.navActions.back()}>
+            <Button large style={{backgroundColor: '#7CFC00', flex: 1, margin: 1}} onPress={() => this.props.storesActions.openProducts(this.state.store.id)}>
               <View style={{flexDirection: 'row'}}>
                 <Icon style={{ color: 'black' }} name="tags" />
                 <Text style={{ alignSelf: 'center' }}>Produtos</Text>
@@ -166,6 +166,7 @@ MyStore.propTypes = {
   }).isRequired,
   storesActions: PropTypes.shape({
     editStore: PropTypes.func.isRequired,
+    openProducts: PropTypes.func.isRequired,
   }).isRequired,
 };
 

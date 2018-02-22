@@ -1,36 +1,23 @@
-import {
-  REQUEST_MYSTORES,
-  RECEIVE_MYSTORES,
-  OPEN_MYSTORE,
-  EDIT_STORE,
-  OPEN_PRODUCTS,
-  OPEN_NEW_STORE,
-  REQUEST_IMAGE,
-  RECEIVE_IMAGE,
-  UPLOAD_IMAGE,
-  UPLOADED_IMAGE,
-  SAVE_STORE,
-  SAVED_STORE,
- } from '../actionTypes/myStores';
-import { RECEIVE_ERROR } from '../actionTypes/error';
+import * as Actions from '../actionTypes/myStores';
+import RECEIVE_ERROR from '../actionTypes/error';
 import { ApiUtils } from '../utils/api';
 
 function request() {
   return {
-    type: REQUEST_MYSTORES,
+    type: Actions.REQUEST_MYSTORES,
   };
 }
 
 function receive(data) {
   return {
-    type: RECEIVE_MYSTORES,
+    type: Actions.RECEIVE_MYSTORES,
     ...data,
   };
 }
 
 function receiveError(error) {
   return {
-    type: RECEIVE_ERROR,
+    type: Actions.RECEIVE_ERROR,
     error,
   };
 }
@@ -49,7 +36,7 @@ export function list(jwt) {
 }
 
 export function openStore(store) {
-  return dispatch => dispatch({ type: OPEN_MYSTORE, store });
+  return dispatch => dispatch({ type: Actions.OPEN_MYSTORE, store });
 }
 
 export function openNewStore() {
@@ -59,27 +46,32 @@ export function openNewStore() {
     description: '',
     logo: '',
     email: '',
-  }
-  return dispatch => dispatch({ type: OPEN_NEW_STORE, store });
+  };
+  return dispatch => dispatch({ type: Actions.OPEN_NEW_STORE, store });
 }
 
 export function editStore(store) {
-  return dispatch => dispatch({ type: EDIT_STORE, store });
+  return dispatch => dispatch({ type: Actions.EDIT_STORE, store });
 }
 
-export function openProducts(store_id) {
-  return dispatch => dispatch({ type: OPEN_PRODUCTS, store_id });
+export function openProducts(storeId) {
+  return dispatch => dispatch({ type: Actions.OPEN_PRODUCTS, storeId });
+}
+
+export function editProduct(product) {
+  console.log('Edit product ', product);
+  return dispatch => dispatch({ type: Actions.EDIT_PRODUCT, product });
 }
 
 function requestImage() {
   return {
-    type: REQUEST_IMAGE,
+    type: Actions.REQUEST_IMAGE,
   };
 }
 
 function receiveImage(storeId, data) {
   return {
-    type: RECEIVE_IMAGE,
+    type: Actions.RECEIVE_IMAGE,
     id: storeId,
     data,
   };
@@ -87,50 +79,62 @@ function receiveImage(storeId, data) {
 
 function uploadImage() {
   return {
-    type: UPLOAD_IMAGE,
-  }
+    type: Actions.UPLOAD_IMAGE,
+  };
 }
 
 function uploadedImage() {
   return {
-    type: UPLOADED_IMAGE,
-  }
+    type: Actions.UPLOADED_IMAGE,
+  };
 }
 
-export function requestSignedURL(jwt, metaData) {
+export function requestStoreSignedURL(jwt, metaData, store) {
   return (dispatch) => {
     dispatch(requestImage());
-    return ApiUtils.create(`stores/${metaData.id}/upload_image`, jwt, metaData)
-      .then(data => {
-        dispatch(receiveImage(metaData.id, data));
+    return ApiUtils.create(`stores/${store.id}/upload_image`, jwt, metaData)
+      .then((data) => {
+        dispatch(receiveImage(store.id, data));
         return data;
-      }).catch(error => {
-        ApiUtils.error(error.message);
-      });
-  }
+      }).catch(error => ApiUtils.error(error.message));
+  };
+}
+
+export function requestProductSignedURL(jwt, metaData, product) {
+  return (dispatch) => {
+    dispatch(requestImage());
+    return ApiUtils.create(
+      `stores/${product.store_id}/products/${product.id}/product_image/upload`,
+      jwt,
+      metaData,
+      ).then((data) => {
+        dispatch(receiveImage(product.id, data));
+        return data;
+      }).catch(error => ApiUtils.error(error.message));
+  };
 }
 
 export function sendImage(signedURL, imageData, mimetype) {
   return (dispatch) => {
     dispatch(uploadImage());
     return ApiUtils.upload(signedURL, imageData, mimetype)
-    .then(response => dispatch(uploadedImage()))
-    .catch(error => {
+    .then(() => dispatch(uploadedImage()))
+    .catch((error) => {
       dispatch(uploadedImage());
-      ApiUtils.error('Não foi possivel enviar a imagem.')
+      ApiUtils.error(`Não foi possivel enviar a imagem: ${error}`);
     });
   };
 }
 
 function saveStore() {
   return {
-    type: SAVE_STORE,
+    type: Actions.SAVE_STORE,
   };
 }
 
 function savedStore(data) {
   return {
-    type: SAVED_STORE,
+    type: Actions.SAVED_STORE,
     data,
   };
 }
@@ -147,7 +151,60 @@ export function updateStore(jwt, storeData) {
 export function createStore(jwt, storeData) {
   return (dispatch) => {
     dispatch(saveStore());
-    return ApiUtils.create(`stores`, jwt, storeData, method = 'POST')
+    return ApiUtils.create('stores', jwt, storeData, method = 'POST')
+      .then(data => dispatch(savedStore(data)))
+      .catch(error => ApiUtils.error(error.message));
+  };
+}
+
+function requestProducts() {
+  return {
+    type: Actions.REQUEST_PRODUCTS,
+  };
+}
+
+function receiveProducts(data) {
+  return {
+    type: Actions.RECEIVE_PRODUCTS,
+    ...data,
+  };
+}
+
+export function listProducts(jwt, storeId) {
+  return (dispatch) => {
+    dispatch(requestProducts());
+    return ApiUtils.request(`stores/${storeId}/products`, jwt)
+      .then(data => dispatch(receiveProducts(data)))
+      .catch(error => ApiUtils.error(error.message));
+  };
+}
+
+function saveProduct() {
+  return {
+    type: Actions.SAVE_PRODUCT,
+  };
+}
+
+function savedProduct(data) {
+  return {
+    type: Actions.SAVED_PRODUCT,
+    data,
+  };
+}
+
+export function updateProduct(jwt, productData) {
+  return (dispatch) => {
+    dispatch(saveProduct());
+    return ApiUtils.create(`stores/${productData.id}`, jwt, productData, method = 'PUT')
+      .then(data => dispatch(savedProduct(data)))
+      .catch(error => ApiUtils.error(error.message));
+  };
+}
+
+export function createProduct(jwt, productData) {
+  return (dispatch) => {
+    dispatch(saveStore());
+    return ApiUtils.create('stores', jwt, productData, method = 'POST')
       .then(data => dispatch(savedStore(data)))
       .catch(error => ApiUtils.error(error.message));
   };

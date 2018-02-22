@@ -14,6 +14,8 @@ import Store from '../scenes/store';
 import Product from '../scenes/product';
 import MyStore from '../scenes/myStore';
 import StoreEdit from '../scenes/storeEdit';
+import StoreProducts from '../scenes/storeProducts';
+import ProductEdit from '../scenes/productEdit';
 
 const UserNavigator = StackNavigator({
   User: { screen: UserRegister,
@@ -84,6 +86,20 @@ export const AppNavigator = StackNavigator({
     },
   },
   StoreEditPage: { screen: StoreEdit,
+    navigationOptions: {
+      visible: false,
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  StoreProductsPage: { screen: StoreProducts,
+    navigationOptions: {
+      visible: false,
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  ProductEditPage: { screen: ProductEdit,
     navigationOptions: {
       visible: false,
       header: null,

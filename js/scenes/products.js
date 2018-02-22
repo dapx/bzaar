@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Animated, Image, FlatList, TouchableOpacity, Platform } from 'react-native';
-import { Spinner, Text } from 'native-base';
+import { StyleSheet, Animated, Image, FlatList, TouchableOpacity, Platform, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -89,6 +88,10 @@ class Products extends Component {
     this.props.productsActions.showProduct(item);
   }
 
+  handleRefresh() {
+    this.props.productsActions.list(this.props.jwt);
+  }
+
   renderItem({ item, index }) {
     const size = this.state.list.length - 1;
     const imageStyle = (size === index && this.state.list.length % 2 > 0)
@@ -96,32 +99,29 @@ class Products extends Component {
       : styles.storeImage;
     return (
       <TouchableOpacity key={`products_${index}`} style={styles.imageContainer} onPress={() => this.pressItem(item)}>
-        <Image style={imageStyle} source={{ uri: item.image }} />
+        <Image style={imageStyle} source={{ uri: item.image, cache: 'force-cache' }} />
+        <Text style={{ textAlign: 'center' }}>{item.name}</Text>
       </TouchableOpacity>
     );
   }
 
-  handleRefresh() {
-    this.props.productsActions.list(this.props.jwt);
-  }
-
   render() {
     const render = (
-        <FlatList
-          ref={(ref) => { this.listRef = ref; }}
-          numColumns={2}
-          horizontal={false}
-          data={this.state.list}
-          renderItem={this.renderItem}
-          keyExtractor={item => item.id}
-          scrollEventThrottle={1}
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
-          )}
-          refreshing={this.state.loadingRequest}
-          onRefresh={() => this.handleRefresh()}
-          ListEmptyComponent={<Text>Não foi possivel encontrar produtos.</Text>}
-        />
+      <FlatList
+        ref={(ref) => { this.listRef = ref; }}
+        numColumns={2}
+        horizontal={false}
+        data={this.state.list}
+        renderItem={this.renderItem}
+        keyExtractor={item => item.id}
+        scrollEventThrottle={1}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+        )}
+        refreshing={this.state.loadingRequest}
+        onRefresh={() => this.handleRefresh()}
+        ListEmptyComponent={<Text>Não foi possivel encontrar produtos.</Text>}
+      />
       );
     return render;
   }
