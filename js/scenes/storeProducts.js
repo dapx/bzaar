@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, TouchableOpacity, Image, View } from 'react-native';
-import { Container, Header, Content, Title, Left, Right, Icon, Text, Button, Card, CardItem, Body } from 'native-base';
+import { FlatList, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { Container, Text, Card } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -33,7 +33,6 @@ class StoreProducts extends Component {
   }
 
   componentDidMount() {
-    // TODO - Busca produtos de uma loja
     this.props.storeActions.listProducts(this.props.jwt, this.props.id);
   }
 
@@ -41,7 +40,14 @@ class StoreProducts extends Component {
     this.setState({
       jwt: nextProps.jwt,
       products: [
-        { id: 0, image: 'https://png.icons8.com/dusk/1600/new-product.png', name: 'adicionar', description: '', price: 0 },
+        {
+          id: 0,
+          image: 'https://png.icons8.com/dusk/1600/new-product.png',
+          name: 'adicionar',
+          description: '',
+          price: 0,
+          store_id: 0,
+        },
         ...nextProps.products,
       ],
       loadingProducts: nextProps.loadingProducts,
