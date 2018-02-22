@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Dimensions, Image, TouchableOpacity, Platform } from 'react-native';
+import { StyleSheet, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Container, Header, Left, Button, Icon, Title, Content, Body, Footer, Form, Input, Item, Label, Text, Spinner } from 'native-base';
-import { Text as TextBase } from 'native-base';
+import { Container, Button, Content, Form, Input, Item, Label, Text, Spinner } from 'native-base';
 import PropTypes from 'prop-types';
-import ImagePicker from 'react-native-image-crop-picker';
 import HeaderBack from '../components/headerBack';
+import DefaultImagePicker from '../components/DefaultImagePickerWithErrorHandler';
 import * as NavActions from '../actions/navigation';
 import * as StoresActions from '../actions/myStores';
 import { storeEdit } from '../styles/index';
-import { ApiUtils } from '../utils/api';
 
 const styles = StyleSheet.create(storeEdit);
 
@@ -18,18 +16,20 @@ class StoreEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: 0,
-      name: '',
-      description: '',
-      logo: '',
-      email: '',
+      data: {
+        id: 0,
+        name: '',
+        description: '',
+        logo: '',
+        email: '',
+      },
       isNew: true,
       presigned_url: '',
-      image_data: '',
       mimetype: '',
       image_path: '',
       loadingRequest: false,
       uploading: false,
+      wasChangedImage: false,
     };
     this.onPressImage = this.onPressImage.bind(this);
     this.onPressButton = this.onPressButton.bind(this);
@@ -39,8 +39,8 @@ class StoreEdit extends Component {
     const isNew = this.props.store.id === 0;
     this.setState({
       jwt: this.props.jwt,
-      ...this.props.store,
-      isNew
+      data: this.props.store,
+      isNew,
     });
   }
 
@@ -53,9 +53,76 @@ class StoreEdit extends Component {
     });
   }
 
+  onPressButton() {
+    const signedURL = this.state.presigned_url;
+    const imageData = this.state.data.logo;
+    const storeData = {
+      id: this.state.id,
+      name: this.state.name,
+      description: this.state.description,
+      email: this.state.email,
+      logo: imageData,
+    };
+    const isNew = this.state.isNew;
+    if (isNew) {
+      this.props.storesActions.createStore(this.state.jwt, storeData);
+    } else {
+      const wasChangedImage = this.state.wasChangedImage;
+      if (wasChangedImage) {
+        this.props.storesActions.sendImage(signedURL, imageData, this.state.mimetype)
+          .then(() =>
+            this.props.storesActions.updateStore(this.state.jwt, { store:
+              { ...storeData, logo: this.state.image_path },
+            }),
+          );
+      } else {
+        this.props.storesActions.updateStore(this.state.jwt, { store: storeData });
+      }
+    }
+  }
+
+  onChange(object) {
+    const data = { ...this.state.data, ...object };
+    this.setState({ data });
+  }
+
+  onReceiveData(metaData) {
+    const store = this.state.data;
+    this.props.storesActions.requestStoreSignedURL(this.props.jwt, metaData, store)
+      .then(() => {
+        const data = { ...store, logo: metaData.path };
+        this.setState({
+          isNew: false,
+          wasChangedImage: true,
+          data,
+          mimetype: metaData.mimetype,
+        });
+      });
+  }
+
+  renderImage() {
+    const uri = this.state.data.logo;
+    return this.state.uploading
+    ? <Spinner />
+    : (
+    <DefaultImagePicker
+      width={400}
+      height={400}
+      maxSize={1.5}
+      cropping={true}
+      onReceiveData={this.onReceiveData}
+    >
+      <Image
+        style={styles.image}
+        source={{ uri, cache: 'force-cache' }}
+      />
+    </DefaultImagePicker>);
+  }
+
   renderButton() {
     return (
-      <Button disabled={this.state.uploading}
+      <Button
+        disabled={this.state.uploading}
         full
         dark={!this.state.uploading}
         onPress={this.onPressButton}
@@ -65,92 +132,31 @@ class StoreEdit extends Component {
     );
   }
 
-  renderImage() {
-    const uri = this.state.logo
-    return this.state.uploading  
-    ? <Spinner />
-    : (<TouchableOpacity onPress={this.onPressImage}>
-      <Image style={styles.image}
-        source={{ uri }} 
-      />
-    </TouchableOpacity>);
-  }
-
-  onPressButton() {
-    const signedURL = this.state.presigned_url;
-    const image_data = this.state.logo;
-    const storeData = {
-      store: {
-        id: this.state.id,
-        name: this.state.name,
-        description: this.state.description,
-        logo: this.state.image_path,
-        email: this.state.email,
-      },
-    }
-    const isNew = this.state.isNew;
-    if (isNew) {
-      this.props.storesActions.createStore(this.state.jwt, storeData);
-    } else {
-      this.props.storesActions.sendImage(signedURL, image_data, this.state.mimetype)
-        .then(() =>
-          this.props.storesActions.updateStore(this.state.jwt, storeData)
-        );
-    }
-  }
-
-  onPressImage() {
-    const options = {
-      mediaType: 'photo',
-      width: 400,
-      height: 400,
-      cropping: true,
-    };
-    ImagePicker.openPicker(options).then(response => {
-      const logo = response.path;
-      const fileSize = response.size;
-      const megaByte = 1000000;
-      if (fileSize > (1.5 * megaByte)) {
-        ApiUtils.error('Imagem muito grande, tente diminuir a qualidade da imagem.')
-      } else {
-        const imageName = Platform.OS === 'ios' ? response.filename : response.path.split('/').pop();
-        const mimetype = response.mime;
-        if (mimetype !== 'image/jpg' && mimetype !== 'image/png' && mimetype !== 'image/jpeg') {
-          ApiUtils.error('A imagem não corresponde aos formatos permitidos. Os formatos permitidos são JPG ou PNG.');
-        } else {
-          const metaDataImage = { id: this.state.id, image_name: imageName, mimetype };
-          this.props.storesActions.requestSignedURL(this.state.jwt, metaDataImage).then((data) => {
-            this.setState({
-              isNew: false,
-              logo,
-              mimetype,
-            });
-          });
-        }
-      }
-    });
-  }
-
   render() {
-    const storeName = this.state.name;
+    const storeName = this.state.data.name;
     const isNew = this.state.isNew;
     return (
       <Container style={styles.container}>
         <HeaderBack title={`Edit ${storeName}`} back={() => this.props.navActions.back()} />
-        <Content style={{flex: 1}}>
+        <Content style={{ flex: 1 }}>
           { !isNew && this.renderImage() }
-          <Form style={{flex: 2}}>
+          <Form style={{ flex: 2 }}>
             <Item stackedLabel>
               <Label>Nome da Loja</Label>
-              <Input value={this.state.name} onChangeText={name => this.setState({name})} />
+              <Input value={this.state.data.name} onChangeText={name => this.onChange({ name })} />
             </Item>
             <Item stackedLabel>
               <Label>Descrição da Loja</Label>
-              <Input value={this.state.description} onChangeText={description => this.setState({description})} />
+              <Input
+                value={this.state.data.description}
+                onChangeText={description => this.onChange({ description })}
+              />
             </Item>
             <Item stackedLabel>
               <Label>E-mail da Loja</Label>
-              <Input value={this.state.email} onChangeText={email => this.setState({email})} />
+              <Input
+                value={this.state.data.email}
+                onChangeText={email => this.onChange({ email })} />
             </Item>
           </Form>
           { this.renderButton() }
@@ -182,13 +188,17 @@ StoreEdit.propTypes = {
     description: PropTypes.string.isRequired,
     logo: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
+    presigned_url: PropTypes.string,
+    uploading: PropTypes.bool,
+    loadingRequest: PropTypes.bool,
+    image_path: PropTypes.string,
   }).isRequired,
   navActions: PropTypes.shape({
     back: PropTypes.func.isRequired,
     bag: PropTypes.func.isRequired,
   }).isRequired,
   storesActions: PropTypes.shape({
-    requestSignedURL: PropTypes.func.isRequired,
+    requestStoreSignedURL: PropTypes.func.isRequired,
     sendImage: PropTypes.func.isRequired,
     updateStore: PropTypes.func.isRequired,
     createStore: PropTypes.func.isRequired,
