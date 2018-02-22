@@ -21,6 +21,8 @@ class Home extends Component {
       name: this.props.user.name,
       id: this.props.user.id,
       email: this.props.user.email,
+      active: this.props.user.active,
+      isShopKeeper: this.props.user.shopkeeper,
       jwt: this.props.jwt,
     };
   }
@@ -35,6 +37,7 @@ class Home extends Component {
   }
 
   render() {
+    const isShopKeeper = this.state.isShopKeeper;
     return (
       <Container>
         <Header hasTabs>
@@ -67,9 +70,11 @@ class Home extends Component {
           <Tab heading="Lojas">
             <Stores />
           </Tab>
+          { isShopKeeper &&
           <Tab heading="Minhas Lojas">
             <MyStores />
           </Tab>
+          }
         </Tabs>
       </Container>
     );
@@ -96,6 +101,8 @@ Home.propTypes = {
     name: PropTypes.string,
     id: PropTypes.number,
     email: PropTypes.string,
+    active: PropTypes.bool,
+    shopkeeper: PropTypes.bool,
   }).isRequired,
   jwt: PropTypes.string.isRequired,
   navActions: PropTypes.shape({

@@ -17,7 +17,7 @@ class User extends Component {
       name: '',
       password: '',
       surname: '',
-      isSeller: false,
+      shopkeeper: false,
       pendingConfirmation: false,
       pendingRequest: false,
       errorMessage: '',
@@ -50,6 +50,7 @@ class User extends Component {
     /* eslint-enable no-alert */
   }
   render() {
+    const isShopkeeper = this.state.shopkeeper;
     return (
       <Container>
         <HeaderBack title="Seu Perfil" back={() => this.props.navActions.back()} />
@@ -74,7 +75,7 @@ class User extends Component {
                 <Text>Lojista</Text>
               </Body>
               <Right>
-                <Switch disabled value={this.state.isSeller} />
+                <Switch disabled value={isShopkeeper} />
               </Right>
             </ListItem>
             
@@ -112,6 +113,7 @@ User.propTypes = {
     name: PropTypes.string.isRequired,
     surname: PropTypes.string.isRequired,
     active: PropTypes.bool.isRequired,
+    shopkeeper: PropTypes.bool.isRequired,
     email: PropTypes.string.isRequired,
   }).isRequired,
   pendingRequest: PropTypes.bool,
