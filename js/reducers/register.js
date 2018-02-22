@@ -1,5 +1,5 @@
 import { REQUEST_REGISTER, RECEIVE_REGISTER } from '../actionTypes/register';
-import { RECEIVE_ERROR } from '../actionTypes/error';
+import RECEIVE_ERROR from '../actionTypes/error';
 
 export default function register(state = {}, action) {
   switch (action.type) {
