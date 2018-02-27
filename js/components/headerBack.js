@@ -3,11 +3,11 @@ import { Header, Left, Body, Right, Button, Icon, Title } from 'native-base';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 
-export default class HeaderBack extends Component {
+class HeaderBack extends Component {
 
   render() {
     return (
-      <Header>
+      <Header style={{ borderBottomColor: '#ddd' }}>
         <Left>
           <Button transparent onPress={_.throttle(this.props.back, 500)}>
             <Icon style={{ color: 'black' }} name="arrow-left" />
@@ -26,3 +26,5 @@ HeaderBack.propTypes = {
   back: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
 };
+
+export default HeaderBack;

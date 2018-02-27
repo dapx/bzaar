@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Dimensions, Text, Image } from 'react-native';
+import { StyleSheet, View, Dimensions, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Container, Header, Left, Button, Icon, Title, Content, Body, Footer, Form, Input, Item, Label } from 'native-base';
-import { Text as TextBase } from 'native-base';
+import { Container, Button, Icon, Content } from 'native-base';
 import PropTypes from 'prop-types';
-import Carousel from 'react-native-looped-carousel';
 import HeaderBack from '../components/headerBack';
 import * as NavActions from '../actions/navigation';
 import * as StoresActions from '../actions/myStores';
@@ -80,7 +78,7 @@ class MyStore extends Component {
         name: '',
         description: '',
         logo: '',
-      }
+      },
     };
   }
 
@@ -95,38 +93,58 @@ class MyStore extends Component {
     return (
       <Container style={styles.container}>
         <HeaderBack title={this.state.store.name} back={() => this.props.navActions.back()} />
-        <Content style={{flex: 1}}>
+        <Content style={{ flex: 1 }}>
           <View>
-            <Button full style={{backgroundColor: '#B22222', flex: 1, margin: 1}} onPress={() => this.props.storesActions.editStore(this.state.store)}>
-              <View style={{flexDirection: 'row'}}>
+            <Button
+              full
+              style={{ backgroundColor: '#B22222', flex: 1, margin: 1 }}
+              onPress={() => this.props.storesActions.editStore(this.state.store)}
+            >
+              <View style={{ flexDirection: 'row' }}>
                 <Icon style={{ color: 'black' }} name="home" />
                 <Text style={{ alignSelf: 'center' }}>Editar</Text>
               </View>
             </Button>
           </View>
-          <View style={{flex: 2, flexDirection: 'row'}}>
-            <Button large style={{backgroundColor: '#7CFC00', flex: 1, margin: 1}} onPress={() => this.props.storesActions.openProducts(this.state.store.id)}>
-              <View style={{flexDirection: 'row'}}>
+          <View style={{ flex: 2, flexDirection: 'row' }}>
+            <Button
+                large
+                style={{ backgroundColor: '#7CFC00', flex: 1, margin: 1 }}
+                onPress={() => this.props.storesActions.openProducts(this.state.store.id)}
+            >
+              <View style={{ flexDirection: 'row' }}>
                 <Icon style={{ color: 'black' }} name="tags" />
                 <Text style={{ alignSelf: 'center' }}>Produtos</Text>
               </View>
             </Button>
-            <Button large style={{backgroundColor: '#00BFFF', flex: 1, margin: 1}} onPress={() => this.props.navActions.back()}>
-              <View style={{flexDirection: 'row'}}>
+            <Button
+              large
+              style={{ backgroundColor: '#00BFFF', flex: 1, margin: 1 }}
+              onPress={() => this.props.navActions.back()}
+            >
+              <View style={{ flexDirection: 'row' }}>
                 <Icon style={{ color: 'black'  }} name="truck" />
                 <Text style={{ alignSelf: 'center' }}>Entregadores</Text>
               </View>
             </Button>
           </View>
-          <View style={{flex: 2, flexDirection: 'row'}}>
-            <Button large style={{backgroundColor: '#7B68EE', flex: 1, margin: 1}} onPress={() => this.props.navActions.back()}>
-              <View style={{flexDirection: 'row'}}>
+          <View style={{ flex: 2, flexDirection: 'row' }}>
+            <Button
+              large
+              style={{ backgroundColor: '#7B68EE', flex: 1, margin: 1 }}
+              onPress={() => this.props.navActions.back()}
+            >
+              <View style={{ flexDirection: 'row' }}>
                 <Icon style={{ color: 'black' }} name="line-chart" />
                 <Text style={{ alignSelf: 'center' }}>Dashboard</Text>
               </View>
             </Button>
-            <Button large style={{backgroundColor: '#FFD700', flex: 1, margin: 1}} onPress={() => this.props.navActions.back()}>
-              <View style={{flexDirection: 'row'}}>
+            <Button
+              large
+              style={{ backgroundColor: '#FFD700', flex: 1, margin: 1 }}
+              onPress={() => this.props.navActions.back()}
+            >
+              <View style={{ flexDirection: 'row' }}>
                 <Icon style={{ color: 'black' }} name="magic" />
                 <Text style={{ alignSelf: 'center', textAlign: 'right' }}>Promoções</Text>
               </View>
