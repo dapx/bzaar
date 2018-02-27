@@ -1,5 +1,5 @@
-import { RECEIVE_REGISTER, REQUEST_REGISTER, TYPE_EMAIL, TYPE_NAME, TYPE_SURNAME, TYPE_PASSWORD, TYPE_CONFIRM_PASSWORD } from '../actionTypes/register';
-import { RECEIVE_ERROR } from '../actionTypes/error';
+import { RECEIVE_REGISTER, REQUEST_REGISTER } from '../actionTypes/register';
+import RECEIVE_ERROR from '../actionTypes/error';
 import { UserService, ApiUtils } from '../utils/api';
 
 function request() {
@@ -16,42 +16,7 @@ function receive(data, email, password) {
   };
 }
 
-export function changingEmailValue(text) {
-  return {
-    type: TYPE_EMAIL,
-    text,
-  };
-}
-
-export function changingNameValue(text) {
-  return {
-    type: TYPE_NAME,
-    text,
-  };
-}
-
-export function changingSurnameValue(text) {
-  return {
-    type: TYPE_SURNAME,
-    text,
-  };
-}
-
-export function changingPasswordValue(text) {
-  return {
-    type: TYPE_PASSWORD,
-    text,
-  };
-}
-
-export function changingConfirmPasswordValue(text) {
-  return {
-    type: TYPE_CONFIRM_PASSWORD,
-    text,
-  };
-}
-
-export function receiveError(text) {
+function receiveError(text) {
   return {
     type: RECEIVE_ERROR,
     text,

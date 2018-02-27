@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, Animated, View, Image, FlatList, TouchableOpacity, Platform } from 'react-native';
-import { Spinner, Text, Button } from 'native-base';
+import { StyleSheet, Animated, View, FlatList, TouchableOpacity } from 'react-native';
+import { Text, Button } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import FastImage from 'react-native-fast-image';
 import * as Actions from '../actions/myStores';
 import { stores } from '../styles';
 
@@ -48,7 +49,11 @@ class MyStores extends Component {
       : styles.storeImage;
     return (
       <TouchableOpacity key={`stores_${index}`} style={styles.imageContainer} onPress={() => this.pressItem(item)}>
-        <Image style={imageStyle} source={{ uri: item.logo }} />
+        <FastImage
+          style={imageStyle}
+          source={{ uri: item.logo }}
+          resizeMode={'cover'}
+        />
       </TouchableOpacity>
     );
   }

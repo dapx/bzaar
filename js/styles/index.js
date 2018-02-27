@@ -20,13 +20,15 @@ export const stores = {
   storeImage: {
     width: getDeviceWidth(49),
     height: getDeviceWidth(49),
-    resizeMode: 'cover',
   },
   storeUniqueImage: {
     width: getDeviceWidth(49),
     height: getDeviceWidth(49),
     alignSelf: 'center',
-    resizeMode: 'cover',
+  },
+  storeExtendedImage: {
+    width: getDeviceWidth(100),
+    height: getDeviceWidth(49),
   },
 };
 
@@ -35,11 +37,24 @@ export const storeEdit = {
     flex: 1,
     backgroundColor: 'white',
   },
-  image: {
-    width: getDeviceWidth(50),
-    height: getDeviceWidth(50),
-    resizeMode: 'cover',
+  carrousel: {
+    width: 400,
+    height: 400,
     alignSelf: 'center',
+  },
+  image: {
+    width: 400,
+    height: 400,
+  },
+  imagesEdit: {
+    position: 'absolute',
+    top: 10,
+    right: 20,
+    zIndex: 2,
+    backgroundColor: 'white',
+    opacity: 0.8,
+    borderRadius: 50,
+    padding: 5,
   },
 };
 
@@ -55,21 +70,10 @@ export const store = {
   storeImage: {
     width: getDeviceWidth(35),
     height: getDeviceWidth(35),
-    resizeMode: 'contain',
   },
   storeUniqueImage: {
     width: getDeviceWidth(35),
     height: getDeviceWidth(35),
     alignSelf: 'center',
-    resizeMode: 'contain',
-  },
-  header: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    overflow: 'hidden',
   },
 };

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Dimensions, Text, Image } from 'react-native';
+import { StyleSheet, View, Dimensions, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Container, Header, Left, Button, Icon, Title, Content, Body, Footer } from 'native-base';
+import { Container, Button, Icon, Title, Content, Body, Footer } from 'native-base';
 import PropTypes from 'prop-types';
 import Carousel from 'react-native-looped-carousel';
+import { Lightbox } from '@shoutem/ui';
+import FastImage from 'react-native-fast-image';
 import HeaderBack from '../components/headerBack';
 import * as NavActions from '../actions/navigation';
 import * as ProductsActions from '../actions/products';
@@ -12,7 +14,9 @@ import * as style from '../styles/index';
 
 const imageWidth = style.getDeviceWidth(100);
 const imageHeight = style.getDeviceHeight(50);
+
 const { width, height } = Dimensions.get('window');
+const lightboxStyle = { style: { width, height } };
 
 const styles = StyleSheet.create({
   container: {
@@ -37,7 +41,6 @@ const styles = StyleSheet.create({
   images: {
     width: imageWidth,
     height: imageHeight,
-    resizeMode: 'contain',
     alignSelf: 'center',
   },
   description: {
@@ -90,7 +93,7 @@ class Product extends Component {
     this.setState({
       jwt: this.props.jwt,
       ...this.props.product,
-      images: [{url: this.props.product.image, sequence: 0}, ...this.props.product.images],
+      images: [{ url: this.props.product.image, sequence: 0 }, ...this.props.product.images],
     });
   }
 
@@ -100,8 +103,8 @@ class Product extends Component {
         quantity: 1,
         status: 0, // Define o produto como aguardando confirmação do lojista
         product_id: productId,
-      }
-    }
+      },
+    };
     this.props.productsActions.addProductToBag(jwt, productData);
   }
 
@@ -122,10 +125,13 @@ class Product extends Component {
             >
               { this.state.images.map(image => (
                 <View key={`product_${image}`} style={styles.slide}>
-                  <Image
-                    style={styles.images}
-                    source={{ url: image.url }}
-                  />
+                  <Lightbox activeProps={{ ...lightboxStyle }} backgroundColor={'#fff'} underlayColor={'#fff'}>
+                    <FastImage
+                      style={styles.images}
+                      source={{ uri: image.url }}
+                      resizeMode={'contain'}
+                    />
+                  </Lightbox>
                 </View>
                 ))
               }

@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
-import { StyleSheet, Animated, Image, FlatList, TouchableOpacity, TouchableWithoutFeedback, Platform } from 'react-native';
-import { Container, Header, Body, Left, Right, Tabs, Tab, Icon, Spinner } from 'native-base';
+import { StyleSheet, Animated, FlatList, TouchableOpacity, View, Text } from 'react-native';
+import { Container, Header, Body, Left, Right, Tabs, Tab, Title, Icon, Spinner } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
+import FastImage from 'react-native-fast-image';
 import * as Actions from '../actions/store';
 import * as NavActions from '../actions/navigation';
 import * as ProductsActions from '../actions/products';
-import { getDeviceWidth, getDeviceHeight, store } from '../styles';
-
-const HEADER_MIN_HEIGHT = Platform.OS === 'ios' ? 60 : 73;
-const HEADER_MAX_HEIGHT = getDeviceHeight(100);
-
-const AnimatedHeader = Animated.createAnimatedComponent(Header);
+import { store } from '../styles';
 
 const styles = StyleSheet.create(store);
 
@@ -54,80 +51,59 @@ class Store extends Component {
         style={styles.imageContainer}
         onPress={() => this.pressItem(item)}
       >
-        <Image style={imageStyle} source={{ uri: item.image }} />
+        <FastImage
+          style={imageStyle}
+          source={{ uri: item.image }}
+          resizeMode={'contain'}
+        />
+        <Text style={{ textAlign: 'center' }}>{item.name}</Text>
       </TouchableOpacity>
     );
   }
 
   render() {
-    const imageSize = this.state.scrollY.interpolate({
-      inputRange: [0, HEADER_MIN_HEIGHT],
-      outputRange: [1, 0.2],
-      extrapolate: 'clamp',
-    });
-    const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [0, HEADER_MIN_HEIGHT],
-      outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
-      extrapolate: 'clamp',
-    });
-    const tabMargin = this.state.scrollY.interpolate({
-      inputRange: [0, HEADER_MIN_HEIGHT],
-      outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
-      extrapolate: 'clamp',
-    });
+    const groupedProducts = _.groupBy(
+      this.state.list,
+      product => product.name.split(' ')[0],
+    );
     return (
       <Container>
-        <AnimatedHeader hasTabs style={[styles.header, { height: headerHeight }]}>
+        <Header hasTabs>
           <Left>
             <TouchableOpacity style={{ padding: 5 }} onPress={() => this.props.navActions.back()}>
               <Icon style={{ color: 'black' }} name="arrow-left" />
             </TouchableOpacity>
           </Left>
           <Body>
-            <TouchableWithoutFeedback
-              onPress={() => Animated.timing(this.state.scrollY, {
-                toValue: HEADER_MIN_HEIGHT,
-                duration: 500,
-              }).start()}
-            >
-              <Animated.Image
-                style={{
-                  alignSelf: 'center',
-                  width: 200,
-                  height: 200,
-                  transform: [
-                    { scaleY: imageSize },
-                    { scaleX: imageSize },
-                  ],
-                  resizeMode: 'contain',
-                }}
-                source={{ uri: this.state.logo }}
-              />
-            </TouchableWithoutFeedback>
+            <Title style={{ color: 'black' }}>{this.state.name}</Title>
           </Body>
           <Right>
             <TouchableOpacity style={{ padding: 5 }} onPress={() => this.props.navActions.bag()}>
               <Icon style={{ color: 'black' }} name="shopping-bag" />
             </TouchableOpacity>
           </Right>
-        </AnimatedHeader>
-        <Animated.View style={{ flex: 1, marginTop: tabMargin }}>
+        </Header>
+        <View style={{ flex: 1 }}>
           <Tabs>
-            <Tab heading="Todos">
-              { this.state.loadingRequest
-                ? <Spinner />
-                : <FlatList
-                  ref={(ref) => { this.listRef = ref; }}
-                  numColumns={2}
-                  horizontal={false}
-                  data={this.state.list}
-                  renderItem={this.renderItem}
-                  keyExtractor={item => item.id}
-                />
-              }
-            </Tab>
+            { groupedProducts && Object.entries(groupedProducts).map(([key, value]) => (
+              <Tab key={`store-tab-${key}`} heading={key}>
+                { this.state.loadingRequest
+                  ? <Spinner />
+                  : <FlatList
+                    key={`store-product-${key}`}
+                    ref={(ref) => { this.listRef = ref; }}
+                    numColumns={2}
+                    horizontal={false}
+                    data={value}
+                    renderItem={this.renderItem}
+                    keyExtractor={item => item.id}
+                  />
+                }
+              </Tab>
+              ))
+            }
           </Tabs>
-        </Animated.View>
+        </View>
       </Container>
     );
   }
