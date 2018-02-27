@@ -60,7 +60,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Permissão para você fazer upload de imagens</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Permissão para você fazer upload de imagens</string>
 	<key>UIAppFonts</key>

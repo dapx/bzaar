@@ -29,7 +29,7 @@ class DefaultImagePickerWithErrorHandler extends Component {
   }
 }
 
-DefaultImagePickerWithErrorHandler.PropTypes = {
+DefaultImagePickerWithErrorHandler.propTypes = {
   children: PropTypes.element.isRequired,
   width: PropTypes.number,
   height: PropTypes.number,

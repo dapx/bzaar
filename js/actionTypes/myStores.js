@@ -16,5 +16,6 @@ export const SAVED_STORE = 'myStore/SAVED_STORE';
 export const REQUEST_PRODUCTS = 'myStore/REQUEST_PRODUCTS';
 export const RECEIVE_PRODUCTS = 'myStore/REQUEST_PRODUCTS';
 export const EDIT_PRODUCT = 'myStore/EDIT_PRODUCT';
+export const EDIT_PRODUCT_IMAGES = 'myStore/EDIT_PRODUCT_IMAGES';
 export const SAVE_PRODUCT = 'myStore/SAVE_PRODUCT';
 export const SAVED_PRODUCT = 'myStore/SAVED_PRODUCT';

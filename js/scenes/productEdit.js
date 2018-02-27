@@ -1,21 +1,24 @@
 import React, { Component } from 'react';
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Container, Button, Content, Form, Input, Item, Label, Text, Spinner } from 'native-base';
 import PropTypes from 'prop-types';
+import Carousel from 'react-native-looped-carousel';
+import FastImage from 'react-native-fast-image';
+import { Lightbox } from '@shoutem/ui';
 import HeaderBack from '../components/headerBack';
-import DefaultImagePicker from '../components/DefaultImagePickerWithErrorHandler';
 import * as NavActions from '../actions/navigation';
 import * as StoresActions from '../actions/myStores';
 import { storeEdit } from '../styles/index';
 
 const styles = StyleSheet.create(storeEdit);
+const { width, height } = Dimensions.get('window');
+const lightboxStyle = { style: { width, height } };
 
 class ProductEdit extends Component {
   constructor(props) {
     super(props);
-    console.log(props.product);
     const price = `${props.product.price}`;
     this.state = {
       data: {
@@ -23,6 +26,7 @@ class ProductEdit extends Component {
         name: props.product.name,
         description: props.product.description,
         image: props.product.image,
+        images: props.product.images,
         price,
         store_id: props.product.store_id,
       },
@@ -76,22 +80,30 @@ class ProductEdit extends Component {
   }
 
   renderImage() {
-    const uri = this.state.data.image;
     return this.state.uploading
     ? <Spinner />
-    : (
-      <DefaultImagePicker
-        width={400}
-        height={400}
-        maxSize={1.5}
-        cropping={true}
-        onReceiveData={this.onReceiveData}
+    : this.props.product.images.length > 0 && (
+      <Carousel
+        style={styles.carrousel}
+        pageStyle={styles.slide}
+        autoplay={false}
+        pageInfo
       >
-        <Image
-          style={styles.image}
-          source={{ uri, cache: 'force-cache' }}
-        />
-      </DefaultImagePicker>
+      { this.props.product.images.map(image => (
+        <View key={`product_${image.seq}`} style={styles.slide}>
+          <Lightbox activeProps={{ ...lightboxStyle }} backgroundColor={'#fff'} underlayColor={'#fff'}>
+          <FastImage
+            style={styles.images}
+            source={{ uri: image.url }}
+            width={400}
+            height={400}
+            resizeMode={'contain'}
+          />
+          </Lightbox>
+        </View>
+        ))
+      }
+      </Carousel>
     );
   }
 
@@ -116,9 +128,18 @@ class ProductEdit extends Component {
           title={`Produto ${this.state.data.name}`}
           back={() => this.props.navActions.back()}
         />
-        <Content style={{ flex: 1 }}>
+        <Content>
+          <Form>
+            <View style={styles.imagesEdit}>
+            <TouchableOpacity
+              onPress={() => this.props.storesActions.editProductImages(this.props.product)}
+            >
+              <View>
+                <Text>Gerenciar Imagens</Text>
+              </View>
+            </TouchableOpacity>
+            </View>
           { !isNew && this.renderImage() }
-          <Form style={{ flex: 2 }}>
             <Item stackedLabel>
               <Label>Nome</Label>
               <Input
@@ -169,6 +190,7 @@ ProductEdit.propTypes = {
     name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
+    images: PropTypes.Array,
     price: PropTypes.number.isRequired,
     store_id: PropTypes.number.isRequired,
     presigned_url: PropTypes.string,
@@ -185,6 +207,7 @@ ProductEdit.propTypes = {
     sendImage: PropTypes.func.isRequired,
     updateProduct: PropTypes.func.isRequired,
     createProduct: PropTypes.func.isRequired,
+    editProductImages: PropTypes.func.isRequired,
   }).isRequired,
 };
 

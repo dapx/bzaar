@@ -16,6 +16,7 @@ import MyStore from '../scenes/myStore';
 import StoreEdit from '../scenes/storeEdit';
 import StoreProducts from '../scenes/storeProducts';
 import ProductEdit from '../scenes/productEdit';
+import ProductImages from '../scenes/productImages';
 
 const UserNavigator = StackNavigator({
   User: { screen: UserRegister,
@@ -100,6 +101,13 @@ export const AppNavigator = StackNavigator({
     },
   },
   ProductEditPage: { screen: ProductEdit,
+    navigationOptions: {
+      visible: false,
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  ProductImagesPage: { screen: ProductImages,
     navigationOptions: {
       visible: false,
       header: null,

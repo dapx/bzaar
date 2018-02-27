@@ -4,7 +4,6 @@ import {
   OPEN_MYSTORE,
   EDIT_STORE,
   OPEN_NEW_STORE,
-  REQUEST_IMAGE,
   RECEIVE_IMAGE,
   UPLOAD_IMAGE,
   UPLOADED_IMAGE,
@@ -13,6 +12,7 @@ import {
   REQUEST_PRODUCTS,
   RECEIVE_PRODUCTS,
   EDIT_PRODUCT,
+  EDIT_PRODUCT_IMAGES,
 } from '../actionTypes/myStores';
 
 function store(state = {}, action) {
@@ -45,15 +45,16 @@ function store(state = {}, action) {
       return {
         ...state,
         loadingRequest: true,
-      }
+      };
 
-    case SAVED_STORE:
+    case SAVED_STORE: {
       const storeUpdated = action.data;
       return {
         ...state,
         ...storeUpdated,
         loadingRequest: false,
-      }
+      };
+    }
 
     default:
       return state;
@@ -110,8 +111,8 @@ export default function stores(state = {}, action) {
         loadingProducts: true,
       };
 
+    case EDIT_PRODUCT_IMAGES:
     case EDIT_PRODUCT:
-      console.log("action.product ", action.product);
       return {
         ...state,
         product: action.product,

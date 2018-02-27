@@ -59,8 +59,11 @@ export function openProducts(storeId) {
 }
 
 export function editProduct(product) {
-  console.log('Edit product ', product);
   return dispatch => dispatch({ type: Actions.EDIT_PRODUCT, product });
+}
+
+export function editProductImages(product) {
+  return dispatch => dispatch({ type: Actions.EDIT_PRODUCT_IMAGES, product });
 }
 
 function requestImage() {
