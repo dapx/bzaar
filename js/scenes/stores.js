@@ -43,7 +43,7 @@ class Stores extends Component {
     const imageStyle = styles.storeExtendedImage;
     return (
       <TouchableOpacity
-        key={index}
+        key={`store-${index}`}
         style={styles.imageContainer}
         onPress={() => this.pressItem(item)}
       >
@@ -75,7 +75,7 @@ class Stores extends Component {
         horizontal={false}
         data={this.state.list}
         renderItem={this.renderItem}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.id.toString()}
         refreshing={this.state.loadingRequest}
         onRefresh={() => this.handleRefresh()}
         ListEmptyComponent={<Text>Não foi possivel encontrar lojas.</Text>}
