@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, Animated, Image, FlatList, TouchableOpacity, Platform, Text } from 'react-native';
+import { StyleSheet, Animated, FlatList, TouchableOpacity, Platform, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import FastImage from 'react-native-fast-image';
 import * as Actions from '../actions/products';
 import { getDeviceWidth } from '../styles';
 
@@ -18,13 +19,11 @@ const styles = StyleSheet.create({
   storeImage: {
     width: getDeviceWidth(35),
     height: getDeviceWidth(35),
-    resizeMode: 'contain',
   },
   storeUniqueImage: {
     width: getDeviceWidth(35),
     height: getDeviceWidth(35),
     alignSelf: 'center',
-    resizeMode: 'contain',
   },
   header: {
     position: 'absolute',
@@ -99,7 +98,11 @@ class Products extends Component {
       : styles.storeImage;
     return (
       <TouchableOpacity key={`products_${index}`} style={styles.imageContainer} onPress={() => this.pressItem(item)}>
-        <Image style={imageStyle} source={{ uri: item.image, cache: 'force-cache' }} />
+        <FastImage
+            style={imageStyle}
+            source={{ uri: item.image }}
+            resizeMode={'contain'}
+        />
         <Text style={{ textAlign: 'center' }}>{item.name}</Text>
       </TouchableOpacity>
     );

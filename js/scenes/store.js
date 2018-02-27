@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, Animated, Image, FlatList, TouchableOpacity, View, Text } from 'react-native';
+import { StyleSheet, Animated, FlatList, TouchableOpacity, View, Text } from 'react-native';
 import { Container, Header, Body, Left, Right, Tabs, Tab, Title, Icon, Spinner } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import FastImage from 'react-native-fast-image';
 import * as Actions from '../actions/store';
 import * as NavActions from '../actions/navigation';
 import * as ProductsActions from '../actions/products';
@@ -50,7 +51,11 @@ class Store extends Component {
         style={styles.imageContainer}
         onPress={() => this.pressItem(item)}
       >
-        <Image style={imageStyle} source={{ uri: item.image, cache: 'force-cache' }} />
+        <FastImage
+          style={imageStyle}
+          source={{ uri: item.image }}
+          resizeMode={'contain'}
+        />
         <Text style={{ textAlign: 'center' }}>{item.name}</Text>
       </TouchableOpacity>
     );

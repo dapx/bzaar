@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { Container, Text, Card } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import FastImage from 'react-native-fast-image';
 import HeaderBack from '../components/headerBack';
 import * as NavActions from '../actions/navigation';
 import * as ProductsActions from '../actions/products';
@@ -15,7 +16,6 @@ const styles = StyleSheet.create({
     width: getDeviceWidth(35),
     height: getDeviceWidth(35),
     alignSelf: 'center',
-    resizeMode: 'contain',
   },
 });
 
@@ -47,6 +47,7 @@ class StoreProducts extends Component {
           description: '',
           price: 0,
           store_id: 0,
+          images: [],
         },
         ...nextProps.products,
       ],
@@ -70,7 +71,11 @@ class StoreProducts extends Component {
         onPress={() => this.onPress(item)}
       >
         <Card key={`product-store-${index}`}>
-          <Image style={styles.storeUniqueImage} source={{ uri: item.image, cache: 'force-cache' }} />
+          <FastImage
+            style={styles.storeUniqueImage}
+            source={{ uri: item.image }}
+            resizeMode={'contain'}
+          />
           <Text style={{ textAlign: 'center' }}>{`${item.name}`}</Text>
         </Card>
       </TouchableOpacity>

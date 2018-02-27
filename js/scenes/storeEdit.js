@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Container, Button, Content, Form, Input, Item, Label, Text, Spinner } from 'native-base';
 import PropTypes from 'prop-types';
+import FastImage from 'react-native-fast-image';
 import HeaderBack from '../components/headerBack';
 import DefaultImagePicker from '../components/DefaultImagePickerWithErrorHandler';
 import * as NavActions from '../actions/navigation';
@@ -15,15 +16,10 @@ const styles = StyleSheet.create(storeEdit);
 class StoreEdit extends Component {
   constructor(props) {
     super(props);
+    const isNew = props.store.id === 0;
     this.state = {
-      data: {
-        id: 0,
-        name: '',
-        description: '',
-        logo: '',
-        email: '',
-      },
-      isNew: true,
+      data: props.store,
+      isNew,
       presigned_url: '',
       mimetype: '',
       image_path: '',
@@ -31,17 +27,8 @@ class StoreEdit extends Component {
       uploading: false,
       wasChangedImage: false,
     };
-    this.onPressImage = this.onPressImage.bind(this);
+    this.onReceiveData = this.onReceiveData.bind(this);
     this.onPressButton = this.onPressButton.bind(this);
-  }
-
-  componentDidMount() {
-    const isNew = this.props.store.id === 0;
-    this.setState({
-      jwt: this.props.jwt,
-      data: this.props.store,
-      isNew,
-    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -55,28 +42,20 @@ class StoreEdit extends Component {
 
   onPressButton() {
     const signedURL = this.state.presigned_url;
-    const imageData = this.state.data.logo;
-    const storeData = {
-      id: this.state.id,
-      name: this.state.name,
-      description: this.state.description,
-      email: this.state.email,
-      logo: imageData,
-    };
     const isNew = this.state.isNew;
     if (isNew) {
-      this.props.storesActions.createStore(this.state.jwt, storeData);
+      this.props.storesActions.createStore(this.state.jwt, this.state.data);
     } else {
       const wasChangedImage = this.state.wasChangedImage;
       if (wasChangedImage) {
-        this.props.storesActions.sendImage(signedURL, imageData, this.state.mimetype)
+        this.props.storesActions.sendImage(signedURL, this.state.data.logo, this.state.mimetype)
           .then(() =>
             this.props.storesActions.updateStore(this.state.jwt, { store:
-              { ...storeData, logo: this.state.image_path },
+              { ...this.state.data, logo: this.state.image_path },
             }),
           );
       } else {
-        this.props.storesActions.updateStore(this.state.jwt, { store: storeData });
+        this.props.storesActions.updateStore(this.state.jwt, { store: this.state.data });
       }
     }
   }
@@ -87,10 +66,9 @@ class StoreEdit extends Component {
   }
 
   onReceiveData(metaData) {
-    const store = this.state.data;
-    this.props.storesActions.requestStoreSignedURL(this.props.jwt, metaData, store)
+    this.props.storesActions.requestStoreSignedURL(this.props.jwt, metaData, this.state.data)
       .then(() => {
-        const data = { ...store, logo: metaData.path };
+        const data = { ...this.state.data, logo: metaData.path };
         this.setState({
           isNew: false,
           wasChangedImage: true,
@@ -112,9 +90,10 @@ class StoreEdit extends Component {
       cropping={true}
       onReceiveData={this.onReceiveData}
     >
-      <Image
+      <FastImage
         style={styles.image}
-        source={{ uri, cache: 'force-cache' }}
+        source={{ uri }}
+        resizeMode={'cover'}
       />
     </DefaultImagePicker>);
   }
@@ -134,7 +113,7 @@ class StoreEdit extends Component {
 
   render() {
     const storeName = this.state.data.name;
-    const isNew = this.state.isNew;
+    const { isNew } = this.state;
     return (
       <Container style={styles.container}>
         <HeaderBack title={`Edit ${storeName}`} back={() => this.props.navActions.back()} />
