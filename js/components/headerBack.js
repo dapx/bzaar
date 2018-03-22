@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Header, Left, Body, Right, Button, Icon, Title } from 'native-base';
+import { Header, Left, Body, Right, Title } from 'native-base';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
+import IconButton from './iconButton';
 
 class HeaderBack extends Component {
 
@@ -9,9 +10,12 @@ class HeaderBack extends Component {
     return (
       <Header style={{ borderBottomColor: '#ddd' }}>
         <Left>
-          <Button transparent onPress={_.throttle(this.props.back, 500)}>
-            <Icon style={{ color: 'black' }} name="arrow-left" />
-          </Button>
+          <IconButton
+            style={{ backgroundColor: 'transparent' }}
+            iconStyle={{ color: 'black' }}
+            iconName="arrow-left"
+            onPress={this.props.back}
+          />
         </Left>
         <Body>
           <Title style={{ color: 'black' }}>{this.props.title}</Title>
