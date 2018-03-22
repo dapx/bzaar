@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, Image, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { Left, Right, Text, Button, Card, CardItem } from 'native-base';
+import FastImage from 'react-native-fast-image';
 import PropTypes from 'prop-types';
 
 const CardHeader = props => (
@@ -53,7 +54,7 @@ CardFooter.propTypes = {
 const CardBody = props => (
   <CardItem style={{ flex: 1 }}>
     <Left style={{ flex: 1 }}>
-      <Image source={{ uri: props.item.product_image, cache: 'force-cache' }}
+      <FastImage source={{ uri: props.item.product_image }}
         style={{ height: props.imageWidth, width: props.imageWidth }}
       />
     </Left>
