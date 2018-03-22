@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { StyleSheet, Animated, View, FlatList, TouchableOpacity } from 'react-native';
-import { Text, Button } from 'native-base';
+import { Text } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import FastImage from 'react-native-fast-image';
 import * as Actions from '../actions/myStores';
 import { stores } from '../styles';
+import NBButton from '../components/debounceNativeBaseButton';
+import Button from '../components/button';
 
 const styles = StyleSheet.create(stores);
 
@@ -48,13 +50,13 @@ class MyStores extends Component {
       ? styles.storeUniqueImage
       : styles.storeImage;
     return (
-      <TouchableOpacity key={`stores_${index}`} style={styles.imageContainer} onPress={() => this.pressItem(item)}>
+      <Button key={`my-stores-${index}`} style={styles.imageContainer} onPress={() => this.pressItem(item)}>
         <FastImage
           style={imageStyle}
           source={{ uri: item.logo }}
           resizeMode={'cover'}
         />
-      </TouchableOpacity>
+      </Button>
     );
   }
 
@@ -65,12 +67,12 @@ class MyStores extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <Button full
+        <NBButton full
           style={{backgroundColor: '#bcb3c5', opacity: 0.8}}
           onPress={() => this.openNew()}
         >
           <Text>Criar nova loja</Text>
-        </Button>
+        </NBButton>
         <FlatList
           ref={(ref) => { this.listRef = ref; }}
           numColumns={2}
