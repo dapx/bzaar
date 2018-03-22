@@ -19,7 +19,7 @@ const IconButton = ({ style, onPress, iconName, iconStyle }) => {
 };
 
 IconButton.propTypes = {
-  style: View.propTypes.style,
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.number, PropTypes.array]),
   onPress: PropTypes.func.isRequired,
   iconName: PropTypes.string.isRequired,
   iconStyle: Icon.propTypes.style,

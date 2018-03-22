@@ -29,7 +29,7 @@ const EmptySlot = ({ style }) => (
 );
 
 EmptySlot.propTypes = {
-  style: View.propTypes.style,
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.number, PropTypes.array]),
 };
 
 class Slot extends Component {
