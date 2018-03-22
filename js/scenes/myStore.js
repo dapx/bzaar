@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Dimensions, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Container, Button, Icon, Content } from 'native-base';
+import { Container, Icon, Content } from 'native-base';
 import PropTypes from 'prop-types';
+import Button from '../components/debounceNativeBaseButton';
 import HeaderBack from '../components/headerBack';
 import * as NavActions from '../actions/navigation';
 import * as StoresActions from '../actions/myStores';
@@ -73,19 +74,13 @@ class MyStore extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      store: {
-        id: 0,
-        name: '',
-        description: '',
-        logo: '',
-      },
+      store: props.store,
     };
   }
 
-  componentDidMount() {
+  componentWillReceiveProps(nextProps) {
     this.setState({
-      jwt: this.props.jwt,
-      store: this.props.store,
+      store: nextProps.store,
     });
   }
 
@@ -113,7 +108,7 @@ class MyStore extends Component {
                 onPress={() => this.props.storesActions.openProducts(this.state.store.id)}
             >
               <View style={{ flexDirection: 'row' }}>
-                <Icon style={{ color: 'black' }} name="tags" />
+                <Icon style={{ color: 'black' }} name="octagon" />
                 <Text style={{ alignSelf: 'center' }}>Produtos</Text>
               </View>
             </Button>
@@ -123,7 +118,7 @@ class MyStore extends Component {
               onPress={() => this.props.navActions.back()}
             >
               <View style={{ flexDirection: 'row' }}>
-                <Icon style={{ color: 'black'  }} name="truck" />
+                <Icon style={{ color: 'black'  }} name="octagon" />
                 <Text style={{ alignSelf: 'center' }}>Entregadores</Text>
               </View>
             </Button>
@@ -135,7 +130,7 @@ class MyStore extends Component {
               onPress={() => this.props.navActions.back()}
             >
               <View style={{ flexDirection: 'row' }}>
-                <Icon style={{ color: 'black' }} name="line-chart" />
+                <Icon style={{ color: 'black' }} name="octagon" />
                 <Text style={{ alignSelf: 'center' }}>Dashboard</Text>
               </View>
             </Button>
@@ -145,7 +140,7 @@ class MyStore extends Component {
               onPress={() => this.props.navActions.back()}
             >
               <View style={{ flexDirection: 'row' }}>
-                <Icon style={{ color: 'black' }} name="magic" />
+                <Icon style={{ color: 'black' }} name="octagon" />
                 <Text style={{ alignSelf: 'center', textAlign: 'right' }}>Promoções</Text>
               </View>
             </Button>

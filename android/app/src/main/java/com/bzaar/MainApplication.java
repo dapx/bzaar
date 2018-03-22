@@ -20,6 +20,56 @@ import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.rnfs.RNFSPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
+import com.reactnative.photoview.PhotoViewPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.horcrux.svg.SvgPackage;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
+import com.rnfs.RNFSPackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import com.dylanvann.fastimage.FastImageViewPackage;
+import com.reactnative.photoview.PhotoViewPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.horcrux.svg.SvgPackage;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
+import com.rnfs.RNFSPackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import com.dylanvann.fastimage.FastImageViewPackage;
+import com.reactnative.photoview.PhotoViewPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.horcrux.svg.SvgPackage;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
+import com.rnfs.RNFSPackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import com.dylanvann.fastimage.FastImageViewPackage;
+import com.reactnative.photoview.PhotoViewPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.horcrux.svg.SvgPackage;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
+import com.rnfs.RNFSPackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import com.dylanvann.fastimage.FastImageViewPackage;
+import com.reactnative.photoview.PhotoViewPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.horcrux.svg.SvgPackage;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
+import com.rnfs.RNFSPackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import com.dylanvann.fastimage.FastImageViewPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.horcrux.svg.SvgPackage;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
@@ -116,6 +166,56 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new VectorIconsPackage(),
+            new SvgPackage(),
+            new ReactNativePushNotificationPackage(),
+            new PickerPackage(),
+            new RNFSPackage(),
+            new FBSDKPackage(),
+            new FastImageViewPackage(),
+            new PhotoViewPackage(),
+            new LinearGradientPackage(),
+            new VectorIconsPackage(),
+            new VectorIconsPackage(),
+            new SvgPackage(),
+            new ReactNativePushNotificationPackage(),
+            new PickerPackage(),
+            new RNFSPackage(),
+            new FBSDKPackage(),
+            new FastImageViewPackage(),
+            new PhotoViewPackage(),
+            new LinearGradientPackage(),
+            new VectorIconsPackage(),
+            new VectorIconsPackage(),
+            new SvgPackage(),
+            new ReactNativePushNotificationPackage(),
+            new PickerPackage(),
+            new RNFSPackage(),
+            new FBSDKPackage(),
+            new FastImageViewPackage(),
+            new PhotoViewPackage(),
+            new LinearGradientPackage(),
+            new VectorIconsPackage(),
+            new VectorIconsPackage(),
+            new SvgPackage(),
+            new ReactNativePushNotificationPackage(),
+            new PickerPackage(),
+            new RNFSPackage(),
+            new FBSDKPackage(),
+            new FastImageViewPackage(),
+            new PhotoViewPackage(),
+            new LinearGradientPackage(),
+            new VectorIconsPackage(),
+            new VectorIconsPackage(),
+            new SvgPackage(),
+            new ReactNativePushNotificationPackage(),
+            new PickerPackage(),
+            new RNFSPackage(),
+            new FBSDKPackage(),
+            new FastImageViewPackage(),
+            new PhotoViewPackage(),
+            new LinearGradientPackage(),
+            new VectorIconsPackage(),
             new VectorIconsPackage(),
             new SvgPackage(),
             new ReactNativePushNotificationPackage(),

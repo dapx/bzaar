@@ -70,7 +70,7 @@ class User extends Component {
               <Input disabled value={this.state.email} onChangeText={email => this.setState({email})} />
             </Item>
             <ListItem icon>
-              <Left><Icon name="smile-o" /></Left>
+              <Left><Icon name="briefcase" /></Left>
               <Body>
                 <Text>Lojista</Text>
               </Body>
