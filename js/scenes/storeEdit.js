@@ -63,9 +63,11 @@ class StoreEdit extends Component {
       if (wasChangedImage) {
         this.props.storesActions.sendImage(signedURL, this.state.data.logo, this.state.mimetype)
           .then(() => {
-            this.props.storesActions.updateStore(this.props.jwt, { store:
-              { ...this.state.data, logo: this.state.image_url },
-            });
+            const store = { ...this.state.data, logo: this.state.image_url };
+            this.props.storesActions.updateStore(
+              this.props.jwt,
+              store,
+            );
           });
       } else {
         this.props.storesActions.updateStore(this.props.jwt, { store: this.state.data });
@@ -110,19 +112,6 @@ class StoreEdit extends Component {
       />
     </DefaultImagePicker>);
   }
-
-  renderButton() {
-    return (
-      <Button
-        disabled={this.state.uploading}
-        full
-        dark={!this.state.uploading}
-        onPress={this.onPressButton}
-      >
-        <Text>Salvar</Text>
-      </Button>
-    );
-  }
   
   // TODO - RENDER PARALLAX HEADER
   renderParallax() {
@@ -143,7 +132,6 @@ class StoreEdit extends Component {
   }
 
   render() {
-    const storeName = this.state.data.name;
     const { isNew } = this.state;
     // TODO - RENDER PARALLAX HEADER
     //return this.renderParallax();
@@ -175,7 +163,14 @@ class StoreEdit extends Component {
                 onChangeText={email => this.onChange({ email })} />
             </Item>
           </Form>
-          { this.renderButton() }
+          <Button
+            disabled={this.state.uploading}
+            full
+            dark={!this.state.uploading}
+            onPress={this.onPressButton}
+          >
+            <Text>Salvar</Text>
+          </Button>
         </Content>
       </Container>
     );
