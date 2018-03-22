@@ -1,5 +1,4 @@
 import * as Actions from '../actionTypes/myStores';
-import RECEIVE_ERROR from '../actionTypes/error';
 import { ApiUtils } from '../utils/api';
 
 function request() {
@@ -190,19 +189,20 @@ export function savedStore(data) {
   };
 }
 
-export function updateStore(jwt, storeData) {
+export function updateStore(jwt, store) {
+  const { id } = store;
   return (dispatch) => {
     dispatch(saveStore());
-    return ApiUtils.create(`stores/${storeData.store.id}`, jwt, storeData, 'PUT')
+    return ApiUtils.create(`stores/${id}`, jwt, { store }, 'PUT')
       .then(data => dispatch(savedStore(data)))
       .catch(error => ApiUtils.error(error.message));
   };
 }
 
-export function createStore(jwt, storeData) {
+export function createStore(jwt, store) {
   return (dispatch) => {
     dispatch(saveStore());
-    return ApiUtils.create('stores', jwt, storeData, 'POST')
+    return ApiUtils.create('stores', jwt, { store }, 'POST')
       .then(data => dispatch(savedStore(data)))
       .catch(error => ApiUtils.error(error.message));
   };
