@@ -35,35 +35,55 @@ export function list(jwt) {
   };
 }
 
-export function openStore(store) {
-  return dispatch => dispatch({ type: Actions.OPEN_MYSTORE, store });
+export function openStore(data) {
+  return dispatch => dispatch({ type: Actions.OPEN_MYSTORE, data });
 }
 
 export function openNewStore() {
-  const store = {
+  const data = {
     id: 0,
     name: '',
     description: '',
     logo: '',
     email: '',
   };
-  return dispatch => dispatch({ type: Actions.OPEN_NEW_STORE, store });
+  return dispatch => dispatch({ type: Actions.OPEN_NEW_STORE, data });
 }
 
-export function editStore(store) {
-  return dispatch => dispatch({ type: Actions.EDIT_STORE, store });
+export function editStore(data) {
+  return dispatch => dispatch({ type: Actions.EDIT_STORE, data });
 }
 
 export function openProducts(storeId) {
   return dispatch => dispatch({ type: Actions.OPEN_PRODUCTS, storeId });
 }
 
-export function editProduct(product) {
-  return dispatch => dispatch({ type: Actions.EDIT_PRODUCT, product });
+export function editProduct(data) {
+  return dispatch => dispatch({ type: Actions.EDIT_PRODUCT, data });
 }
 
-export function editProductImages(product) {
-  return dispatch => dispatch({ type: Actions.EDIT_PRODUCT_IMAGES, product });
+export function onChangeProduct(data) {
+  return dispatch => dispatch({ type: Actions.PRODUCT_CHANGED, data });
+}
+
+export function editProductImages(data) {
+  return dispatch => dispatch({ type: Actions.EDIT_PRODUCT_IMAGES, data });
+}
+
+export function editProductSize(size) {
+  return dispatch => dispatch({ type: Actions.EDIT_SIZE, size });
+}
+
+export function addSizeAction(size) {
+  return { type: Actions.ADD_SIZE, size };
+}
+
+export function addSize(size) {
+  return dispatch => dispatch(addSizeAction(size));
+}
+
+export function removeSize(size) {
+  return dispatch => dispatch({ type: Actions.REMOVE_SIZE, size });
 }
 
 function requestImage() {
@@ -77,6 +97,16 @@ function receiveImage(storeId, data) {
     type: Actions.RECEIVE_IMAGE,
     id: storeId,
     data,
+  };
+}
+
+function receiveImages(productId, data, sequence, metaData) {
+  return {
+    type: Actions.RECEIVE_PRODUCT_IMAGES,
+    productId,
+    sequence,
+    data,
+    metaData,
   };
 }
 
@@ -117,35 +147,53 @@ export function requestProductSignedURL(jwt, metaData, product) {
   };
 }
 
+export function requestProductImagesSignedURL(jwt, metaData, product, sequence) {
+  return (dispatch) => {
+    dispatch(requestImage());
+    return ApiUtils.create(
+      `stores/${product.store_id}/products/${product.id}/product_images/upload`,
+      jwt,
+      metaData,
+      ).then((data) => {
+        dispatch(receiveImages(product.id, data, sequence, metaData));
+        return data;
+      }).catch(error => ApiUtils.error(error.message));
+  };
+}
+
 export function sendImage(signedURL, imageData, mimetype) {
   return (dispatch) => {
     dispatch(uploadImage());
     return ApiUtils.upload(signedURL, imageData, mimetype)
-    .then(() => dispatch(uploadedImage()))
+    .then(() => {
+      dispatch(uploadedImage());
+      return true;
+    })
     .catch((error) => {
       dispatch(uploadedImage());
       ApiUtils.error(`Não foi possivel enviar a imagem: ${error}`);
+      return false;
     });
   };
 }
 
-function saveStore() {
+export function saveStore() {
   return {
     type: Actions.SAVE_STORE,
   };
 }
 
-function savedStore(data) {
+export function savedStore(data) {
   return {
     type: Actions.SAVED_STORE,
-    data,
+    ...data,
   };
 }
 
 export function updateStore(jwt, storeData) {
   return (dispatch) => {
     dispatch(saveStore());
-    return ApiUtils.create(`stores/${storeData.store.id}`, jwt, storeData, method = 'PUT')
+    return ApiUtils.create(`stores/${storeData.store.id}`, jwt, storeData, 'PUT')
       .then(data => dispatch(savedStore(data)))
       .catch(error => ApiUtils.error(error.message));
   };
@@ -154,7 +202,7 @@ export function updateStore(jwt, storeData) {
 export function createStore(jwt, storeData) {
   return (dispatch) => {
     dispatch(saveStore());
-    return ApiUtils.create('stores', jwt, storeData, method = 'POST')
+    return ApiUtils.create('stores', jwt, storeData, 'POST')
       .then(data => dispatch(savedStore(data)))
       .catch(error => ApiUtils.error(error.message));
   };
@@ -182,33 +230,36 @@ export function listProducts(jwt, storeId) {
   };
 }
 
-function saveProduct() {
+export function saveProduct() {
   return {
     type: Actions.SAVE_PRODUCT,
   };
 }
 
-function savedProduct(data) {
+export function savedProduct(data) {
   return {
     type: Actions.SAVED_PRODUCT,
-    data,
+    ...data,
   };
 }
 
-export function updateProduct(jwt, productData) {
+export function updateProduct(jwt, product) {
+  const { store_id, id } = product;
   return (dispatch) => {
     dispatch(saveProduct());
-    return ApiUtils.create(`stores/${productData.id}`, jwt, productData, method = 'PUT')
+    // eslint-disable-line camelcase
+    return ApiUtils.create(`stores/${store_id}/products/${id}`, jwt, { product }, 'PUT')
       .then(data => dispatch(savedProduct(data)))
       .catch(error => ApiUtils.error(error.message));
   };
 }
 
-export function createProduct(jwt, productData) {
+export function createProduct(jwt, product) {
+  const { store_id } = product;
   return (dispatch) => {
-    dispatch(saveStore());
-    return ApiUtils.create('stores', jwt, productData, method = 'POST')
-      .then(data => dispatch(savedStore(data)))
+    dispatch(saveProduct());
+    return ApiUtils.create(`stores/${store_id}/products`, jwt, { product }, 'POST')
+      .then(data => dispatch(savedProduct(data)))
       .catch(error => ApiUtils.error(error.message));
   };
 }
