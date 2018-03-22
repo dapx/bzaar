@@ -16,7 +16,6 @@ class ButtonDebounced extends Component {
   render() {
     const { onPress, props } = this;
     const nextProps = { ...props, onPress };
-    console.log('Next props ', nextProps);
     return (
       <Button { ...nextProps }>
         { this.props.children }
