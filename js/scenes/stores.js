@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, ImageBackground, FlatList, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, ImageBackground, FlatList, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import * as Actions from '../actions/stores';
 import { stores } from '../styles';
+import Button from '../components/button';
 
 const styles = StyleSheet.create(stores);
 
@@ -31,7 +32,7 @@ class Stores extends Component {
     });
   }
 
-  pressItem(item) {
+  onPressItem(item) {
     this.props.storeActions.openStore(item);
   }
 
@@ -42,10 +43,10 @@ class Stores extends Component {
   renderItem({ item, index }) {
     const imageStyle = styles.storeExtendedImage;
     return (
-      <TouchableOpacity
+      <Button
         key={`store-${index}`}
         style={styles.imageContainer}
-        onPress={() => this.pressItem(item)}
+        onPress={() => this.onPressItem(item)}
       >
         <ImageBackground
           source={{ uri: item.logo, cache: 'force-cache' }}
@@ -64,7 +65,7 @@ class Stores extends Component {
             {item.name}
           </Text>
         </ImageBackground>
-      </TouchableOpacity>
+      </Button>
     );
   }
 
