@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, Animated, FlatList, TouchableOpacity, Platform, Text } from 'react-native';
+import { StyleSheet, Animated, FlatList, Platform, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import FastImage from 'react-native-fast-image';
+import _ from 'lodash';
+import Button from '../components/button';
 import * as Actions from '../actions/products';
 import { getDeviceWidth } from '../styles';
 
@@ -92,19 +94,21 @@ class Products extends Component {
   }
 
   renderItem({ item, index }) {
+    const image = item.images[0];
+    const uri = (image && image.url) || 'https://www.pixedelic.com/themes/geode/demo/wp-content/uploads/sites/4/2014/04/placeholder.png';
     const size = this.state.list.length - 1;
     const imageStyle = (size === index && this.state.list.length % 2 > 0)
       ? styles.storeUniqueImage
       : styles.storeImage;
     return (
-      <TouchableOpacity key={`products_${index}`} style={styles.imageContainer} onPress={() => this.pressItem(item)}>
+      <Button key={`products_${index}`} style={styles.imageContainer} onPress={() => this.pressItem(item)}>
         <FastImage
             style={imageStyle}
-            source={{ uri: item.image }}
+            source={{ uri }}
             resizeMode={'contain'}
         />
         <Text style={{ textAlign: 'center' }}>{item.name}</Text>
-      </TouchableOpacity>
+      </Button>
     );
   }
 
