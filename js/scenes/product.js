@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Dimensions, Text } from 'react-native';
+import { StyleSheet, ScrollView, View, Dimensions, Text, Platform, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Container, Button, Icon, Title, Content, Body, Footer } from 'native-base';
+import { Button, Icon } from 'native-base';
 import PropTypes from 'prop-types';
 import Carousel from 'react-native-looped-carousel';
 import { Lightbox } from '@shoutem/ui';
 import FastImage from 'react-native-fast-image';
-import HeaderBack from '../components/headerBack';
+import IconButton from '../components/iconButton';
 import * as NavActions from '../actions/navigation';
 import * as ProductsActions from '../actions/products';
 import * as style from '../styles/index';
@@ -17,6 +17,7 @@ const imageHeight = style.getDeviceHeight(50);
 
 const { width, height } = Dimensions.get('window');
 const lightboxStyle = { style: { width, height } };
+const isIOS = Platform.OS === 'ios';
 
 const styles = StyleSheet.create({
   container: {
@@ -71,6 +72,19 @@ const styles = StyleSheet.create({
     flex: 2,
     justifyContent: 'center',
   },
+  backButton: {
+    position: 'absolute',
+    top: 20,
+    left: 15,
+    zIndex: 2,
+    backgroundColor: 'white',
+    opacity: 0.5,
+    borderRadius: 5,
+    padding: 5,
+  },
+  backButtonIcon: {
+    color: '#000',
+  },
 });
 
 class Product extends Component {
@@ -80,20 +94,25 @@ class Product extends Component {
       id: 0,
       name: '',
       description: '',
-      price: 0,
-      image: '',
       images: [
       ],
-      quantity: 0,
-      size: '',
+      sizes: [],
     };
   }
+
+  componentWillMount() {
+    if (isIOS) StatusBar.setHidden(true, 'fade');
+  }
+
+  componentWillUnmount() {
+    if (isIOS) StatusBar.setHidden(false, 'fade');
+  }
+
 
   componentDidMount() {
     this.setState({
       jwt: this.props.jwt,
       ...this.props.product,
-      images: [{ url: this.props.product.image, sequence: 0 }, ...this.props.product.images],
     });
   }
 
@@ -109,47 +128,45 @@ class Product extends Component {
   }
 
   render() {
+    const { images } = this.state;
     return (
-      <Container style={styles.container}>
-      <HeaderBack title="Produto" back={() => this.props.navActions.back()} />
-        <Content>
-          <Body>
-            <Title style={styles.title}>
-              {this.state.name}
-            </Title>
-            <Carousel
-              style={styles.carrousel}
-              pageStyle={styles.slide}
-              autoplay={false}
-              pageInfo
-            >
-              { this.state.images.map(image => (
-                <View key={`product_${image}`} style={styles.slide}>
-                  <Lightbox activeProps={{ ...lightboxStyle }} backgroundColor={'#fff'} underlayColor={'#fff'}>
-                    <FastImage
-                      style={styles.images}
-                      source={{ uri: image.url }}
-                      resizeMode={'contain'}
-                    />
-                  </Lightbox>
-                </View>
-                ))
-              }
-            </Carousel>
-            <View style={styles.description}>
-              <Text style={styles.info}>
-                {this.state.description}
-              </Text>
-              <Text style={styles.info}>
-                Tamanho: {this.state.size}
-              </Text>
-              <Text style={styles.info}>
-                Unidades: {this.state.quantity}
-              </Text>
+      <ScrollView style={styles.container}>
+        <IconButton
+          style={styles.backButton}
+          onPress={this.props.navActions.back}
+          iconName={'arrow-left'}
+          iconStyle={styles.backButtonIcon}
+        />
+        <Carousel
+          style={styles.carrousel}
+          pageStyle={styles.slide}
+          autoplay={false}
+          pageInfo
+        >
+          { images.length > 0 ? images.map(image => (
+            <View key={`product_${image}`} style={styles.slide}>
+              <Lightbox
+                activeProps={{ ...lightboxStyle }}
+                backgroundColor={'#fff'}
+                underlayColor={'#fff'}
+                onClose={() => StatusBar.setHidden(true, 'fade')}
+              >
+                <FastImage
+                  style={styles.images}
+                  source={{ uri: image.url }}
+                  resizeMode={'contain'}
+                />
+              </Lightbox>
             </View>
-          </Body>
-        </Content>
-        <Footer style={styles.footer}>
+            ))
+            : <FastImage
+              style={styles.images}
+              source={{ uri: 'https://www.pixedelic.com/themes/geode/demo/wp-content/uploads/sites/4/2014/04/placeholder.png' }}
+              resizeMode={'contain'}
+            />
+          }
+        </Carousel>
+        <View style={styles.footer}>
           <View style={styles.currency}>
             <Text style={styles.currencyText}>R${this.state.price}</Text>
           </View>
@@ -160,11 +177,22 @@ class Product extends Component {
           >
             <Icon
               style={styles.buyButton}
-              name="cart-plus"
+              name="shopping-cart"
             />
           </Button>
-        </Footer>
-      </Container>
+        </View>
+        <View style={styles.description}>
+          <Text style={styles.info}>
+            {this.state.description}
+          </Text>
+          <Text style={styles.info}>
+            Tamanho: {this.state.size}
+          </Text>
+          <Text style={styles.info}>
+            Unidades: {this.state.quantity}
+          </Text>
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -188,11 +216,8 @@ Product.propTypes = {
   product: PropTypes.shape({
     name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
     images: PropTypes.arrayOf(PropTypes.object).isRequired,
-    quantity: PropTypes.number.isRequired,
-    size: PropTypes.string.isRequired,
+    sizes: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
   navActions: PropTypes.shape({
     back: PropTypes.func.isRequired,
