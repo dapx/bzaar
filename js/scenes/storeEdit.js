@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Container, Button, Content, Form, Input, Item, Label, Text, Spinner } from 'native-base';
 import PropTypes from 'prop-types';
 import FastImage from 'react-native-fast-image';
-import HeaderBack from '../components/headerBack';
+import ParallaxScroll from '@monterosa/react-native-parallax-scroll';
+import IconButton from '../components/iconButton';
 import DefaultImagePicker from '../components/DefaultImagePickerWithErrorHandler';
 import * as NavActions from '../actions/navigation';
 import * as StoresActions from '../actions/myStores';
-import { storeEdit } from '../styles/index';
+import { storeEdit, headers } from '../styles/index';
 
 const styles = StyleSheet.create(storeEdit);
+const stylesHeader = StyleSheet.create(headers);
+const isIOS = Platform.OS === 'ios';
 
 class StoreEdit extends Component {
   constructor(props) {
@@ -31,12 +34,22 @@ class StoreEdit extends Component {
     this.onPressButton = this.onPressButton.bind(this);
   }
 
+  componentWillMount() {
+    if (isIOS) StatusBar.setHidden(true, 'fade');
+  }
+
+  componentWillUnmount() {
+    if (isIOS) StatusBar.setHidden(false, 'fade');
+  }
+
   componentWillReceiveProps(nextProps) {
     this.setState({
+      data: nextProps.store,
       presigned_url: nextProps.store.presigned_url,
       uploading: !!nextProps.store.uploading,
       loadingRequest: !!nextProps.store.loadingRequest,
       image_path: nextProps.store.image_path,
+      image_url: nextProps.store.image_url,
     });
   }
 
@@ -44,18 +57,18 @@ class StoreEdit extends Component {
     const signedURL = this.state.presigned_url;
     const isNew = this.state.isNew;
     if (isNew) {
-      this.props.storesActions.createStore(this.state.jwt, this.state.data);
+      this.props.storesActions.createStore(this.props.jwt, this.state.data);
     } else {
       const wasChangedImage = this.state.wasChangedImage;
       if (wasChangedImage) {
         this.props.storesActions.sendImage(signedURL, this.state.data.logo, this.state.mimetype)
-          .then(() =>
-            this.props.storesActions.updateStore(this.state.jwt, { store:
-              { ...this.state.data, logo: this.state.image_path },
-            }),
-          );
+          .then(() => {
+            this.props.storesActions.updateStore(this.props.jwt, { store:
+              { ...this.state.data, logo: this.state.image_url },
+            });
+          });
       } else {
-        this.props.storesActions.updateStore(this.state.jwt, { store: this.state.data });
+        this.props.storesActions.updateStore(this.props.jwt, { store: this.state.data });
       }
     }
   }
@@ -110,13 +123,37 @@ class StoreEdit extends Component {
       </Button>
     );
   }
+  
+  // TODO - RENDER PARALLAX HEADER
+  renderParallax() {
+    return (
+      <ParallaxScroll
+        renderHeader={({ animatedValue }) => <Header animatedValue={animatedValue} />}
+        headerHeight={50}
+        isHeaderFixed={false}
+        parallaxHeight={250}
+        renderParallaxBackground={({ animatedValue }) => <Background animatedValue={animatedValue} />}
+        renderParallaxForeground={({ animatedValue }) => <Foreground animatedValue={animatedValue} />}
+        parallaxBackgroundScrollSpeed={5}
+        parallaxForegroundScrollSpeed={2.5}
+      >
+        <Text>Welcome</Text>
+      </ParallaxScroll>
+    );
+  }
 
   render() {
     const storeName = this.state.data.name;
     const { isNew } = this.state;
+    // TODO - RENDER PARALLAX HEADER
+    //return this.renderParallax();
     return (
       <Container style={styles.container}>
-        <HeaderBack title={`Edit ${storeName}`} back={() => this.props.navActions.back()} />
+        <IconButton
+          style={stylesHeader.backButton}
+          onPress={this.props.navActions.back}
+          iconName={'arrow-left'}
+        />
         <Content style={{ flex: 1 }}>
           { !isNew && this.renderImage() }
           <Form style={{ flex: 2 }}>
@@ -171,6 +208,7 @@ StoreEdit.propTypes = {
     uploading: PropTypes.bool,
     loadingRequest: PropTypes.bool,
     image_path: PropTypes.string,
+    image_url: PropTypes.string,
   }).isRequired,
   navActions: PropTypes.shape({
     back: PropTypes.func.isRequired,
