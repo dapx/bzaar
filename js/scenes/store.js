@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Animated, FlatList, TouchableOpacity, View, Text } from 'react-native';
-import { Container, Header, Body, Left, Right, Tabs, Tab, Title, Icon, Spinner } from 'native-base';
+import { Container, Header, Body, Left, Right, Tabs, Tab, Title, Icon, Spinner, ScrollableTab } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -41,6 +41,8 @@ class Store extends Component {
   }
 
   renderItem({ item, index }) {
+    const image = item.images[0];
+    const uri = (image && image.url) || 'https://www.pixedelic.com/themes/geode/demo/wp-content/uploads/sites/4/2014/04/placeholder.png';
     const size = this.state.list.length - 1;
     const imageStyle = (size === index && this.state.list.length % 2 > 0)
       ? styles.storeUniqueImage
@@ -53,7 +55,7 @@ class Store extends Component {
       >
         <FastImage
           style={imageStyle}
-          source={{ uri: item.image }}
+          source={{ uri }}
           resizeMode={'contain'}
         />
         <Text style={{ textAlign: 'center' }}>{item.name}</Text>
@@ -62,8 +64,9 @@ class Store extends Component {
   }
 
   render() {
+    const { list = [] } = this.state;
     const groupedProducts = _.groupBy(
-      this.state.list,
+      list,
       product => product.name.split(' ')[0],
     );
     return (
@@ -79,13 +82,13 @@ class Store extends Component {
           </Body>
           <Right>
             <TouchableOpacity style={{ padding: 5 }} onPress={() => this.props.navActions.bag()}>
-              <Icon style={{ color: 'black' }} name="shopping-bag" />
+              <Icon style={{ color: 'black' }} name="shopping-cart" />
             </TouchableOpacity>
           </Right>
         </Header>
-        <View style={{ flex: 1 }}>
-          <Tabs>
-            { groupedProducts && Object.entries(groupedProducts).map(([key, value]) => (
+        <View style={{ flex: 1 }} >
+        <Tabs tabBarBackgroundColor={'white'} renderTabBar={() => <ScrollableTab />}>
+            { list.length > 0 ? Object.entries(groupedProducts).map(([key, value]) => (
               <Tab key={`store-tab-${key}`} heading={key}>
                 { this.state.loadingRequest
                   ? <Spinner />
@@ -101,6 +104,9 @@ class Store extends Component {
                 }
               </Tab>
               ))
+              : <Tab key={'store-tab-nenhum'} heading={'Nenhum Produto'}>
+                <Text>Esta loja não possui produtos</Text>
+              </Tab>
             }
           </Tabs>
         </View>
