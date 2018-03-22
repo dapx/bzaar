@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 import { Container, Text, Card } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import FastImage from 'react-native-fast-image';
 import HeaderBack from '../components/headerBack';
+import Button from '../components/button';
 import * as NavActions from '../actions/navigation';
 import * as ProductsActions from '../actions/products';
 import * as StoreActions from '../actions/myStores';
@@ -24,10 +25,10 @@ class StoreProducts extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: 0,
-      loadingProducts: false,
-      products: [],
-      jwt: '',
+      loadingProducts: props.loadingProducts,
+      jwt: props.jwt,
+      products: props.products,
+      id: props.id,
     };
     this.renderItem = this.renderItem.bind(this);
   }
@@ -39,18 +40,7 @@ class StoreProducts extends Component {
   componentWillReceiveProps(nextProps) {
     this.setState({
       jwt: nextProps.jwt,
-      products: [
-        {
-          id: 0,
-          image: 'https://png.icons8.com/dusk/1600/new-product.png',
-          name: 'adicionar',
-          description: '',
-          price: 0,
-          store_id: 0,
-          images: [],
-        },
-        ...nextProps.products,
-      ],
+      products: nextProps.products,
       loadingProducts: nextProps.loadingProducts,
       id: nextProps.id,
     });
@@ -65,20 +55,31 @@ class StoreProducts extends Component {
   }
 
   renderItem({ item, index }) {
+    let uri = 'https://png.icons8.com/dusk/1600/new-product.png';
+    let name = 'Adicionar';
+    let itemToOpen = { id: 0, name: '', description: '', sizes: [], images: [] };
+    const isNew = item.id === 0;
+    if (!isNew) {
+      const image = item.images[0];
+      name = item.name;
+      uri = (image && image.url) || 'https://www.pixedelic.com/themes/geode/demo/wp-content/uploads/sites/4/2014/04/placeholder.png';
+      itemToOpen = item;
+    }
     return (
-      <TouchableOpacity
+      <Button
+        key={`product-store-${index}`}
         style={{ flex: 1 }}
-        onPress={() => this.onPress(item)}
+        onPress={() => this.onPress(itemToOpen)}
       >
-        <Card key={`product-store-${index}`}>
+        <Card>
           <FastImage
             style={styles.storeUniqueImage}
-            source={{ uri: item.image }}
+            source={{ uri }}
             resizeMode={'contain'}
           />
-          <Text style={{ textAlign: 'center' }}>{`${item.name}`}</Text>
+          <Text style={{ textAlign: 'center' }}>{`${name}`}</Text>
         </Card>
-      </TouchableOpacity>
+      </Button>
     );
   }
 
@@ -90,9 +91,12 @@ class StoreProducts extends Component {
           style={{ backgroundColor: 'white' }}
           numColumns={2}
           horizontal={false}
-          data={this.state.products}
+          data={[
+            { id: 0 },
+            ...this.state.products,
+          ]}
           renderItem={this.renderItem}
-          keyExtractor={item => item.id}
+          keyExtractor={item => (item ? `${item.id}` : 'fake')}
           refreshing={this.state.loadingProducts}
           onRefresh={() => this.handleRefresh()}
           ListEmptyComponent={<Text>Não foi possivel encontrar produtos na sua loja.</Text>}
