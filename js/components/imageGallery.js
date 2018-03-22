@@ -32,20 +32,46 @@ EmptySlot.propTypes = {
   style: View.propTypes.style,
 };
 
-const Slot = ({ EmptyComponent, style, url, sequence }) => {
-  return url
-    ? <FastImage
-        style={style}
-        key={`slot-seq-${sequence}`}
-        source={{ uri: url }}
-        resizeMode={'cover'}
-    />
-    : <EmptyComponent style={style} key={`slot-seq-${sequence}`} />;
-};
+class Slot extends Component {
+  constructor(props) {
+    super(props);
+    this.onReceiveImage = this.onReceiveImage.bind(this);
+  }
+
+  onReceiveImage(image) {
+    const { onReceiveData, sequence } = this.props;
+    const data = { ...image, sequence };
+    onReceiveData(data);
+  }
+
+  render() {
+    const { EmptyComponent, style, url, width, height } = this.props;
+    return (
+      <DefaultImagePicker
+        width={width}
+        height={height}
+        cropping={true}
+        onReceiveData={this.onReceiveImage}
+      >
+      { url
+        ? <FastImage
+            style={style}
+            source={{ uri: url }}
+            resizeMode={'cover'}
+        />
+        : <EmptyComponent style={style} />
+      }
+      </DefaultImagePicker>
+    );
+  }
+}
 
 Slot.propTypes = {
   url: PropTypes.string,
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
   sequence: PropTypes.number.isRequired,
+  onReceiveData: PropTypes.func.isRequired,
   EmptyComponent: PropTypes.func.isRequired,
   style: FastImage.propTypes.style,
 };
@@ -73,7 +99,12 @@ class ImageGallery extends Component {
     this.state = {
       slots,
     };
-    this.onReceiveData = this.onReceiveData.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const images = this.sortBySeq(nextProps.images);
+    const slots = this.fillSlots(images, this.state.slots);
+    this.setState({ slots });
   }
 
   sortBySeq(images) {
@@ -84,27 +115,20 @@ class ImageGallery extends Component {
     return _.unionBy(images, emptySlots, 'sequence');
   }
 
-  onReceiveData(data) {
-    console.log(data);
-  }
-
   render() {
     return (
       <ScrollView contentContainerStyle={styles.container}>
       { this.state.slots.map(image => (
-        <DefaultImagePicker
+        <Slot
           key={`image-${image.sequence}`}
           width={400}
           height={400}
-          onReceiveData={this.onReceiveData}
-        >
-          <Slot
-            style={styles.slots}
-            sequence={image.sequence}
-            url={image.url}
-            EmptyComponent={EmptySlot}
-          />
-        </DefaultImagePicker>
+          onReceiveData={this.props.onReceiveData}
+          style={styles.slots}
+          sequence={image.sequence}
+          url={image.url}
+          EmptyComponent={EmptySlot}
+        />
       ))}
       </ScrollView>
     );
@@ -118,6 +142,7 @@ ImageGallery.propTypes = {
       sequence: PropTypes.number.isRequired,
     }),
   ).isRequired,
+  onReceiveData: PropTypes.func.isRequired,
 };
 
 export default ImageGallery;
