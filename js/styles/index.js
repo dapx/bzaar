@@ -32,6 +32,22 @@ export const stores = {
   },
 };
 
+export const headers = {
+  backButton: {
+    position: 'absolute',
+    top: 20,
+    left: 15,
+    zIndex: 2,
+    backgroundColor: 'white',
+    opacity: 0.5,
+    borderRadius: 5,
+    padding: 1,
+  },
+  backButtonIcon: {
+    color: '#000',
+  },
+};
+
 export const storeEdit = {
   container: {
     flex: 1,
@@ -39,20 +55,20 @@ export const storeEdit = {
   },
   carrousel: {
     width: 400,
-    height: 400,
+    height: 300,
     alignSelf: 'center',
   },
   image: {
     width: 400,
-    height: 400,
+    height: 300,
   },
   imagesEdit: {
     position: 'absolute',
-    top: 10,
+    top: 20,
     right: 20,
     zIndex: 2,
     backgroundColor: 'white',
-    opacity: 0.8,
+    opacity: 0.5,
     borderRadius: 50,
     padding: 5,
   },
