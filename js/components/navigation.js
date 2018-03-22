@@ -17,6 +17,7 @@ import StoreEdit from '../scenes/storeEdit';
 import StoreProducts from '../scenes/storeProducts';
 import ProductEdit from '../scenes/productEdit';
 import ProductImages from '../scenes/productImages';
+import SizeModal from '../scenes/size';
 
 const UserNavigator = StackNavigator({
   User: { screen: UserRegister,
@@ -33,6 +34,26 @@ const UserNavigator = StackNavigator({
       gesturesEnabled: false,
     },
   },
+});
+
+const ProductEditNavigator = StackNavigator({
+  ProductEditPage: { screen: ProductEdit,
+    navigationOptions: {
+      visible: false,
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  SizeModalPage: { screen: SizeModal,
+    navigationOptions: {
+      visible: false,
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+}, {
+  mode: 'modal',
+  headerMode: 'none',
 });
 
 export const AppNavigator = StackNavigator({
@@ -100,13 +121,7 @@ export const AppNavigator = StackNavigator({
       gesturesEnabled: false,
     },
   },
-  ProductEditPage: { screen: ProductEdit,
-    navigationOptions: {
-      visible: false,
-      header: null,
-      gesturesEnabled: false,
-    },
-  },
+  ProductEditPage: { screen: ProductEditNavigator },
   ProductImagesPage: { screen: ProductImages,
     navigationOptions: {
       visible: false,
