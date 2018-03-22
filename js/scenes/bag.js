@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, TouchableOpacity, Image, View } from 'react-native';
-import { Container, Header, Content, Title, Left, Right, Icon, Text, Button, Card, CardItem, Body } from 'native-base';
+import { FlatList } from 'react-native';
+import { Container, Text } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -45,7 +45,7 @@ class Bag extends Component {
   renderItem({ item, index }) {
     return (
       <BagItem
-        key={`bag_item_${item.id}`}
+        key={`bag_item_${index}`}
         item={item}
         imageWidth={getDeviceWidth(20)}
         onRemove={() => this.deleteBagItem(item.id)}
@@ -63,7 +63,7 @@ class Bag extends Component {
               horizontal={false}
               data={this.state.list}
               renderItem={this.renderItem}
-              keyExtractor={item => item.id}
+              keyExtractor={item => item.id.toString()}
               refreshing={this.state.loadingRequest}
               onRefresh={() => this.handleRefresh()}
               ListEmptyComponent={<Text>Não foi possivel encontrar produtos em seu carrinho.</Text>}
