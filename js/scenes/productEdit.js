@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, Dimensions } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Dimensions,
+  Platform,
+  StatusBar,
+} from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Container, Button, Content, Form, Input, Item, Label, Text, Spinner } from 'native-base';
@@ -7,28 +14,31 @@ import PropTypes from 'prop-types';
 import Carousel from 'react-native-looped-carousel';
 import FastImage from 'react-native-fast-image';
 import { Lightbox } from '@shoutem/ui';
-import HeaderBack from '../components/headerBack';
+import _ from 'lodash';
+import IconButton from '../components/iconButton';
+import SizePicker from '../components/sizePicker';
 import * as NavActions from '../actions/navigation';
 import * as StoresActions from '../actions/myStores';
-import { storeEdit } from '../styles/index';
+import { storeEdit, headers } from '../styles/index';
+import { ApiUtils } from '../utils/api';
 
 const styles = StyleSheet.create(storeEdit);
+const stylesHeader = StyleSheet.create(headers);
 const { width, height } = Dimensions.get('window');
 const lightboxStyle = { style: { width, height } };
+const isIOS = Platform.OS === 'ios';
 
 class ProductEdit extends Component {
   constructor(props) {
     super(props);
-    const price = `${props.product.price}`;
     this.state = {
       data: {
         id: props.product.id,
         name: props.product.name,
         description: props.product.description,
-        image: props.product.image,
-        images: props.product.images,
-        price,
-        store_id: props.product.store_id,
+        images: props.product.images || [],
+        sizes: props.product.sizes || [],
+        store_id: props.storeId,
       },
       presigned_url: '',
       mimetype: '',
@@ -38,7 +48,16 @@ class ProductEdit extends Component {
       wasChangedImage: false,
     };
     this.onPressButton = this.onPressButton.bind(this);
-    this.onReceiveData = this.onReceiveData.bind(this);
+    this.onChangeName = this.onChangeName.bind(this);
+    this.onChangeDescription = this.onChangeDescription.bind(this);
+  }
+
+  componentWillMount() {
+    if (isIOS) StatusBar.setHidden(true, 'fade');
+  }
+
+  componentWillUnmount() {
+    if (isIOS) StatusBar.setHidden(false, 'fade');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -49,6 +68,7 @@ class ProductEdit extends Component {
       uploading: !!nextProps.product.uploading,
       loadingRequest: !!nextProps.product.loadingRequest,
       image_path: nextProps.product.image_path,
+      storeId: nextProps.storeId,
     });
   }
 
@@ -57,26 +77,45 @@ class ProductEdit extends Component {
     this.setState({ data });
   }
 
-  onPressButton() {
-    const signedURL = this.state.presigned_url;
-    const imageData = this.state.data.image;
-    this.props.storesActions.sendImage(
-      signedURL, imageData, this.state.mimetype,
-    );
+  onChangeName(name) {
+    this.onChange({ name });
   }
 
-  onReceiveData(metaData) {
-    const product = this.state.data;
-    this.props.storesActions.requestProductSignedURL(this.props.jwt, metaData, product)
-      .then(() => {
-        const data = { ...product, image: metaData.path };
-        this.setState({
-          isNew: false,
-          wasChangedImage: true,
-          data,
-          mimetype: metaData.mimetype,
-        });
-      });
+  onChangeDescription(description) {
+    this.onChange({ description });
+  }
+
+  normalizeImagesToSave(imagesToSave, images) {
+    const newImages = _.unionBy(imagesToSave, images, 'sequence');
+    const { data } = this.state;
+    const newData = {
+      ...data,
+      images: newImages,
+    };
+    return newData;
+  }
+
+  async onPressButton() {
+    const { jwt, product, storesActions } = this.props;
+    const { imagesToSave = [], images = [] } = this.state.data;
+
+    // Get all images to salve and send to storage
+    const imagesToResolve = imagesToSave.map(image =>
+      storesActions.sendImage(image.signed_url, image.path, image.mimetype),
+    );
+
+    const resolved = await Promise.all(imagesToResolve);
+
+    const hasError = resolved.find(request => request === false);
+    if (!hasError) {
+      const data = this.normalizeImagesToSave(imagesToSave, images);
+      const createOrUpdate = product.id
+        ? storesActions.updateProduct
+        : storesActions.createProduct;
+      createOrUpdate(jwt, data);
+    } else {
+      ApiUtils.error('Houve um problema ao enviar as imagens, o produto não será salvo.');
+    }
   }
 
   renderImage() {
@@ -90,13 +129,16 @@ class ProductEdit extends Component {
         pageInfo
       >
       { this.props.product.images.map(image => (
-        <View key={`product_${image.seq}`} style={styles.slide}>
-          <Lightbox activeProps={{ ...lightboxStyle }} backgroundColor={'#fff'} underlayColor={'#fff'}>
+        <View key={`product-${image.seq}`} style={styles.slide}>
+          <Lightbox
+            activeProps={{ ...lightboxStyle }}
+            backgroundColor={'#fff'}
+            underlayColor={'#fff'}
+            onClose={() => StatusBar.setHidden(true, 'fade')}
+          >
           <FastImage
-            style={styles.images}
+            style={styles.image}
             source={{ uri: image.url }}
-            width={400}
-            height={400}
             resizeMode={'contain'}
           />
           </Lightbox>
@@ -107,62 +149,61 @@ class ProductEdit extends Component {
     );
   }
 
-  renderButton() {
-    return (
-      <Button
-        disabled={this.state.uploading}
-        full
-        dark={!this.state.uploading}
-        onPress={this.onPressButton}
-      >
-        <Text>Salvar</Text>
-      </Button>
-    );
-  }
-
   render() {
     const isNew = this.props.product.id === 0;
     return (
       <Container style={styles.container}>
-        <HeaderBack
-          title={`Produto ${this.state.data.name}`}
-          back={() => this.props.navActions.back()}
+        <IconButton
+          style={stylesHeader.backButton}
+          onPress={this.props.navActions.back}
+          iconName={'arrow-left'}
+          iconStyle={stylesHeader.backButtonIcon}
         />
+        <View style={styles.imagesEdit}>
+          <TouchableOpacity
+            onPress={() => this.props.storesActions.editProductImages(this.props.product)}
+          >
+            <View>
+              <Text>Gerenciar Imagens</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
         <Content>
           <Form>
-            <View style={styles.imagesEdit}>
-            <TouchableOpacity
-              onPress={() => this.props.storesActions.editProductImages(this.props.product)}
-            >
-              <View>
-                <Text>Gerenciar Imagens</Text>
-              </View>
-            </TouchableOpacity>
-            </View>
           { !isNew && this.renderImage() }
             <Item stackedLabel>
               <Label>Nome</Label>
               <Input
                 value={this.state.data.name}
-                onChangeText={name => this.onChange({ name })}
+                onChangeText={this.onChangeName}
+                onBlur={() => this.props.storesActions.onChangeProduct(this.state.data)}
               />
             </Item>
             <Item stackedLabel>
               <Label>Descrição</Label>
               <Input
                 value={this.state.data.description}
-                onChangeText={description => this.onChange({ description })}
+                onChangeText={this.onChangeDescription}
+                onBlur={() => this.props.storesActions.onChangeProduct(this.state.data)}
               />
             </Item>
-            <Item stackedLabel>
-              <Label>Preço</Label>
-              <Input
-                value={this.state.data.price}
-                onChangeText={price => this.onChange({ price })}
-              />
-            </Item>
+            <View style={{ marginTop: 10, marginLeft: 15, marginBottom: 10 }}>
+              <Label style={{ color: 'gray', fontSize: 15 }}>Tamanhos</Label>
+            </View>
+            <SizePicker
+              sizes={this.state.data.sizes}
+              onEdit={this.props.storesActions.editProductSize}
+              onClose={this.props.storesActions.removeSize}
+            />
           </Form>
-          { this.renderButton() }
+          <Button
+            disabled={this.state.uploading}
+            full
+            dark={!this.state.uploading}
+            onPress={this.onPressButton}
+          >
+            <Text>Salvar</Text>
+          </Button>
         </Content>
       </Container>
     );
@@ -173,6 +214,7 @@ function mapStateToProps(state) {
   return {
     jwt: state.login.jwt,
     product: state.myStores.product,
+    storeId: state.myStores.store.id,
   };
 }
 
@@ -189,15 +231,15 @@ ProductEdit.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
     images: PropTypes.Array,
-    price: PropTypes.number.isRequired,
+    sizes: PropTypes.Array,
     store_id: PropTypes.number.isRequired,
     presigned_url: PropTypes.string,
     uploading: PropTypes.bool,
     loadingRequest: PropTypes.bool,
     image_path: PropTypes.string,
   }).isRequired,
+  storeId: PropTypes.number.isRequired,
   navActions: PropTypes.shape({
     back: PropTypes.func.isRequired,
     bag: PropTypes.func.isRequired,
@@ -207,7 +249,10 @@ ProductEdit.propTypes = {
     sendImage: PropTypes.func.isRequired,
     updateProduct: PropTypes.func.isRequired,
     createProduct: PropTypes.func.isRequired,
+    onChangeProduct: PropTypes.func.isRequired,
     editProductImages: PropTypes.func.isRequired,
+    editProductSize: PropTypes.func.isRequired,
+    removeSize: PropTypes.func.isRequired,
   }).isRequired,
 };
 

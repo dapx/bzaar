@@ -13,6 +13,9 @@ import {
   OPEN_PRODUCTS,
   EDIT_PRODUCT,
   EDIT_PRODUCT_IMAGES,
+  EDIT_SIZE,
+  ADD_SIZE,
+  SAVED_PRODUCT,
 } from '../actionTypes/myStores';
 
 const initialState = AppNavigator.router.getStateForAction(AppNavigator.router.getActionForPathAndParams('LoginPage'));
@@ -33,6 +36,8 @@ export default function nav(state = initialState, action) {
       return AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'BagPage' }), state);
     case CREDITCARD_REGISTER:
       return AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'CreditCardPage' }), state);
+    case ADD_SIZE:
+    case SAVED_PRODUCT:
     case SAVED_STORE:
     case BACK:
       return AppNavigator.router.getStateForAction(NavigationActions.back(), state);
@@ -51,6 +56,8 @@ export default function nav(state = initialState, action) {
       return AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'ProductEditPage' }), state);
     case EDIT_PRODUCT_IMAGES:
       return AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'ProductImagesPage' }), state);
+    case EDIT_SIZE:
+      return AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'SizeModalPage' }), state);
     default:
       return state;
   }

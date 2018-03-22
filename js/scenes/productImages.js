@@ -10,15 +10,37 @@ import ImageGallery from '../components/imageGallery';
 
 class ProductImages extends Component {
 
+  constructor(props) {
+    super(props);
+    const { images } = props.product;
+    this.state = {
+      images,
+    };
+    this.onReceiveData = this.onReceiveData.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { images } = nextProps.product;
+    this.setState({ images });
+  }
+
+  async onReceiveData(data) {
+    const { storesActions } = this.props;
+    const { sequence } = data;
+    storesActions
+      .requestProductImagesSignedURL(this.props.jwt, data, this.props.product, sequence);
+  }
+
   render() {
     return (
       <View style={{ flex: 1 }}>
         <HeaderBack
           title={'Images'}
-          back={() => this.props.navActions.back()}
+          back={this.props.navActions.back}
         />
         <ImageGallery
-          images={this.props.product.images}
+          images={this.state.images}
+          onReceiveData={this.onReceiveData}
         />
       </View>
     );
@@ -45,15 +67,15 @@ ProductImages.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
     images: PropTypes.Array,
-    price: PropTypes.number.isRequired,
+    sizes: PropTypes.Array,
     store_id: PropTypes.number.isRequired,
   }),
   navActions: PropTypes.shape({
     back: PropTypes.func.isRequired,
   }).isRequired,
   storesActions: PropTypes.shape({
+    requestProductImagesSignedURL: PropTypes.func.isRequired,
   }).isRequired,
 };
 

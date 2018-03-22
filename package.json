@@ -19,8 +19,8 @@
     "babel-polyfill": "^6.26.0",
     "expo": "^22.0.3",
     "lodash": "^4.17.4",
-    "native-base": "^2.3.3",
-    "native-base-shoutem-theme": "^0.2.1",
+    "native-base": "git+ssh://git@github.com/GeekyAnts/NativeBase.git",
+    "native-base-shoutem-theme": "^0.2.2",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-native": "^0.53.0",
@@ -34,7 +34,7 @@
     "react-native-looped-carousel": "git+https://github.com/phil-r/react-native-looped-carousel.git",
     "react-native-push-notification": "^3.0.1",
     "react-native-svg": "^6.0.0",
-    "react-native-vector-icons": "^4.4.2",
+    "react-native-vector-icons": "^4.5.0",
     "react-navigation": "^1.0.0-beta.9",
     "react-redux": "^5.0.4",
     "redux": "^3.6.0",
@@ -42,7 +42,7 @@
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
-    "babel-jest": "19.0.0",
+    "babel-jest": "^22.4.3",
     "babel-preset-react-native": "^2.1.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",
@@ -51,10 +51,11 @@
     "eslint-plugin-react": "^7.0.1",
     "eslint-plugin-react-native": "^3.2.1",
     "husky": "^0.13.4",
-    "jest": "19.0.2",
-    "react-test-renderer": "16.0.0-alpha.12"
+    "jest": "^22.4.3",
+    "react-test-renderer": "^16.2.0"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "transformIgnorePatterns": []
   }
 }

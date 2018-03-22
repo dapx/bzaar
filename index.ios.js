@@ -4,4 +4,4 @@ import {
 } from 'react-native';
 import Bzaar from './js/app.js';
 
-AppRegistry.registerComponent('bzaar', () => Bzaar);
+export default AppRegistry.registerComponent('bzaar', () => Bzaar);
