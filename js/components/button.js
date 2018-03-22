@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
@@ -28,9 +28,9 @@ class Button extends Component {
 }
 
 Button.propTypes = {
-  style: View.propTypes.style,
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.number, PropTypes.array]),
   onPress: PropTypes.func.isRequired,
-  children: PropTypes.object.isRequired,
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
 
 export default Button;
