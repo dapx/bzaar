@@ -5,13 +5,13 @@
  */
 
 import React, { Component } from 'react';
-import { AppState, Platform } from 'react-native';
+import { AppState } from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import { StyleProvider, Root } from 'native-base';
-import codePush from "react-native-code-push";
+import codePush from 'react-native-code-push';
 import reducer from './reducers/index';
 import AppWithNavigationState from './components/navigation';
 import PushController from './components/pushController';
