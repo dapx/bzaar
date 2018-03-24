@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Animated, FlatList, Platform, Text } from 'react-native';
+import { Card } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -85,7 +86,7 @@ class Products extends Component {
     });
   }
 
-  pressItem(item) {
+  onPress(item) {
     this.props.productsActions.showProduct(item);
   }
 
@@ -96,18 +97,21 @@ class Products extends Component {
   renderItem({ item, index }) {
     const image = item.images[0];
     const uri = (image && image.url) || 'https://www.pixedelic.com/themes/geode/demo/wp-content/uploads/sites/4/2014/04/placeholder.png';
-    const size = this.state.list.length - 1;
-    const imageStyle = (size === index && this.state.list.length % 2 > 0)
-      ? styles.storeUniqueImage
-      : styles.storeImage;
+    const name = item.name;
     return (
-      <Button key={`products_${index}`} style={styles.imageContainer} onPress={() => this.pressItem(item)}>
-        <FastImage
-            style={imageStyle}
+      <Button
+        key={`product-store-${index}`}
+        style={{ flex: 1 }}
+        onPress={() => this.onPress(item)}
+      >
+        <Card>
+          <FastImage
+            style={styles.storeUniqueImage}
             source={{ uri }}
             resizeMode={'contain'}
-        />
-        <Text style={{ textAlign: 'center' }}>{item.name}</Text>
+          />
+          <Text style={{ textAlign: 'center' }}>{`${name}`}</Text>
+        </Card>
       </Button>
     );
   }
