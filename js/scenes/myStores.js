@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Animated, View, FlatList, TouchableOpacity } from 'react-native';
-import { Text } from 'native-base';
+import { StyleSheet, Animated, View, FlatList } from 'react-native';
+import { Card, Text } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -36,7 +36,7 @@ class MyStores extends Component {
     });
   }
 
-  pressItem(item) {
+  onPress(item) {
     this.props.storesActions.openStore(item);
   }
 
@@ -45,17 +45,26 @@ class MyStores extends Component {
   }
 
   renderItem({ item, index }) {
-    const size = this.state.list.length - 1;
-    const imageStyle = (size === index && this.state.list.length % 2 > 0)
-      ? styles.storeUniqueImage
-      : styles.storeImage;
+    const uri = item.logo || 'https://www.pixedelic.com/themes/geode/demo/wp-content/uploads/sites/4/2014/04/placeholder.png';
+    const name = item.name;
     return (
-      <Button key={`my-stores-${index}`} style={styles.imageContainer} onPress={() => this.pressItem(item)}>
-        <FastImage
-          style={imageStyle}
-          source={{ uri: item.logo }}
-          resizeMode={'cover'}
-        />
+      <Button
+        key={`product-store-${index}`}
+        style={{ flex: 1 }}
+        onPress={() => this.onPress(item)}
+      >
+        <Card>
+          <FastImage
+            style={styles.storeUniqueImage}
+            source={{ uri }}
+            resizeMode={'contain'}
+          />
+          <Text style={{
+            backgroundColor: 'gray',
+            color: 'white',
+            textAlign: 'center',
+          }}>{`${name}`}</Text>
+        </Card>
       </Button>
     );
   }
@@ -66,12 +75,12 @@ class MyStores extends Component {
 
   render() {
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1, backgroundColor: 'white' }}>
         <NBButton full
-          style={{backgroundColor: '#bcb3c5', opacity: 0.8}}
+          style={{ backgroundColor: '#ddd' }}
           onPress={() => this.openNew()}
         >
-          <Text>Criar nova loja</Text>
+          <Text style={{ color: 'gray' }}>Criar nova loja</Text>
         </NBButton>
         <FlatList
           ref={(ref) => { this.listRef = ref; }}
