@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, ImageBackground, FlatList, Text } from 'react-native';
+import { StyleSheet, ImageBackground, FlatList } from 'react-native';
+import { Text } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -50,7 +51,7 @@ class Stores extends Component {
       >
         <ImageBackground
           source={{ uri: item.logo, cache: 'force-cache' }}
-          blurRadius={10}
+          blurRadius={6}
           style={[imageStyle, {
             justifyContent: 'center',
             alignItems: 'center',
