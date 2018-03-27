@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { Image, TouchableOpacity, View } from 'react-native';
-import { Container, Header, Left, Body, Right, Tabs, Tab, Icon, Button } from 'native-base';
+import { Image, View } from 'react-native';
+import { Container, Header, Left, Body, Right, Tabs, Tab, Icon } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import Products from './products';
 import MyStores from './myStores';
 import Stores from './stores';
+import Button from '../components/debounceNativeBaseButton';
 import * as Actions from '../actions/stores';
 import * as NavActions from '../actions/navigation';
 
