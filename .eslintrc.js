@@ -15,6 +15,7 @@ module.exports = {
     "import/prefer-default-export": "off",
     "arrow-body-style" : "warn",
     "class-methods-use-this": "off",
+    "disable-inline-comments": "off",
   },
   "globals": { "fetch": false }
 };

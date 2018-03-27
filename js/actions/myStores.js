@@ -247,8 +247,7 @@ export function updateProduct(jwt, product) {
   const { store_id, id } = product;
   return (dispatch) => {
     dispatch(saveProduct());
-    // eslint-disable-line camelcase
-    return ApiUtils.create(`stores/${store_id}/products/${id}`, jwt, { product }, 'PUT')
+    return ApiUtils.create(`stores/${store_id}/products/${id}`, jwt, { product }, 'PUT') // eslint-disable-line camelcase
       .then(data => dispatch(savedProduct(data)))
       .catch(error => ApiUtils.error(error.message));
   };
@@ -258,7 +257,7 @@ export function createProduct(jwt, product) {
   const { store_id } = product;
   return (dispatch) => {
     dispatch(saveProduct());
-    return ApiUtils.create(`stores/${store_id}/products`, jwt, { product }, 'POST')
+    return ApiUtils.create(`stores/${store_id}/products`, jwt, { product }, 'POST') // eslint-disable-line camelcase
       .then(data => dispatch(savedProduct(data)))
       .catch(error => ApiUtils.error(error.message));
   };
