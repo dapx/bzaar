@@ -62,10 +62,10 @@ function addedProductToBag(data) {
   return dispatch => dispatch({ type: ADDED_PRODUCT_TO_BAG, data });
 }
 
-export function addProductToBag(jwt, product_data) {
+export function addProductToBag(jwt, productData) {
   return (dispatch) => {
     dispatch({ type: ADD_PRODUCT_TO_BAG });
-    return ApiUtils.create('item_cart', jwt, product_data)
+    return ApiUtils.create('item_cart', jwt, productData)
       .then(response => dispatch(addedProductToBag(response)))
       .catch((error) => {
         dispatch(receiveError(error.message));
@@ -108,9 +108,8 @@ export function removeBagItem(jwt, id) {
   return (dispatch) => {
     dispatch(requestBagItems());
     return ApiUtils.delete('item_cart', jwt, id)
-      .then((data) => dispatch(receiveBagItems(data)))
+      .then(data => dispatch(receiveBagItems(data)))
       .catch((error) => {
-        console.warn(error);
         dispatch(receiveError(error.message));
         ApiUtils.error(error.message);
       })
