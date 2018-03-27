@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import FastImage from 'react-native-fast-image';
-import _ from 'lodash';
 import Button from '../components/button';
 import * as Actions from '../actions/products';
 import { getDeviceWidth } from '../styles';
@@ -117,7 +116,7 @@ class Products extends Component {
   }
 
   render() {
-    const render = (
+    return (
       <FlatList
         ref={(ref) => { this.listRef = ref; }}
         numColumns={2}
@@ -133,8 +132,7 @@ class Products extends Component {
         onRefresh={() => this.handleRefresh()}
         ListEmptyComponent={<Text>Não foi possivel encontrar produtos.</Text>}
       />
-      );
-    return render;
+    );
   }
 }
 
