@@ -30,45 +30,15 @@ const INITIAL_STATE = {
   size: {},
 };
 
-function list(state = [], action) {
-  switch (action.type) {
-    case SAVED_STORE: {
-      const cleanState = state.filter(item => item.id !== action.data.id);
-      return [
-        ...cleanState,
-        action.data,
-      ];
-    }
-
-    default:
-      return state;
-  }
-}
-
-
-function products(state = [], action) {
-  switch (action.type) {
-    case SAVED_PRODUCT: {
-      const cleanState = state.filter(item => item.id !== action.data.id);
-      return [
-        ...cleanState,
-        action.data,
-      ];
-    }
-
-    default:
-      return state;
-  }
-}
-
 function sizes(state = [], action) {
   switch (action.type) {
 
     case ADD_SIZE: {
-      const cleanState = state.filter(item => (item.id
+      const cleanState = state.filter(item => (
+        item.id
           ? item.id !== action.size.id
-          : item.name !== action.size.name),
-      );
+          : item.name !== action.size.name
+      ));
       return [
         ...cleanState,
         action.size,
@@ -156,6 +126,21 @@ function product(state = {}, action) {
   }
 }
 
+function products(state = [], action) {
+  switch (action.type) {
+    case SAVED_PRODUCT: {
+      const cleanState = state.filter(item => item.id !== action.data.id);
+      return [
+        ...cleanState,
+        action.data,
+      ];
+    }
+
+    default:
+      return state;
+  }
+}
+
 function store(state = {}, action) {
   switch (action.type) {
     case RECEIVE_IMAGE: {
@@ -198,6 +183,21 @@ function store(state = {}, action) {
         ...action.data,
         loadingRequest: false,
       };
+    }
+
+    default:
+      return state;
+  }
+}
+
+function list(state = [], action) {
+  switch (action.type) {
+    case SAVED_STORE: {
+      const cleanState = state.filter(item => item.id !== action.data.id);
+      return [
+        ...cleanState,
+        action.data,
+      ];
     }
 
     default:
