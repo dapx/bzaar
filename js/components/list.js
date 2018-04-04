@@ -6,7 +6,7 @@ class List extends React.PureComponent {
   constructor(props) {
     super(props);
     this.renderItem = this.renderItem.bind(this);
-    this.onPressItem = this.onPress.bind(this);
+    this.onPress = this.onPress.bind(this);
   }
 
   keyExtractor(item) { return `${item.id}`; }
@@ -22,7 +22,7 @@ class List extends React.PureComponent {
       <ListItem
         key={`item-${item.id}`}
         item={item}
-        onPressItem={this.onPressItem}
+        onPressItem={this.onPress}
       />
     );
   }

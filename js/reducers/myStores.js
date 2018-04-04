@@ -239,7 +239,6 @@ export default function stores(state = INITIAL_STATE, action) {
     case OPEN_NEW_STORE:
     case UPLOAD_IMAGE:
     case UPLOADED_IMAGE:
-    case SAVE_STORE:
     case SAVED_STORE:
     case RECEIVE_IMAGE: {
       return {

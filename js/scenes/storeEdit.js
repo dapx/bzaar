@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { StyleSheet, Platform, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Container, Button, Content, Form, Input, Item, Label, Text, Spinner } from 'native-base';
+import { Container, Content, Form, Input, Item, Label, Text, Spinner, Footer } from 'native-base';
 import PropTypes from 'prop-types';
 import FastImage from 'react-native-fast-image';
 import ParallaxScroll from '@monterosa/react-native-parallax-scroll';
 import IconButton from '../components/iconButton';
+import Button from '../components/button';
 import DefaultImagePicker from '../components/DefaultImagePickerWithErrorHandler';
 import * as NavActions from '../actions/navigation';
 import * as StoresActions from '../actions/myStores';
@@ -54,6 +55,7 @@ class StoreEdit extends Component {
   }
 
   onPressButton() {
+    this.setState({ loadingRequest: true });
     const signedURL = this.state.presigned_url;
     const isNew = this.state.isNew;
     if (isNew) {
@@ -70,7 +72,7 @@ class StoreEdit extends Component {
             );
           });
       } else {
-        this.props.storesActions.updateStore(this.props.jwt, { store: this.state.data });
+        this.props.storesActions.updateStore(this.props.jwt, this.state.data);
       }
     }
   }
@@ -163,15 +165,26 @@ class StoreEdit extends Component {
                 onChangeText={email => this.onChange({ email })} />
             </Item>
           </Form>
+        </Content>
+        <Footer>
           <Button
+            style={{
+              flex: 1,
+              backgroundColor: '#000',
+              justifyContent: 'center',
+            }}
             disabled={this.state.uploading}
-            full
             dark={!this.state.uploading}
             onPress={this.onPressButton}
           >
-            <Text>Salvar</Text>
+            <Text style={{
+              textAlign: 'center',
+              color: '#fff',
+            }}>
+            Salvar
+            </Text>
           </Button>
-        </Content>
+        </Footer>
       </Container>
     );
   }

@@ -20,7 +20,6 @@ class StoreProducts extends Component {
       products: props.products,
       id: props.id,
     };
-    this.renderItem = this.renderItem.bind(this);
     this.onPress = this.onPress.bind(this);
   }
 
@@ -58,7 +57,7 @@ class StoreProducts extends Component {
           renderItem={this.renderItem}
           refreshing={this.state.loadingProducts}
           onRefresh={() => this.handleRefresh()}
-          onPressItem={this.props.storeActions.editProduct}
+          onPressItem={this.onPress}
           ListItem={ListItem}
           ListEmptyComponent={<Text>Não foi possivel encontrar produtos na sua loja.</Text>}
         />

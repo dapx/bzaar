@@ -1,5 +1,4 @@
 import React from 'react';
-import { View } from 'react-native';
 import { Icon } from 'native-base';
 import PropTypes from 'prop-types';
 import Button from './button';
