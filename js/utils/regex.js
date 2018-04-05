@@ -1,4 +1,4 @@
 
 export const BR = {
-  CURRENCY: /\d*[\,\.]?\d{0,2}/,
+  CURRENCY: /0|[1-9]*[\,\.]?\d{0,2}/,
 };

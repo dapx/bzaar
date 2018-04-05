@@ -19,6 +19,7 @@ class SizeModal extends Component {
     };
     this.onPlus = this.onPlus.bind(this);
     this.onMinus = this.onMinus.bind(this);
+    this.onChangeName = this.onChangeName.bind(this);
     this.onChangeQuantity = this.onChangeQuantity.bind(this);
     this.onChangePrice = this.onChangePrice.bind(this);
   }
@@ -31,6 +32,11 @@ class SizeModal extends Component {
   onMinus() {
     const quantity = this.state.quantity - 1;
     this.onChangeQuantity(quantity);
+  }
+
+  onChangeName(value) {
+    const name = value && value.toUpperCase();
+    this.setState({ name });
   }
 
   onChangeQuantity(value) {
@@ -65,7 +71,7 @@ class SizeModal extends Component {
             <Item inlineLabel>
               <Label>Tamanho:</Label>
               <Input
-                onChangeText={value => this.setState({ name: value })}
+                onChangeText={this.onChangeName}
                 value={name}
               />
             </Item>
