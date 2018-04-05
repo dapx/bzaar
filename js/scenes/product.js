@@ -8,6 +8,7 @@ import Carousel from 'react-native-looped-carousel';
 import { Lightbox } from '@shoutem/ui';
 import FastImage from 'react-native-fast-image';
 import IconButton from '../components/iconButton';
+import Size from '../components/size';
 import * as NavActions from '../actions/navigation';
 import * as ProductsActions from '../actions/products';
 import * as style from '../styles/index';
@@ -85,19 +86,30 @@ const styles = StyleSheet.create({
   backButtonIcon: {
     color: '#000',
   },
+  sizes: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  size: {
+    padding: 20,
+    margin: 2,
+    borderRadius: 100,
+    backgroundColor: '#f0f',
+  },
 });
 
 class Product extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: 0,
-      name: '',
-      description: '',
-      images: [
-      ],
-      sizes: [],
+      ...props.product,
+      selectedSize: this.filterAvailable(props.product.sizes)[0],
     };
+    this.onPressSize = this.onPressSize.bind(this);
+  }
+
+  filterAvailable(sizes) {
+    return sizes.filter(size => size.quantity > 0);
   }
 
   componentWillMount() {
@@ -106,14 +118,6 @@ class Product extends Component {
 
   componentWillUnmount() {
     if (isIOS) StatusBar.setHidden(false, 'fade');
-  }
-
-
-  componentDidMount() {
-    this.setState({
-      jwt: this.props.jwt,
-      ...this.props.product,
-    });
   }
 
   addProduct(jwt, productId) {
@@ -127,8 +131,13 @@ class Product extends Component {
     this.props.productsActions.addProductToBag(jwt, productData);
   }
 
+  onPressSize(size) {
+    this.setState({ selectedSize: size });
+  }
+
   render() {
     const { images } = this.state;
+    const sizes = this.filterAvailable(this.state.sizes);
     return (
       <ScrollView style={styles.container}>
         <IconButton
@@ -168,7 +177,7 @@ class Product extends Component {
         </Carousel>
         <View style={styles.footer}>
           <View style={styles.currency}>
-            <Text style={styles.currencyText}>R${this.state.price}</Text>
+            <Text style={styles.currencyText}>R${this.state.selectedSize.price}</Text>
           </View>
           <Button
             style={styles.footerButton}
@@ -186,11 +195,19 @@ class Product extends Component {
             {this.state.description}
           </Text>
           <Text style={styles.info}>
-            Tamanho: {this.state.size}
+            Tamanhos:
           </Text>
-          <Text style={styles.info}>
-            Unidades: {this.state.quantity}
-          </Text>
+          <View style={styles.sizes}>
+          { sizes.map(size => (
+            <Size
+              key={`size-${size.name}`}
+              style={styles.size}
+              size={size}
+              selected={this.state.selectedSize.name === size.name}
+              onPress={this.onPressSize}
+            />
+          ))}
+          </View>
         </View>
       </ScrollView>
     );
