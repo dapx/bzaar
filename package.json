@@ -32,6 +32,7 @@
     "react-native-fs": "^2.9.11",
     "react-native-image-crop-picker": "^0.20.0",
     "react-native-looped-carousel": "git+https://github.com/phil-r/react-native-looped-carousel.git",
+    "react-native-animated-dnd": "git+https://github.com/dap1995/react-native-animated-dnd.git",
     "react-native-push-notification": "^3.0.2",
     "react-native-svg": "^6.0.0",
     "react-native-vector-icons": "^4.5.0",
