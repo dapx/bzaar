@@ -6,6 +6,8 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import FastImage from 'react-native-fast-image';
 import Button from '../components/button';
+import List from '../components/list';
+import ListItem from '../components/productItem';
 import * as Actions from '../actions/products';
 import { getDeviceWidth } from '../styles';
 
@@ -70,7 +72,7 @@ class Products extends Component {
       jwt: '',
       loadingRequest: false,
     };
-    this.renderItem = this.renderItem.bind(this);
+    this.onPress = this.onPress.bind(this);
   }
 
   componentDidMount() {
@@ -78,10 +80,12 @@ class Products extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // TODO - MIGRAR FILTRO PARA O SERVER
+    const list = this.filterProductsAvailable(nextProps.list);
     this.setState({
       loadingRequest: nextProps.loadingRequest,
-      list: nextProps.list,
       jwt: nextProps.jwt,
+      list,
     });
   }
 
@@ -89,48 +93,31 @@ class Products extends Component {
     this.props.productsActions.showProduct(item);
   }
 
+  filterProductsAvailable(products) {
+    return products.filter((product) => {
+      const isProductAvailable = this.filterQuantityAvailable(product.sizes).length > 0;
+      return isProductAvailable;
+    });
+  }
+
+  filterQuantityAvailable(sizes) {
+    return sizes.filter(size => size.quantity > 0);
+  }
+
   handleRefresh() {
     this.props.productsActions.list(this.props.jwt);
   }
 
-  renderItem({ item, index }) {
-    const image = item.images[0];
-    const uri = (image && image.url) || 'https://www.pixedelic.com/themes/geode/demo/wp-content/uploads/sites/4/2014/04/placeholder.png';
-    const name = item.name;
-    return (
-      <Button
-        key={`product-store-${index}`}
-        style={{ flex: 1 }}
-        onPress={() => this.onPress(item)}
-      >
-        <Card>
-          <FastImage
-            style={styles.storeUniqueImage}
-            source={{ uri }}
-            resizeMode={'contain'}
-          />
-          <Text style={{ textAlign: 'center' }}>{`${name}`}</Text>
-        </Card>
-      </Button>
-    );
-  }
-
   render() {
     return (
-      <FlatList
+      <List
         ref={(ref) => { this.listRef = ref; }}
-        numColumns={2}
-        horizontal={false}
         data={this.state.list}
-        renderItem={this.renderItem}
-        keyExtractor={item => item.id}
-        scrollEventThrottle={1}
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
-        )}
         refreshing={this.state.loadingRequest}
         onRefresh={() => this.handleRefresh()}
         ListEmptyComponent={<Text>Não foi possivel encontrar produtos.</Text>}
+        ListItem={ListItem}
+        onPressItem={this.onPress}
       />
     );
   }

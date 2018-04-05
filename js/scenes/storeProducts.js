@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import HeaderBack from '../components/headerBack';
 import List from '../components/list';
-import ListItem from '../components/productItem';
+import ListItem from '../components/productEditItem';
 import * as NavActions from '../actions/navigation';
 import * as ProductsActions from '../actions/products';
 import * as StoreActions from '../actions/myStores';

@@ -31,8 +31,14 @@ class ProductItem extends React.PureComponent {
 
   render() {
     const { item } = this.props;
-    const image = item.images[0];
-    const uri = (image && image.url) || 'https://www.pixedelic.com/themes/geode/demo/wp-content/uploads/sites/4/2014/04/placeholder.png';
+    let uri = 'https://png.icons8.com/dusk/1600/new-product.png';
+    let name = 'Adicionar';
+    const isNew = item.id === 0;
+    if (!isNew) {
+      const image = item.images[0];
+      name = item.name;
+      uri = (image && image.url) || 'https://www.pixedelic.com/themes/geode/demo/wp-content/uploads/sites/4/2014/04/placeholder.png';
+    }
     return (
       <Button
         key={`product-store-${item.id}`}
@@ -45,7 +51,7 @@ class ProductItem extends React.PureComponent {
             source={{ uri }}
             resizeMode={'contain'}
           />
-          <Text style={{ textAlign: 'center' }}>{`${item.name}`}</Text>
+          <Text style={{ textAlign: 'center' }}>{`${name}`}</Text>
         </Card>
       </Button>
     );
