@@ -3,6 +3,7 @@ import { BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 import PropTypes from 'prop-types';
+import { addListener } from '../app';
 import { back } from '../actions/navigation';
 import Login from '../scenes/login';
 import Home from '../scenes/home';
@@ -16,18 +17,20 @@ import MyStore from '../scenes/myStore';
 import StoreEdit from '../scenes/storeEdit';
 import StoreProducts from '../scenes/storeProducts';
 import ProductEdit from '../scenes/productEdit';
-import ProductImages from '../scenes/productImages';
+import ProductImages from '../scenes/productImages'; // eslint-disable-line
 import SizeModal from '../scenes/size';
 
 const UserNavigator = StackNavigator({
-  User: { screen: UserRegister,
+  User: {
+    screen: UserRegister,
     navigationOptions: {
       visible: false,
       header: null,
       gesturesEnabled: false,
     },
   },
-  CreditCardPage: { screen: CreditCard,
+  CreditCardPage: {
+    screen: CreditCard,
     navigationOptions: {
       visible: false,
       header: null,
@@ -37,14 +40,16 @@ const UserNavigator = StackNavigator({
 });
 
 const ProductEditNavigator = StackNavigator({
-  ProductEditPage: { screen: ProductEdit,
+  ProductEditPage: {
+    screen: ProductEdit,
     navigationOptions: {
       visible: false,
       header: null,
       gesturesEnabled: false,
     },
   },
-  SizeModalPage: { screen: SizeModal,
+  SizeModalPage: {
+    screen: SizeModal,
     navigationOptions: {
       visible: false,
       header: null,
@@ -56,15 +61,31 @@ const ProductEditNavigator = StackNavigator({
   headerMode: 'none',
 });
 
+const ProductImagesNavigator = StackNavigator({
+  ProductImagesPage: {
+    screen: ProductImages,
+    navigationOptions: {
+      visible: false,
+      header: null,
+      gesturesEnabled: true,
+    },
+  },
+}, {
+  mode: 'modal',
+  headerMode: 'none',
+});
+
 export const AppNavigator = StackNavigator({
-  LoginPage: { screen: Login,
+  LoginPage: {
+    screen: Login,
     navigationOptions: {
       visible: false,
       header: null,
       gesturesEnabled: false,
     },
   },
-  HomePage: { screen: Home,
+  HomePage: {
+    screen: Home,
     navigationOptions: {
       visible: false,
       header: null,
@@ -72,49 +93,56 @@ export const AppNavigator = StackNavigator({
     },
   },
   UserPage: { screen: UserNavigator },
-  Signup: { screen: Signup,
+  Signup: {
+    screen: Signup,
     navigationOptions: {
       visible: false,
       header: null,
       gesturesEnabled: false,
     },
   },
-  BagPage: { screen: Bag,
+  BagPage: {
+    screen: Bag,
     navigationOptions: {
       visible: false,
       header: null,
       gesturesEnabled: false,
     },
   },
-  StorePage: { screen: Store,
+  StorePage: {
+    screen: Store,
     navigationOptions: {
       visible: false,
       header: null,
       gesturesEnabled: false,
     },
   },
-  ProductPage: { screen: Product,
+  ProductPage: {
+    screen: Product,
     navigationOptions: {
       visible: false,
       header: null,
       gesturesEnabled: false,
     },
   },
-  MyStorePage: { screen: MyStore,
+  MyStorePage: {
+    screen: MyStore,
     navigationOptions: {
       visible: false,
       header: null,
       gesturesEnabled: false,
     },
   },
-  StoreEditPage: { screen: StoreEdit,
+  StoreEditPage: {
+    screen: StoreEdit,
     navigationOptions: {
       visible: false,
       header: null,
       gesturesEnabled: false,
     },
   },
-  StoreProductsPage: { screen: StoreProducts,
+  StoreProductsPage: {
+    screen: StoreProducts,
     navigationOptions: {
       visible: false,
       header: null,
@@ -122,17 +150,10 @@ export const AppNavigator = StackNavigator({
     },
   },
   ProductEditPage: { screen: ProductEditNavigator },
-  ProductImagesPage: { screen: ProductImages,
-    navigationOptions: {
-      visible: false,
-      header: null,
-      gesturesEnabled: false,
-    },
-  },
+  ProductImagesPage: { screen: ProductImagesNavigator },
 });
 
 class AppWithNavigationState extends React.Component {
-
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
   }
@@ -152,12 +173,14 @@ class AppWithNavigationState extends React.Component {
   }
 
   render() {
+    const { dispatch, nav } = this.props;
+    const navigation = addNavigationHelpers({
+      dispatch,
+      state: nav,
+      addListener,
+    });
     return (
-      <AppNavigator navigation={addNavigationHelpers({
-        dispatch: this.props.dispatch,
-        state: this.props.nav,
-      })}
-      />
+      <AppNavigator navigation={navigation} />
     );
   }
 }

@@ -12,14 +12,29 @@ import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import { StyleProvider, Root } from 'native-base';
 import codePush from 'react-native-code-push';
+import {
+  createReactNavigationReduxMiddleware,
+  createReduxBoundAddListener,
+} from 'react-navigation-redux-helpers';
 import reducer from './reducers/index';
 import AppWithNavigationState from './components/navigation';
 import PushController from './components/pushController';
 import getTheme from '../native-base-theme/components';
 import theme from '../native-base-theme/variables/commonColor';
 // import PushNotification from 'react-native-push-notification';
+
+const navMiddleware = createReactNavigationReduxMiddleware(
+  'root',
+  state => state.nav,
+);
+export const addListener = createReduxBoundAddListener('root');
+
 const loggerMiddleware = createLogger();
-const store = createStore(reducer, applyMiddleware(thunkMiddleware, loggerMiddleware));
+const store = createStore(reducer, applyMiddleware(
+  thunkMiddleware,
+  loggerMiddleware,
+  navMiddleware,
+));
 
 
 const codePushOptions = {
