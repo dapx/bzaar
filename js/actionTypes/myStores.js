@@ -24,3 +24,4 @@ export const EDIT_SIZE = 'myStore/EDIT_SIZE';
 export const ADD_SIZE = 'myStore/ADD_SIZE';
 export const REMOVE_SIZE = 'myStore/REMOVE_SIZE';
 export const PRODUCT_CHANGED = 'myStore/PRODUCT_CHANGED';
+export const CHANGE_IMAGE_SEQUENCE = 'myStore/CHANGE_IMAGE_SEQUENCE';

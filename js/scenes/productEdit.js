@@ -119,6 +119,7 @@ class ProductEdit extends Component {
   }
 
   renderImage() {
+    const { images } = this.props.product;
     return this.state.uploading
     ? <Spinner />
     : this.props.product.images.length > 0 && (
@@ -128,7 +129,7 @@ class ProductEdit extends Component {
         autoplay={false}
         pageInfo
       >
-      { this.props.product.images.map(image => (
+      { images.filter(i => i.url).map(image => (
         <View key={`product-${image.seq}`} style={styles.slide}>
           <Lightbox
             activeProps={{ ...lightboxStyle }}

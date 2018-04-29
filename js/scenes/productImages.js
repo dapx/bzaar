@@ -20,18 +20,58 @@ class ProductImages extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { images } = nextProps.product;
-    this.setState({ images });
+    const { images, slots } = nextProps.product;
+    this.setState({ images, slots });
   }
 
-  async onReceiveData(data) {
+  /**
+   *  It is used by DefaultImagePicker.
+   *  It's necessary to pass the items state to doesn't lost the slots coordinates.
+   *
+   *  @param data Image object from local system with slot sequence
+   *  @param items Current items state to use in redux
+   */
+  onReceiveData(data, items) {
     const { storesActions } = this.props;
     const { sequence } = data;
     storesActions
-      .requestProductImagesSignedURL(this.props.jwt, data, this.props.product, sequence);
+      .requestProductImagesSignedURL(this.props.jwt, data, this.props.product, sequence, items);
+  }
+
+  onChange = (slots, itemToChange, action = 'UPDATE') => {
+    const productId = this.props.product.id;
+    const newSlots = this.slotsReducer({ slots, itemToChange }, action);
+    this.props.storesActions.changeImageSequence(productId, newSlots);
+  }
+
+  slotsReducer({ slots, itemToChange }, action) {
+    switch(action) {
+      case 'DELETE': {
+        const itemToRemoveIndex = slots.findIndex(i => i.key === itemToChange.key);
+        const item = _.omit(itemToChange, 'url');
+        return [
+          ...slots.slice(0, itemToRemoveIndex),
+          item,
+          ...slots.slice(itemToRemoveIndex + 1),
+        ];
+      }
+
+      default: {
+        return newSequences = slots.map((item, index) => {
+          const sequence = index + 1;
+          const newSlotSequence = {
+            ...item,
+            sequence,
+          };
+          return newSlotSequence;
+        });
+      }
+    }
   }
 
   render() {
+    const { images = [], slots = [] } = this.state;
+    const allSlots = [ ...images, ...slots ];
     return (
       <View style={{ flex: 1 }}>
         <HeaderBack
@@ -39,7 +79,9 @@ class ProductImages extends Component {
           back={this.props.navActions.back}
         />
         <ImageGallery
-          images={this.state.images}
+          images={allSlots}
+          slots={slots}
+          onChange={this.onChange}
           onReceiveData={this.onReceiveData}
         />
       </View>
@@ -76,6 +118,7 @@ ProductImages.propTypes = {
   }).isRequired,
   storesActions: PropTypes.shape({
     requestProductImagesSignedURL: PropTypes.func.isRequired,
+    changeImageSequence: PropTypes.func.isRequired,
   }).isRequired,
 };
 

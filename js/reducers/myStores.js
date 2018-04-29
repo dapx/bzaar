@@ -19,6 +19,7 @@ import {
   SAVED_PRODUCT,
   PRODUCT_CHANGED,
   RECEIVE_PRODUCT_IMAGES,
+  CHANGE_IMAGE_SEQUENCE,
 } from '../actionTypes/myStores';
 
 const INITIAL_STATE = {
@@ -54,9 +55,25 @@ function sizes(state = [], action) {
   }
 }
 
+function slots(state = [], action) {
+  switch (action.type) {
+    case CHANGE_IMAGE_SEQUENCE: {
+      return action.images.filter(image => !image.url);
+    }
+
+    case RECEIVE_PRODUCT_IMAGES: {
+      return [];
+    }
+
+    default:
+      return state;
+  }
+}
+
 function imagesToSave(state = [], action) {
   switch (action.type) {
 
+    // Filter new images to save
     case RECEIVE_PRODUCT_IMAGES: {
       const listWithoutNewSequence = state.filter(image => image.sequence !== action.sequence);
       const { path, mimetype } = action.metaData;
@@ -76,12 +93,20 @@ function images(state = [], action) {
   switch (action.type) {
 
     case RECEIVE_PRODUCT_IMAGES: {
-      const listWithoutNewSequence = state.filter(image => image.sequence !== action.sequence);
+      // Remove the old image
+      const listWithoutNewSequence = action.items
+        .filter(image => image.sequence !== action.sequence);
+      const oldImage = action.items
+        .find(i => i.sequence === action.sequence);
       const { path } = action.metaData;
       return [
         ...listWithoutNewSequence,
-        { url: path, sequence: action.sequence },
+        { ...oldImage, url: path, sequence: action.sequence }, // Add new image
       ];
+    }
+
+    case CHANGE_IMAGE_SEQUENCE: {
+      return action.images.filter(image => image.url);
     }
 
     default:
@@ -98,7 +123,7 @@ function product(state = {}, action) {
       return {
         ...state,
         ...action.data,
-        imagesToSaved: [],
+        imagesToSave: [],
       };
 
     case SAVED_PRODUCT:
@@ -114,11 +139,13 @@ function product(state = {}, action) {
         sizes: sizes(state.sizes, action),
       };
 
+    case CHANGE_IMAGE_SEQUENCE:
     case RECEIVE_PRODUCT_IMAGES:
       return {
         ...state,
         images: images(state.images, action),
         imagesToSave: imagesToSave(state.imagesToSave, action),
+        slots: slots(state.slots, action),
       };
 
     default:
@@ -256,6 +283,7 @@ export default function stores(state = INITIAL_STATE, action) {
       };
 
     // PRODUCT CHANGES
+    case CHANGE_IMAGE_SEQUENCE:
     case RECEIVE_PRODUCT_IMAGES:
     case PRODUCT_CHANGED:
     case EDIT_PRODUCT_IMAGES:

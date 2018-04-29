@@ -1,80 +1,125 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, InteractionManager } from 'react-native';
 import PropTypes from 'prop-types';
 import FastImage from 'react-native-fast-image';
+import AnimatedDND from 'react-native-animated-dnd';
+import { Icon } from 'native-base';
 import _ from 'lodash';
 import DefaultImagePicker from './DefaultImagePickerWithErrorHandler';
+
+const emptySlots = [
+  { sequence: 1 },
+  { sequence: 2 },
+  { sequence: 3 },
+  { sequence: 4 },
+  { sequence: 5 },
+  { sequence: 6 },
+  { sequence: 7 },
+  { sequence: 8 },
+  { sequence: 9 },
+];
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
     flexWrap: 'wrap',
     backgroundColor: '#fff',
+  },
+  area: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    borderColor: 'transparent',
+    borderRadius: 0,
+    borderWidth: 0,
+    marginTop: 10,
   },
   slots: {
     width: 95,
     height: 95,
     backgroundColor: '#ddd',
-    borderRadius: 15,
-    margin: 5,
+    borderRadius: 94 / 4,
+    margin: 2,
+  },
+  delete: {
+    backgroundColor: '#ddd',
+    borderRadius: 100,
+    flex: 1,
+    padding: 20,
+    margin: 10,
+    alignContent: 'center',
+    justifyContent: 'center',
   },
 });
 
-const EmptySlot = ({ style }) => (
-  <View style={[style, { justifyContent: 'center' }]}>
-    <Text style={{ textAlign: 'center', fontSize: 30 }}>+</Text>
-  </View>
-);
+class DeleteItem extends React.PureComponent {
+  render() {
+    const { active } = this.props; 
+    return (
+      <View style={styles.delete}>
+        { active
+          ? (<Icon
+            style={{ textAlign: 'center' }}
+            name="trash-2"
+          />)
+          : <Text style={{ textAlign: 'center' }}>Release here to delete</Text> 
+        }
+      </View>
+    );
+  }
+}
 
-EmptySlot.propTypes = {
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.number, PropTypes.array]),
+DeleteItem.propTypes = {
+  active: PropTypes.bool.isRequired,
 };
 
-class Slot extends Component {
-  constructor(props) {
-    super(props);
-    this.onReceiveImage = this.onReceiveImage.bind(this);
-  }
+class Item extends Component {
 
-  onReceiveImage(image) {
-    const { onReceiveData, sequence } = this.props;
+  onReceiveImage = (image) => {
+    const { item: { sequence }, onPress } = this.props;
     const data = { ...image, sequence };
-    onReceiveData(data);
+    onPress(data);
   }
 
   render() {
-    const { EmptyComponent, style, url, width, height } = this.props;
+    const { item: { isBeingDragged, key, url } } = this.props;
+    const width = 95;
+    const height = 95;
+    const style = isBeingDragged
+      ? { width, height, borderRadius: width / 4 }
+      : { width, height, borderRadius: width / 4 };
     return (
       <DefaultImagePicker
+        key={key}
+        style={[styles.slots, style]}
         width={width}
         height={height}
         cropping={true}
         onReceiveData={this.onReceiveImage}
       >
-      { url
-        ? <FastImage
-            style={style}
-            source={{ uri: url }}
-            resizeMode={'cover'}
+        <FastImage
+          style={style}
+          source={{ uri: url }}
+          resizeMode={'cover'}
         />
-        : <EmptyComponent style={style} />
-      }
       </DefaultImagePicker>
     );
   }
 }
 
-Slot.propTypes = {
-  url: PropTypes.string,
-  width: PropTypes.number.isRequired,
-  height: PropTypes.number.isRequired,
-  sequence: PropTypes.number.isRequired,
-  onReceiveData: PropTypes.func.isRequired,
-  EmptyComponent: PropTypes.func.isRequired,
-  style: FastImage.propTypes.style,
+Item.propTypes = {
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.number, PropTypes.array]),
+  item: PropTypes.shape({
+    isBeingDragged: PropTypes.bool,
+    key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    url: PropTypes.string,
+    sequence: PropTypes.number,
+  }).isRequired,
+  onPress: PropTypes.func,
 };
+
+const allKeys = [9,8,7,6,5,4,3,2,1];
 
 /**
  * It renders the product images to change order and to add new.
@@ -83,27 +128,32 @@ class ImageGallery extends Component {
 
   constructor(props) {
     super(props);
-    const images = this.sortBySeq(props.images);
-    const emptySlots = [
-      { sequence: 1 },
-      { sequence: 2 },
-      { sequence: 3 },
-      { sequence: 4 },
-      { sequence: 5 },
-      { sequence: 6 },
-      { sequence: 7 },
-      { sequence: 8 },
-      { sequence: 9 },
-    ];
-    const slots = this.fillSlots(images, emptySlots);
+    // TODO - It needs to be refactored, I think it should be removed from constructor
+    const previousSlots = _.unionBy(this.normalizeSlots(props.slots || emptySlots), emptySlots, 'sequence');
+    const filledSlots = this.fillSlots(props.images, previousSlots);
+    const keys = this.getAvailableKeys(allKeys, props.images);
+    const normalizedSlots = this.normalizeSlotsBasedOnKeyList(filledSlots, keys);
+    const slots = this.sortBySeq(normalizedSlots);
     this.state = {
       slots,
+      ready: false,
+      previousSlots,
     };
   }
 
+  componentDidMount() {
+    InteractionManager.runAfterInteractions(() => this.setState({ ready: true }));
+  }
+
   componentWillReceiveProps(nextProps) {
-    const images = this.sortBySeq(nextProps.images);
-    const slots = this.fillSlots(images, this.state.slots);
+    // fill slots by sequence with normalized images based on previous state
+    const filledSlots = _.unionBy(nextProps.images, this.previousSlots, 'sequence');
+    // Set key to slots
+    let keys = this.getAvailableKeys(allKeys, filledSlots);
+    const normalizedSlots = this.normalizeSlotsBasedOnKeyList(filledSlots, [ ...keys ]);
+    
+    // order by sequence
+    const slots = this.sortBySeq(normalizedSlots);
     this.setState({ slots });
   }
 
@@ -115,22 +165,51 @@ class ImageGallery extends Component {
     return _.unionBy(images, emptySlots, 'sequence');
   }
 
+  /**
+   *  Filter images looking for available keys
+   */
+  getAvailableKeys(keysList, images) {
+    return keysList.map(k => {
+      const image = images.find(image => image.key === k);
+      return !image && k;
+    }).filter(k => k);
+  }
+
+  // Just used to create a key when receive the first images
+  normalizeSlots(images) {
+    return images.map(image => {
+      const key = image.key || image.sequence;
+      return ({ ...image, key });
+    });
+  }
+
+  // Set an available key for slots/images without it.
+  normalizeSlotsBasedOnKeyList(images, keyList) {
+    return images.map(image => {
+      const key = image.key || keyList.pop();
+      return ({ ...image, key });
+    });
+  }
+
   render() {
+    if (this.state.ready)
     return (
-      <ScrollView contentContainerStyle={styles.container}>
-      { this.state.slots.map(image => (
-        <Slot
-          key={`image-${image.sequence}`}
-          width={400}
-          height={400}
-          onReceiveData={this.props.onReceiveData}
-          style={styles.slots}
-          sequence={image.sequence}
-          url={image.url}
-          EmptyComponent={EmptySlot}
-        />
-      ))}
-      </ScrollView>
+      <AnimatedDND
+        animationDuration={250}
+        style={styles.container}
+        styleArea={styles.area}
+        styleWrapper={styles.slots}
+        items={this.state.slots}
+        onPressAddNewItem={() => {}}
+        onPressItem={this.props.onReceiveData}
+        onChange={this.props.onChange}
+        ItemElement={Item}
+        DeleteElement={DeleteItem}
+      />
+    );
+    else return (
+    <View style={styles.container}>
+    </View>
     );
   }
 }
@@ -138,10 +217,16 @@ class ImageGallery extends Component {
 ImageGallery.propTypes = {
   images: PropTypes.arrayOf(
     PropTypes.shape({
-      url: PropTypes.string.isRequired,
+      url: PropTypes.string,
       sequence: PropTypes.number.isRequired,
     }),
   ).isRequired,
+  slots: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.number,
+      sequence: PropTypes.number.isRequired,
+    }),
+  ),
   onReceiveData: PropTypes.func.isRequired,
 };
 
