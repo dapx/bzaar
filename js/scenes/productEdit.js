@@ -100,9 +100,10 @@ class ProductEdit extends Component {
     const { imagesToSave = [], images = [] } = this.state.data;
 
     // Get all images to salve and send to storage
-    const imagesToResolve = imagesToSave.map(image =>
-      storesActions.sendImage(image.signed_url, image.path, image.mimetype),
-    );
+    const imagesToResolve = imagesToSave
+      .map(image =>
+        storesActions
+          .sendImage(image.signed_url, image.path, image.mimetype));
 
     const resolved = await Promise.all(imagesToResolve);
 
@@ -121,92 +122,94 @@ class ProductEdit extends Component {
   renderImage() {
     const { images } = this.props.product;
     return this.state.uploading
-    ? <Spinner />
-    : this.props.product.images.length > 0 && (
-      <Carousel
-        style={styles.carrousel}
-        pageStyle={styles.slide}
-        autoplay={false}
-        pageInfo
-      >
-      { images.filter(i => i.url).map(image => (
-        <View key={`product-${image.seq}`} style={styles.slide}>
-          <Lightbox
-            activeProps={{ ...lightboxStyle }}
-            backgroundColor={'#fff'}
-            underlayColor={'#fff'}
-            onClose={() => StatusBar.setHidden(true, 'fade')}
-          >
-          <FastImage
-            style={styles.image}
-            source={{ uri: image.url }}
-            resizeMode={'contain'}
-          />
-          </Lightbox>
-        </View>
+      ? <Spinner />
+      : this.props.product.images.length > 0 && (
+        <Carousel
+          style={styles.carrousel}
+          pageStyle={styles.slide}
+          autoplay={false}
+          pageInfo
+        >
+        { images.filter(i => i.url).map(image => (
+          <View key={`product-${image.seq}`} style={styles.slide}>
+            <Lightbox
+              activeProps={{ ...lightboxStyle }}
+              backgroundColor={'#fff'}
+              underlayColor={'#fff'}
+              onClose={() => StatusBar.setHidden(true, 'fade')}
+            >
+            <FastImage
+              style={styles.image}
+              source={{ uri: image.url }}
+              resizeMode={'contain'}
+            />
+            </Lightbox>
+          </View>
         ))
       }
       </Carousel>
-    );
+      );
   }
 
   render() {
     const isNew = this.props.product.id === 0;
     return (
-      <Container style={styles.container}>
-        <IconButton
-          style={stylesHeader.backButton}
-          onPress={this.props.navActions.back}
-          iconName={'arrow-left'}
-          iconStyle={stylesHeader.backButtonIcon}
-        />
-        <View style={styles.imagesEdit}>
-          <TouchableOpacity
-            onPress={() => this.props.storesActions.editProductImages(this.props.product)}
-          >
-            <View>
-              <Text>Gerenciar Imagens</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <Content>
-          <Form>
-          { !isNew && this.renderImage() }
-            <Item stackedLabel>
-              <Label>Nome</Label>
-              <Input
-                value={this.state.data.name}
-                onChangeText={this.onChangeName}
-                onBlur={() => this.props.storesActions.onChangeProduct(this.state.data)}
+      <View style={{ flex: 1 }}>
+        <Container style={styles.container}>
+          <IconButton
+            style={stylesHeader.backButton}
+            onPress={this.props.navActions.back}
+            iconName={'arrow-left'}
+            iconStyle={stylesHeader.backButtonIcon}
+          />
+          <View style={styles.imagesEdit}>
+            <TouchableOpacity
+              onPress={() => this.props.storesActions.editProductImages(this.props.product)}
+            >
+              <View>
+                <Text>Gerenciar Imagens</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <Content>
+            <Form>
+            { !isNew && this.renderImage() }
+              <Item stackedLabel>
+                <Label>Nome</Label>
+                <Input
+                  value={this.state.data.name}
+                  onChangeText={this.onChangeName}
+                  onBlur={() => this.props.storesActions.onChangeProduct(this.state.data)}
+                />
+              </Item>
+              <Item stackedLabel>
+                <Label>Descrição</Label>
+                <Input
+                  value={this.state.data.description}
+                  onChangeText={this.onChangeDescription}
+                  onBlur={() => this.props.storesActions.onChangeProduct(this.state.data)}
+                />
+              </Item>
+              <View style={{ marginTop: 10, marginLeft: 15, marginBottom: 10 }}>
+                <Label style={{ color: 'gray', fontSize: 15 }}>Tamanhos</Label>
+              </View>
+              <SizePicker
+                sizes={this.state.data.sizes}
+                onEdit={this.props.storesActions.editProductSize}
+                onClose={this.props.storesActions.removeSize}
               />
-            </Item>
-            <Item stackedLabel>
-              <Label>Descrição</Label>
-              <Input
-                value={this.state.data.description}
-                onChangeText={this.onChangeDescription}
-                onBlur={() => this.props.storesActions.onChangeProduct(this.state.data)}
-              />
-            </Item>
-            <View style={{ marginTop: 10, marginLeft: 15, marginBottom: 10 }}>
-              <Label style={{ color: 'gray', fontSize: 15 }}>Tamanhos</Label>
-            </View>
-            <SizePicker
-              sizes={this.state.data.sizes}
-              onEdit={this.props.storesActions.editProductSize}
-              onClose={this.props.storesActions.removeSize}
-            />
-          </Form>
-          <Button
-            disabled={this.state.uploading}
-            full
-            dark={!this.state.uploading}
-            onPress={this.onPressButton}
-          >
-            <Text>Salvar</Text>
-          </Button>
-        </Content>
-      </Container>
+            </Form>
+          </Content>
+        </Container>
+        <Button
+          disabled={this.state.uploading}
+          full
+          dark={!this.state.uploading}
+          onPress={this.onPressButton}
+        >
+          <Text>Salvar</Text>
+        </Button>
+      </View>
     );
   }
 }
