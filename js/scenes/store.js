@@ -14,7 +14,6 @@ import { store } from '../styles';
 const styles = StyleSheet.create(store);
 
 class Store extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -30,10 +29,23 @@ class Store extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const list = this.filterProductsAvailable(nextProps.store.list);
     this.setState({
       ...nextProps.store,
       jwt: nextProps.jwt,
+      list,
     });
+  }
+
+  filterProductsAvailable(products = []) {
+    return products.filter((product) => {
+      const isProductAvailable = this.filterQuantityAvailable(product.sizes).length > 0;
+      return isProductAvailable;
+    });
+  }
+
+  filterQuantityAvailable(sizes) {
+    return sizes.filter(size => size.quantity > 0);
   }
 
   pressItem(item) {
