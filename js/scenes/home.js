@@ -14,7 +14,6 @@ import * as NavActions from '../actions/navigation';
 const logo = require('../../images/header_logo.png');
 
 class Home extends Component {
-
   constructor(props) {
     super(props);
     this.state = {

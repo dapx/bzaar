@@ -23,6 +23,7 @@ export const ApiUtils = {
     if (response.status >= 200 && response.status < 300) {
       return response;
     }
+    // eslint-disable-next-line no-underscore-dangle
     const message = JSON.parse(response._bodyText).error;
     throw new Error(message);
   },

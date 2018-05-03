@@ -5,7 +5,7 @@ import {
   AUTHORIZE_FACEBOOK,
   AUTHORIZED_FACEBOOK,
 } from '../actionTypes/login';
-import RECEIVE_ERROR from '../actionTypes/error'
+import RECEIVE_ERROR from '../actionTypes/error';
 import { UserService, ApiUtils } from '../utils/api';
 
 

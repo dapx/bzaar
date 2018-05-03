@@ -13,7 +13,6 @@ import Button from '../components/button';
 const styles = StyleSheet.create(stores);
 
 class MyStores extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -46,7 +45,7 @@ class MyStores extends Component {
 
   renderItem({ item, index }) {
     const uri = item.logo || 'https://www.pixedelic.com/themes/geode/demo/wp-content/uploads/sites/4/2014/04/placeholder.png';
-    const name = item.name;
+    const { name } = item;
     return (
       <Button
         key={`product-store-${index}`}
@@ -90,9 +89,9 @@ class MyStores extends Component {
           renderItem={this.renderItem}
           keyExtractor={item => item.id}
           scrollEventThrottle={1}
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
-          )}
+          onScroll={
+            Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }])
+          }
           refreshing={this.state.loadingRequest}
           onRefresh={() => this.handleRefresh()}
           ListEmptyComponent={<Text>Não foi possivel encontrar produtos.</Text>}

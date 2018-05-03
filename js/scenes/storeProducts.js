@@ -11,7 +11,6 @@ import * as ProductsActions from '../actions/products';
 import * as StoreActions from '../actions/myStores';
 
 class StoreProducts extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -64,7 +63,6 @@ class StoreProducts extends Component {
       </Container>
     );
   }
-
 }
 
 function mapStateToProps(state) {

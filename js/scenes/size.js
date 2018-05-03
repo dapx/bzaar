@@ -11,7 +11,6 @@ import { BR } from '../utils/regex';
 import { ApiUtils } from '../utils/api';
 
 class SizeModal extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -59,7 +58,9 @@ class SizeModal extends Component {
   }
 
   render() {
-    const { id, name, quantity, price } = this.state;
+    const {
+      id, name, quantity, price,
+    } = this.state;
     const disabled = !name || (price < 1);
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -94,7 +95,14 @@ class SizeModal extends Component {
             <View style={{ flex: 1, flexDirection: 'column' }}>
               <Button
                 style={{ margin: 5 }}
-                onPress={() => this.onSubmit({ id, name, quantity, price })}
+                onPress={
+                  () => this.onSubmit({
+                    id,
+                    name,
+                    quantity,
+                    price,
+                  })
+                }
                 block
                 dark
                 disabled={disabled}

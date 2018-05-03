@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Animated } from 'react-native';
 import { Container, Content, Toast, Form, Item, Label, Icon, Input, Text, Button, Spinner } from 'native-base';
-import { SocialIcon } from 'react-native-elements'
+import { SocialIcon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -11,7 +11,6 @@ import * as NavActions from '../actions/navigation';
 const logo = require('../../images/login_logo1.png');
 
 class Login extends Component {
-
   constructor(props) {
     super(props);
     this.logoAnimationValue = new Animated.Value(0.3);
@@ -55,11 +54,13 @@ class Login extends Component {
 
   showLogo() {
     this.logoAnimationValue.setValue(0.5);
-    Animated.spring(this.logoAnimationValue,
+    Animated.spring(
+      this.logoAnimationValue,
       {
         toValue: 1,
         friction: 1,
-      }).start();
+      },
+    ).start();
   }
 
   render() {

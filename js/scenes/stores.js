@@ -11,7 +11,6 @@ import Button from '../components/button';
 const styles = StyleSheet.create(stores);
 
 class Stores extends Component {
-
   constructor(props) {
     super(props);
     this.state = {

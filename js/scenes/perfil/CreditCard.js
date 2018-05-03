@@ -11,7 +11,6 @@ const cardFront = require('../../../images/card-front.png');
 const cardBack = require('../../../images/card-back.png');
 
 class CreditCardPage extends Component {
-
   constructor(props) {
     super(props);
     this.state = {

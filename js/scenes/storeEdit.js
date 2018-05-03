@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux';
 import { Container, Content, Form, Input, Item, Label, Text, Spinner, Footer } from 'native-base';
 import PropTypes from 'prop-types';
 import FastImage from 'react-native-fast-image';
-import ParallaxScroll from '@monterosa/react-native-parallax-scroll';
 import IconButton from '../components/iconButton';
 import Button from '../components/button';
 import DefaultImagePicker from '../components/DefaultImagePickerWithErrorHandler';
@@ -57,11 +56,11 @@ class StoreEdit extends Component {
   onPressButton() {
     this.setState({ loadingRequest: true });
     const signedURL = this.state.presigned_url;
-    const isNew = this.state.isNew;
+    const { isNew } = this.state;
     if (isNew) {
       this.props.storesActions.createStore(this.props.jwt, this.state.data);
     } else {
-      const wasChangedImage = this.state.wasChangedImage;
+      const { wasChangedImage } = this.state;
       if (wasChangedImage) {
         this.props.storesActions.sendImage(signedURL, this.state.data.logo, this.state.mimetype)
           .then(() => {
@@ -116,28 +115,8 @@ class StoreEdit extends Component {
       );
   }
 
-  // TODO - RENDER PARALLAX HEADER
-  renderParallax() {
-    return (
-      <ParallaxScroll
-        renderHeader={({ animatedValue }) => <Header animatedValue={animatedValue} />}
-        headerHeight={50}
-        isHeaderFixed={false}
-        parallaxHeight={250}
-        renderParallaxBackground={({ animatedValue }) => <Background animatedValue={animatedValue} />}
-        renderParallaxForeground={({ animatedValue }) => <Foreground animatedValue={animatedValue} />}
-        parallaxBackgroundScrollSpeed={5}
-        parallaxForegroundScrollSpeed={2.5}
-      >
-        <Text>Welcome</Text>
-      </ParallaxScroll>
-    );
-  }
-
   render() {
     const { isNew } = this.state;
-    // TODO - RENDER PARALLAX HEADER
-    //return this.renderParallax();
     return (
       <Container style={styles.container}>
         <IconButton
