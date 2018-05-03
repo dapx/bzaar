@@ -19,6 +19,7 @@
     "babel-polyfill": "^6.26.0",
     "expo": "^22.0.3",
     "lodash": "^4.17.4",
+    "moment": "^2.22.1",
     "native-base": "git+ssh://git@github.com/GeekyAnts/NativeBase.git",
     "native-base-shoutem-theme": "^0.2.2",
     "prop-types": "^15.6.0",
