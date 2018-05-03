@@ -1,6 +1,6 @@
 import { Toast } from 'native-base';
 
-const API_BASE_URL = 'http://localhost:4000/bzaar';
+const API_BASE_URL = 'https://bzaar-api.herokuapp.com/bzaar';
 
 export const ApiUtils = {
 
@@ -31,9 +31,8 @@ export const ApiUtils = {
     return fetch(`${API_BASE_URL}/secured/${endpoint}`, {
       method: 'GET',
       headers: this.secureheader(jwt),
-    })
-    .then(this.checkStatus)
-    .then(response => response.json());
+    }).then(this.checkStatus)
+      .then(response => response.json());
   },
 
   create(endpoint, jwt, data, method = 'POST') {
@@ -41,28 +40,27 @@ export const ApiUtils = {
       headers: this.secureheader(jwt),
       method,
       body: JSON.stringify(data),
-    })
-    .then(this.checkStatus)
-    .then(response => response.json());
+    }).then(this.checkStatus)
+      .then(response => response.json());
   },
 
   delete(endpoint, jwt, id, method = 'DELETE') {
     return fetch(`${API_BASE_URL}/secured/${endpoint}/${id}`, {
       headers: this.secureheader(jwt),
       method,
-    })
-    .then(this.checkStatus)
-    .then(response => response.json());
+    }).then(this.checkStatus)
+      .then(response => response.json());
   },
 
   upload(url, file, mimetype, method = 'PUT') {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
+      // eslint-disable-next-line no-undef
       const xhr = new XMLHttpRequest();
       xhr.open(method, url, true);
       xhr.setRequestHeader('Content-Type', mimetype);
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4) {
-          if(xhr.status === 200) {
+          if (xhr.status === 200) {
             resolve(xhr.response);
           } else {
             reject(xhr.response);
@@ -103,36 +101,34 @@ export const UserService = {
         email,
         password,
       }),
-    })
-    .then(ApiUtils.checkStatus)
-    .then(response => response.json());
+    }).then(ApiUtils.checkStatus)
+      .then(response => response.json());
   },
 
   register(email, name, surname, password) {
     return fetch(`${API_BASE_URL}/auth/signup`, {
       method: 'POST',
       headers: ApiUtils.header(),
-      body: JSON.stringify({ user: {
-        email,
-        name,
-        surname,
-        password,
-      },
+      body: JSON.stringify({
+        user: {
+          email,
+          name,
+          surname,
+          password,
+        },
       }),
-    })
-    .then(ApiUtils.checkStatus)
-    .then(response => response.json());
+    }).then(ApiUtils.checkStatus)
+      .then(response => response.json());
   },
 
-  loginFacebook(access_token) {
+  loginFacebook(accessToken) {
     return fetch(`${API_BASE_URL}/auth/facebook`, {
       method: 'POST',
       headers: ApiUtils.header(),
       body: JSON.stringify({
-        access_token,
+        access_token: accessToken,
       }),
-    })
-    .then(ApiUtils.checkStatus)
-    .then(response => response.json());
+    }).then(ApiUtils.checkStatus)
+      .then(response => response.json());
   },
 };

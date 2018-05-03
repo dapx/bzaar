@@ -8,7 +8,6 @@ import ListItem from '../components/productItem';
 import * as Actions from '../actions/products';
 
 class Products extends Component {
-
   constructor(props) {
     super(props);
     this.state = {

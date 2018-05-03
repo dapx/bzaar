@@ -28,7 +28,12 @@ class List extends React.PureComponent {
   }
 
   render() {
-    const { data, refreshing, onRefresh, ListEmptyComponent } = this.props;
+    const {
+      data,
+      refreshing,
+      onRefresh,
+      ListEmptyComponent,
+    } = this.props;
     return (
       <FlatList
         keyExtractor={this.keyExtractor}

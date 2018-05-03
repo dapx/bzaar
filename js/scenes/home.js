@@ -37,7 +37,7 @@ class Home extends Component {
   }
 
   render() {
-    const isShopKeeper = this.state.isShopKeeper;
+    const { isShopKeeper } = this.state;
     return (
       <Container>
         <Header hasTabs>

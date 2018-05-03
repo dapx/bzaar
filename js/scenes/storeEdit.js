@@ -98,23 +98,24 @@ class StoreEdit extends Component {
   renderImage() {
     const uri = this.state.data.logo;
     return this.state.uploading
-    ? <Spinner />
-    : (
-    <DefaultImagePicker
-      width={400}
-      height={400}
-      maxSize={1.5}
-      cropping={true}
-      onReceiveData={this.onReceiveData}
-    >
-      <FastImage
-        style={styles.image}
-        source={{ uri }}
-        resizeMode={'cover'}
-      />
-    </DefaultImagePicker>);
+      ? <Spinner />
+      : (
+        <DefaultImagePicker
+          width={400}
+          height={400}
+          maxSize={1.5}
+          cropping={true}
+          onReceiveData={this.onReceiveData}
+        >
+          <FastImage
+            style={styles.image}
+            source={{ uri }}
+            resizeMode={'cover'}
+          />
+        </DefaultImagePicker>
+      );
   }
-  
+
   // TODO - RENDER PARALLAX HEADER
   renderParallax() {
     return (

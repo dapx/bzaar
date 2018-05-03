@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
 });
 
 class Size extends Component {
-
   onPress(size) {
     this.props.onPress(size);
   }
