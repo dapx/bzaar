@@ -53,7 +53,9 @@
 		3FAC682B1FBA671700BBCBED /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F7E7AEE1FBA5FD5009342F2 /* FBSDKLoginKit.framework */; };
 		3FAC682C1FBA671700BBCBED /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F7E7AED1FBA5FD5009342F2 /* FBSDKShareKit.framework */; };
 		3FAFFC0D20956FD200184568 /* QBImagePicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FAFFC0B20956FD200184568 /* QBImagePicker.framework */; };
-		3FAFFC0E20956FD200184568 /* RSKImageCropper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FAFFC0C20956FD200184568 /* RSKImageCropper.framework */; };
+		3FAFFC102098F40000184568 /* RSKImageCropper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FAFFC0F2098F40000184568 /* RSKImageCropper.framework */; };
+		3FAFFC122098F65400184568 /* RSKImageCropper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3FAFFC0C20956FD200184568 /* RSKImageCropper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3FAFFC132098F66600184568 /* QBImagePicker.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3FAFFC0B20956FD200184568 /* QBImagePicker.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3FD5604F1FBA69EE002FC444 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F7E7B701FBA617C009342F2 /* libRCTFBSDK.a */; };
 		43A7A7BB5CF54929B9D130EA /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 808B9BB8963343F181FFFFF9 /* libCodePush.a */; };
 		5019E2A7855242C9841460BE /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47235215E6F44CBAB158ACA0 /* EvilIcons.ttf */; };
@@ -454,6 +456,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				3FAFFC132098F66600184568 /* QBImagePicker.framework in Embed Frameworks */,
+				3FAFFC122098F65400184568 /* RSKImageCropper.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -504,6 +508,7 @@
 		3F7E7AEE1FBA5FD5009342F2 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		3FAFFC0B20956FD200184568 /* QBImagePicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QBImagePicker.framework; path = "../node_modules/react-native-image-crop-picker/ios/ImageCropPickerSDK/QBImagePicker.framework"; sourceTree = "<group>"; };
 		3FAFFC0C20956FD200184568 /* RSKImageCropper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RSKImageCropper.framework; path = "../node_modules/react-native-image-crop-picker/ios/ImageCropPickerSDK/RSKImageCropper.framework"; sourceTree = "<group>"; };
+		3FAFFC0F2098F40000184568 /* RSKImageCropper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RSKImageCropper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		41FB6F9C61FE4C58AD44E4F6 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		43159CD848CD456FBF1338C0 /* Rubik-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Rubik-Italic.ttf"; path = "../node_modules/@shoutem/ui/fonts/Rubik-Italic.ttf"; sourceTree = "<group>"; };
 		44CE20F84CFA425992C1853B /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
@@ -561,6 +566,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FAFFC102098F40000184568 /* RSKImageCropper.framework in Frameworks */,
 				3FA3C2C92044E70E00FA5750 /* libRNSVG.a in Frameworks */,
 				3FA3C29A2044E6F500FA5750 /* libimageCropPicker.a in Frameworks */,
 				3FD5604F1FBA69EE002FC444 /* libRCTFBSDK.a in Frameworks */,
@@ -570,7 +576,6 @@
 				3FAC682C1FBA671700BBCBED /* FBSDKShareKit.framework in Frameworks */,
 				3F459D851FA6052E00AF82AC /* libRCTPushNotification.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
-				3FAFFC0E20956FD200184568 /* RSKImageCropper.framework in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
@@ -817,6 +822,7 @@
 		3F459D841FA6052E00AF82AC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3FAFFC0F2098F40000184568 /* RSKImageCropper.framework */,
 				3FAFFC0B20956FD200184568 /* QBImagePicker.framework */,
 				3FAFFC0C20956FD200184568 /* RSKImageCropper.framework */,
 				3F7E7ACA1FBA5FD5009342F2 /* Bolts.framework */,
@@ -1802,6 +1808,7 @@
 					"$(SRCROOT)/../node_modules/react-native-photo-view/ios/**",
 				);
 				INFOPLIST_FILE = bzaar/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1845,6 +1852,7 @@
 					"$(SRCROOT)/../node_modules/react-native-photo-view/ios/**",
 				);
 				INFOPLIST_FILE = bzaar/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
