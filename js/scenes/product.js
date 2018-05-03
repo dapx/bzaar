@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   StyleSheet, ScrollView, View,
   Dimensions, Text, Platform, StatusBar,
+  ActivityIndicator,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -13,8 +14,8 @@ import FastImage from 'react-native-fast-image';
 import IconButton from '../components/iconButton';
 import Size from '../components/size';
 import * as NavActions from '../actions/navigation';
-import * as ProductsActions from '../actions/products';
 import * as StoresActions from '../actions/stores';
+import * as BagActions from '../actions/bag';
 import * as style from '../styles/index';
 import { ApiUtils } from '../utils/api';
 
@@ -50,25 +51,34 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   footer: {
+    flex: 1,
     flexDirection: 'row',
-    alignItems: 'center',
     backgroundColor: 'black',
     opacity: 0.8,
   },
   currency: {
-    flex: 2,
-    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
   },
   currencyText: {
+    flex: 1,
     fontSize: 20,
     color: 'white',
+    textAlign: 'center',
+    padding: 11,
+  },
+  footerButtonContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignContent: 'center',
+    backgroundColor: 'black',
+  },
+  footerButton: {
+    flex: 1,
+    alignSelf: 'center',
   },
   buyButton: {
     color: 'white',
-  },
-  footerButton: {
-    flex: 2,
-    justifyContent: 'center',
   },
   backButton: {
     position: 'absolute',
@@ -173,12 +183,19 @@ class LoadStore extends React.PureComponent {
   }
 }
 
+LoadStore.propTypes = {
+  id: PropTypes.number.isRequired,
+  jwt: PropTypes.string.isRequired,
+  onPress: PropTypes.func.isRequired,
+};
+
 class Product extends Component {
   constructor(props) {
     super(props);
     this.state = {
       ...props.product,
       selectedSize: this.filterAvailable(props.product.sizes)[0],
+      isLoading: false,
     };
     this.onPressSize = this.onPressSize.bind(this);
   }
@@ -203,7 +220,12 @@ class Product extends Component {
         size_id: sizeId,
       },
     };
-    this.props.productsActions.addProductToBag(jwt, productData);
+    this.setState({ isLoading: true });
+    this.props.bagActions.addProductToBag(jwt, productData)
+      .then(() => {
+        this.setState({ isLoading: false });
+        this.props.navActions.bag();
+      }).catch(() => this.setState({ isLoading: false }));
   }
 
   onPressSize(size) {
@@ -253,18 +275,33 @@ class Product extends Component {
           </Carousel>
           <View style={styles.footer}>
             <View style={styles.currency}>
-              <Text style={styles.currencyText}>R${this.state.selectedSize.price}</Text>
+              <View>
+                <Text style={styles.currencyText}>R${this.state.selectedSize.price}</Text>
+              </View>
             </View>
-            <Button
-              style={styles.footerButton}
-              transparent
-              onPress={() => this.addProduct(this.props.jwt, this.state.selectedSize.id)}
-            >
-              <Icon
-                style={styles.buyButton}
-                name="shopping-cart"
-              />
-            </Button>
+            <View style={styles.footerButtonContainer}>
+              { this.state.isLoading
+                ? <View style={styles.footerButton}>
+                    <ActivityIndicator
+                      style={styles.footerButton}
+                      size={'small'}
+                      color={'white'}
+                    />
+                  </View>
+                : (
+                  <Button
+                    style={styles.footerButton}
+                    transparent
+                    onPress={() => this.addProduct(this.props.jwt, this.state.selectedSize.id)}
+                  >
+                    <Icon
+                      style={styles.buyButton}
+                      name="shopping-cart"
+                    />
+                  </Button>
+                )
+              }
+            </View>
           </View>
           <View style={styles.details}>
             <View style={styles.sizesContainer}>
@@ -310,8 +347,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     navActions: bindActionCreators(NavActions, dispatch),
-    productsActions: bindActionCreators(ProductsActions, dispatch),
     storesActions: bindActionCreators(StoresActions, dispatch),
+    bagActions: bindActionCreators(BagActions, dispatch),
   };
 }
 
@@ -328,7 +365,7 @@ Product.propTypes = {
     back: PropTypes.func.isRequired,
     bag: PropTypes.func.isRequired,
   }).isRequired,
-  productsActions: PropTypes.shape({
+  bagActions: PropTypes.shape({
     addProductToBag: PropTypes.func.isRequired,
   }).isRequired,
   storesActions: PropTypes.shape({
