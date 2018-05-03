@@ -44,21 +44,21 @@ const codePushOptions = {
 
 class Bzaar extends Component {
   componentDidMount() {
-    AppState.addEventListener('change', this.handleAppStateChange)
+    AppState.addEventListener('change', this.handleAppStateChange);
   }
 
   componentWillUnmount() {
-    AppState.addEventListener('change', this.handleAppStateChange)
+    AppState.addEventListener('change', this.handleAppStateChange);
   }
 
   handleAppStateChange(appState) {
-    if (appState == 'background') {
-      /**PushNotification.localNotificationSchedule({
+    if (appState === 'background') {
+      /** Desabilitado pois não teve uso
+      PushNotification.localNotificationSchedule({
         message: "Volta aqui!!!", // (required)
         date: new Date(Date.now() + (1 * 1000)) // in 60 secs
-      });
+      }); */
       console.log('The app is in background');
-      */
     }
   }
 
