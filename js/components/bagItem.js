@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, View, LayoutAnimation, } from 'react-native';
+import { TouchableOpacity, View, LayoutAnimation } from 'react-native';
 import { Text, Button, Card } from 'native-base';
 import FastImage from 'react-native-fast-image';
 import PropTypes from 'prop-types';

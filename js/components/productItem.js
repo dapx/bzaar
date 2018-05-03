@@ -23,7 +23,9 @@ class ProductItem extends React.PureComponent {
 
   onPress() {
     const { item, onPressItem } = this.props;
-    let itemToOpen = { id: 0, name: '', description: '', sizes: [], images: [] };
+    let itemToOpen = {
+      id: 0, name: '', description: '', sizes: [], images: [],
+    };
     const isNew = item.id === 0;
     if (!isNew) itemToOpen = item;
     onPressItem(itemToOpen);
@@ -45,7 +47,11 @@ class ProductItem extends React.PureComponent {
             source={{ uri }}
             resizeMode={'contain'}
           />
-          <Text style={{ textAlign: 'center' }}>{`${item.name}`}</Text>
+          <Text
+            numberOfLines={1}
+            ellipsizeMode={'tail'}
+            style={{ textAlign: 'center' }}>{`${item.name}`}
+          </Text>
         </Card>
       </Button>
     );
