@@ -1,4 +1,12 @@
-import { USER_REGISTER, CREDITCARD_REGISTER, BACK, USER, BAG, PRODUCT } from '../actionTypes/navigation';
+import {
+  USER_REGISTER,
+  CREDITCARD_REGISTER,
+  BACK,
+  USER,
+  BAG,
+  PRODUCT,
+  ORDERS,
+} from '../actionTypes/navigation';
 
 export function userRegister() {
   return {
@@ -33,5 +41,11 @@ export function back() {
 export function product() {
   return {
     type: PRODUCT,
+  };
+}
+
+export function orders() {
+  return {
+    type: ORDERS,
   };
 }

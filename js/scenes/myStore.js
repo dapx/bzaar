@@ -118,7 +118,7 @@ class MyStore extends Component {
               onPress={() => this.props.navActions.back()}
             >
               <View style={{ flexDirection: 'row' }}>
-                <Icon style={{ color: 'black'  }} name="octagon" />
+                <Icon style={{ color: 'black' }} name="octagon" />
                 <Text style={{ alignSelf: 'center' }}>Entregadores</Text>
               </View>
             </Button>
@@ -127,11 +127,11 @@ class MyStore extends Component {
             <Button
               large
               style={{ backgroundColor: '#7B68EE', flex: 1, margin: 1 }}
-              onPress={() => this.props.navActions.back()}
+              onPress={() => this.props.navActions.orders()}
             >
               <View style={{ flexDirection: 'row' }}>
                 <Icon style={{ color: 'black' }} name="octagon" />
-                <Text style={{ alignSelf: 'center' }}>Dashboard</Text>
+                <Text style={{ alignSelf: 'center' }}>Orders</Text>
               </View>
             </Button>
             <Button
@@ -176,6 +176,7 @@ MyStore.propTypes = {
   navActions: PropTypes.shape({
     back: PropTypes.func.isRequired,
     bag: PropTypes.func.isRequired,
+    orders: PropTypes.func.isRequired,
   }).isRequired,
   storesActions: PropTypes.shape({
     editStore: PropTypes.func.isRequired,

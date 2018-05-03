@@ -7,6 +7,7 @@ import store from './store';
 import register from './register';
 import bag from './bag';
 import myStores from './myStores';
+import orders from './orders';
 
 export default combineReducers({
   nav,
@@ -17,4 +18,5 @@ export default combineReducers({
   store,
   bag,
   myStores,
+  orders,
 });

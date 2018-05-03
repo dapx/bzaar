@@ -19,6 +19,7 @@ import StoreProducts from '../scenes/storeProducts';
 import ProductEdit from '../scenes/productEdit';
 import ProductImages from '../scenes/productImages'; // eslint-disable-line
 import SizeModal from '../scenes/size';
+import Orders from '../scenes/orders';
 
 const UserNavigator = StackNavigator({
   User: {
@@ -143,6 +144,14 @@ export const AppNavigator = StackNavigator({
   },
   StoreProductsPage: {
     screen: StoreProducts,
+    navigationOptions: {
+      visible: false,
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  OrdersPage: {
+    screen: Orders,
     navigationOptions: {
       visible: false,
       header: null,

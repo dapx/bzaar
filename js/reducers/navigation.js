@@ -2,7 +2,11 @@ import { NavigationActions } from 'react-navigation';
 import { AppNavigator } from '../components/navigation';
 import { RECEIVE_LOGIN } from '../actionTypes/login';
 import { RECEIVE_REGISTER } from '../actionTypes/register';
-import { USER_REGISTER, CREDITCARD_REGISTER, BACK, USER, BAG } from '../actionTypes/navigation';
+import {
+  USER_REGISTER,
+  CREDITCARD_REGISTER,
+  BACK, USER, BAG, ORDERS,
+} from '../actionTypes/navigation';
 import { SHOW_PRODUCT, ADDED_PRODUCT_TO_BAG } from '../actionTypes/products';
 import { OPEN_STORE } from '../actionTypes/stores';
 import {
@@ -58,6 +62,8 @@ export default function nav(state = initialState, action) {
       return AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'ProductImagesPage' }), state);
     case EDIT_SIZE:
       return AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'SizeModalPage' }), state);
+    case ORDERS:
+      return AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'OrdersPage' }), state);
     default:
       return state;
   }
