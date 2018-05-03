@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
 
 class DeleteItem extends React.PureComponent {
   render() {
-    const { active } = this.props; 
+    const { active } = this.props;
     return (
       <View style={styles.delete}>
         { active
@@ -63,7 +63,7 @@ class DeleteItem extends React.PureComponent {
             style={{ textAlign: 'center' }}
             name="trash-2"
           />)
-          : <Text style={{ textAlign: 'center' }}>Release here to delete</Text> 
+          : <Text style={{ textAlign: 'center' }}>Release here to delete</Text>
         }
       </View>
     );
@@ -75,7 +75,6 @@ DeleteItem.propTypes = {
 };
 
 class Item extends Component {
-
   onReceiveImage = (image) => {
     const { item: { sequence }, onPress } = this.props;
     const data = { ...image, sequence };
@@ -119,13 +118,12 @@ Item.propTypes = {
   onPress: PropTypes.func,
 };
 
-const allKeys = [9,8,7,6,5,4,3,2,1];
+const allKeys = [9, 8, 7, 6, 5, 4, 3, 2, 1];
 
 /**
  * It renders the product images to change order and to add new.
  */
 class ImageGallery extends Component {
-
   constructor(props) {
     super(props);
     // TODO - It needs to be refactored, I think it should be removed from constructor
@@ -149,9 +147,9 @@ class ImageGallery extends Component {
     // fill slots by sequence with normalized images based on previous state
     const filledSlots = _.unionBy(nextProps.images, this.previousSlots, 'sequence');
     // Set key to slots
-    let keys = this.getAvailableKeys(allKeys, filledSlots);
-    const normalizedSlots = this.normalizeSlotsBasedOnKeyList(filledSlots, [ ...keys ]);
-    
+    const keys = this.getAvailableKeys(allKeys, filledSlots);
+    const normalizedSlots = this.normalizeSlotsBasedOnKeyList(filledSlots, keys);
+
     // order by sequence
     const slots = this.sortBySeq(normalizedSlots);
     this.setState({ slots });
@@ -161,23 +159,23 @@ class ImageGallery extends Component {
     return images.sort((a, b) => a.sequence - b.sequence);
   }
 
-  fillSlots(images, emptySlots) {
-    return _.unionBy(images, emptySlots, 'sequence');
+  fillSlots(images, slots) {
+    return _.unionBy(images, slots, 'sequence');
   }
 
   /**
    *  Filter images looking for available keys
    */
   getAvailableKeys(keysList, images) {
-    return keysList.map(k => {
-      const image = images.find(image => image.key === k);
+    return keysList.map((k) => {
+      const image = images.find(i => (i.key === k));
       return !image && k;
     }).filter(k => k);
   }
 
   // Just used to create a key when receive the first images
   normalizeSlots(images) {
-    return images.map(image => {
+    return images.map((image) => {
       const key = image.key || image.sequence;
       return ({ ...image, key });
     });
@@ -185,48 +183,46 @@ class ImageGallery extends Component {
 
   // Set an available key for slots/images without it.
   normalizeSlotsBasedOnKeyList(images, keyList) {
-    return images.map(image => {
+    return images.map((image) => {
       const key = image.key || keyList.pop();
       return ({ ...image, key });
     });
   }
 
   render() {
-    if (this.state.ready)
-    return (
-      <AnimatedDND
-        animationDuration={250}
-        style={styles.container}
-        styleArea={styles.area}
-        styleWrapper={styles.slots}
-        items={this.state.slots}
-        onPressAddNewItem={() => {}}
-        onPressItem={this.props.onReceiveData}
-        onChange={this.props.onChange}
-        ItemElement={Item}
-        DeleteElement={DeleteItem}
-      />
-    );
-    else return (
-    <View style={styles.container}>
-    </View>
-    );
+    return (this.state.ready)
+      ? (
+        <AnimatedDND
+          animationDuration={250}
+          style={styles.container}
+          styleArea={styles.area}
+          styleWrapper={styles.slots}
+          items={this.state.slots}
+          onPressAddNewItem={() => {}}
+          onPressItem={this.props.onReceiveData}
+          onChange={this.props.onChange}
+          ItemElement={Item}
+          DeleteElement={DeleteItem}
+        />
+      ) : (
+      <View style={styles.container}>
+      </View>
+      );
   }
 }
 
 ImageGallery.propTypes = {
-  images: PropTypes.arrayOf(
-    PropTypes.shape({
+  images: PropTypes.arrayOf(PropTypes
+    .shape({
       url: PropTypes.string,
       sequence: PropTypes.number.isRequired,
-    }),
-  ).isRequired,
-  slots: PropTypes.arrayOf(
-    PropTypes.shape({
+    })).isRequired,
+  slots: PropTypes.arrayOf(PropTypes
+    .shape({
       key: PropTypes.number,
       sequence: PropTypes.number.isRequired,
-    }),
-  ),
+    })),
+  onChange: PropTypes.func.isRequired,
   onReceiveData: PropTypes.func.isRequired,
 };
 

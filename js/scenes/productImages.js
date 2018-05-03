@@ -3,13 +3,13 @@ import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import _ from 'lodash';
 import * as NavActions from '../actions/navigation';
 import * as StoresActions from '../actions/myStores';
 import HeaderBack from '../components/headerBack';
 import ImageGallery from '../components/imageGallery';
 
 class ProductImages extends Component {
-
   constructor(props) {
     super(props);
     const { images } = props.product;
@@ -45,7 +45,7 @@ class ProductImages extends Component {
   }
 
   slotsReducer({ slots, itemToChange }, action) {
-    switch(action) {
+    switch (action) {
       case 'DELETE': {
         const itemToRemoveIndex = slots.findIndex(i => i.key === itemToChange.key);
         const item = _.omit(itemToChange, 'url');
@@ -57,7 +57,7 @@ class ProductImages extends Component {
       }
 
       default: {
-        return newSequences = slots.map((item, index) => {
+        return slots.map((item, index) => {
           const sequence = index + 1;
           const newSlotSequence = {
             ...item,
@@ -71,7 +71,7 @@ class ProductImages extends Component {
 
   render() {
     const { images = [], slots = [] } = this.state;
-    const allSlots = [ ...images, ...slots ];
+    const allSlots = [...images, ...slots];
     return (
       <View style={{ flex: 1 }}>
         <HeaderBack
