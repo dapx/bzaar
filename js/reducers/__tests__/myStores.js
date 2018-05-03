@@ -1,6 +1,6 @@
 import stores from '../myStores';
 import * as Actions from '../../actions/myStores';
-
+/* eslint-disable no-undef */
 const INITIAL_STATE = {
   loadingRequest: false,
   list: [],
@@ -73,6 +73,5 @@ test('added size to product', () => {
   );
   const productWithTwoSizes = { ...PRODUCT.data, sizes: [SIZE, SIZE_2] };
   expect(STATE_WITH_PRODUCT_WITH_TWO_SIZES.product).toEqual(productWithTwoSizes);
-
 });
 

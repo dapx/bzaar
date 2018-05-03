@@ -2,7 +2,6 @@ import { REQUEST_STORES, RECEIVE_STORES } from '../actionTypes/stores';
 
 export default function stores(state = {}, action) {
   switch (action.type) {
-
     case REQUEST_STORES:
       return {
         ...state,

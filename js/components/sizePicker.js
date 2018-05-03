@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
 });
 
 class SizePicker extends Component {
-
   constructor(props) {
     super(props);
     this.renderItem = this.renderItem.bind(this);

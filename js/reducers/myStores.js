@@ -33,7 +33,6 @@ const INITIAL_STATE = {
 
 function sizes(state = [], action) {
   switch (action.type) {
-
     case ADD_SIZE: {
       const cleanState = state.filter(item => (
         item.id
@@ -72,15 +71,22 @@ function slots(state = [], action) {
 
 function imagesToSave(state = [], action) {
   switch (action.type) {
-
     // Filter new images to save
     case RECEIVE_PRODUCT_IMAGES: {
       const listWithoutNewSequence = state.filter(image => image.sequence !== action.sequence);
       const { path, mimetype } = action.metaData;
+      // eslint-disable-next-line camelcase
       const { signed_url, image_url } = action.data;
+      const { sequence } = action;
       return [
         ...listWithoutNewSequence,
-        { url: image_url, sequence: action.sequence, signed_url, path, mimetype },
+        {
+          url: image_url,
+          sequence,
+          signed_url,
+          path,
+          mimetype,
+        },
       ];
     }
 
@@ -91,7 +97,6 @@ function imagesToSave(state = [], action) {
 
 function images(state = [], action) {
   switch (action.type) {
-
     case RECEIVE_PRODUCT_IMAGES: {
       // Remove the old image
       const listWithoutNewSequence = action.items
@@ -116,7 +121,6 @@ function images(state = [], action) {
 
 function product(state = {}, action) {
   switch (action.type) {
-
     case PRODUCT_CHANGED:
     case EDIT_PRODUCT_IMAGES:
     case EDIT_PRODUCT:
@@ -171,12 +175,14 @@ function products(state = [], action) {
 function store(state = {}, action) {
   switch (action.type) {
     case RECEIVE_IMAGE: {
-      const presigned_url = action.data.signed_url;
-      const image_path = action.data.image_path;
-      const image_url = action.data.image_url;
+      const {
+        signed_url, // eslint-disable-line camelcase
+        image_path, // eslint-disable-line camelcase
+        image_url, // eslint-disable-line camelcase
+      } = action.data;
       return {
         ...state,
-        presigned_url,
+        presigned_url: signed_url,
         image_url,
         image_path,
       };

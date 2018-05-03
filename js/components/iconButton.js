@@ -3,19 +3,19 @@ import { Icon } from 'native-base';
 import PropTypes from 'prop-types';
 import Button from './button';
 
-const IconButton = ({ style, onPress, iconName, iconStyle }) => {
-  return (
-    <Button
-      onPress={onPress}
-      style={style}
-    >
-      <Icon
-        style={iconStyle}
-        name={iconName}
-      />
-    </Button>
-  );
-};
+const IconButton = ({
+  style, onPress, iconName, iconStyle,
+}) => (
+  <Button
+    onPress={onPress}
+    style={style}
+  >
+    <Icon
+      style={iconStyle}
+      name={iconName}
+    />
+  </Button>
+);
 
 IconButton.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.number, PropTypes.array]),

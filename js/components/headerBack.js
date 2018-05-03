@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { Header, Left, Body, Right, Title } from 'native-base';
-import _ from 'lodash';
 import PropTypes from 'prop-types';
 import IconButton from './iconButton';
 
 class HeaderBack extends Component {
-
   render() {
     return (
       <Header style={{ borderBottomColor: '#ddd' }}>

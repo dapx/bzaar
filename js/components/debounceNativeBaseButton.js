@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Button } from 'native-base';
-//import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 class ButtonDebounced extends Component {
@@ -24,6 +23,6 @@ class ButtonDebounced extends Component {
   }
 }
 
-//ButtonDebounced.propTypes = Button.propTypes;
+ButtonDebounced.propTypes = Button.propTypes;
 
 export default ButtonDebounced;

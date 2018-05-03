@@ -23,7 +23,9 @@ class ProductItem extends React.PureComponent {
 
   onPress() {
     const { item, onPressItem } = this.props;
-    let itemToOpen = { id: 0, name: '', description: '', sizes: [], images: [] };
+    let itemToOpen = {
+      id: 0, name: '', description: '', sizes: [], images: [],
+    };
     const isNew = item.id === 0;
     if (!isNew) itemToOpen = item;
     onPressItem(itemToOpen);
@@ -36,7 +38,7 @@ class ProductItem extends React.PureComponent {
     const isNew = item.id === 0;
     if (!isNew) {
       const image = item.images[0];
-      name = item.name;
+      name = item.name; // eslint-disable-line prefer-destructuring
       uri = (image && image.url) || 'https://www.pixedelic.com/themes/geode/demo/wp-content/uploads/sites/4/2014/04/placeholder.png';
     }
     return (

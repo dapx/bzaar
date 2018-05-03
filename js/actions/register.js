@@ -27,11 +27,11 @@ export function register(email, name, surname, password) {
   return (dispatch) => {
     dispatch(request());
     return UserService.register(email, name, surname, password)
-    .then(data => dispatch(receive(data, email, password)))
-    .catch((error) => {
-      dispatch(receiveError(error.message));
-      ApiUtils.error(error.message);
-    })
-    .done();
+      .then(data => dispatch(receive(data, email, password)))
+      .catch((error) => {
+        dispatch(receiveError(error.message));
+        ApiUtils.error(error.message);
+      })
+      .done();
   };
 }

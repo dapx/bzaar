@@ -3,7 +3,6 @@ import RECEIVE_ERROR from '../actionTypes/error';
 
 export default function register(state = {}, action) {
   switch (action.type) {
-
     case REQUEST_REGISTER:
       return {
         ...state,

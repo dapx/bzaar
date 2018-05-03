@@ -4,7 +4,6 @@ import DefaultImagePicker from './DefaultImagePicker';
 import { ApiUtils } from '../utils/api';
 
 class DefaultImagePickerWithErrorHandler extends Component {
-
   onMaxSize() {
     ApiUtils.error('Imagem muito grande, tente diminuir a qualidade da imagem.');
   }
