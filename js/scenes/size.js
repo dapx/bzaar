@@ -7,14 +7,15 @@ import PropTypes from 'prop-types';
 import QuantityInput from '../components/quantityInput';
 import * as NavActions from '../actions/navigation';
 import * as StoresActions from '../actions/myStores';
-import { BR } from '../utils/regex';
 import { ApiUtils } from '../utils/api';
 
 class SizeModal extends Component {
   constructor(props) {
     super(props);
+    const maskedPrice = this.maskPrice(props.size.price);
     this.state = {
       ...props.size,
+      maskedPrice,
     };
     this.onPlus = this.onPlus.bind(this);
     this.onMinus = this.onMinus.bind(this);
@@ -43,9 +44,22 @@ class SizeModal extends Component {
     this.setState({ quantity });
   }
 
+  normalizeValue(value) {
+    return value.replace(/[^0-9-]/g, '');
+  }
+
+  maskPrice(price = 0) {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    }).format(price);
+  }
+
   onChangePrice(value) {
-    const price = value.match(BR.CURRENCY)[0].replace(',', '.');
-    this.setState({ price });
+    // To work with cents
+    const price = this.normalizeValue(value) / 100;
+    const maskedPrice = this.maskPrice(price);
+    this.setState({ price, maskedPrice });
   }
 
   onSubmit(data) {
@@ -59,7 +73,7 @@ class SizeModal extends Component {
 
   render() {
     const {
-      id, name, quantity, price,
+      id, name, quantity, price, maskedPrice,
     } = this.state;
     const disabled = !name || (price < 1);
     return (
@@ -88,7 +102,7 @@ class SizeModal extends Component {
               <Input
                 keyboardType={'numeric'}
                 onChangeText={this.onChangePrice}
-                value={`${price}`}
+                value={`${maskedPrice}`}
               />
             </Item>
           </Form>
