@@ -9,8 +9,14 @@ class HeaderBack extends Component {
       <Header style={{ borderBottomColor: '#ddd' }}>
         <Left>
           <IconButton
-            style={{ backgroundColor: 'transparent' }}
-            iconStyle={{ color: 'black' }}
+            style={{
+              backgroundColor: 'transparent',
+              padding: 10,
+            }}
+            iconStyle={{
+              color: 'black',
+              fontSize: 24,
+            }}
             iconName="arrow-left"
             onPress={this.props.back}
           />
