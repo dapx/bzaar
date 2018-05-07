@@ -41,7 +41,7 @@ export const headers = {
     backgroundColor: 'white',
     opacity: 0.5,
     borderRadius: 5,
-    padding: 10,
+    padding: 8,
   },
   backButtonIcon: {
     color: '#000',
@@ -55,7 +55,7 @@ export const headers = {
     backgroundColor: 'white',
     opacity: 0.5,
     borderRadius: 50,
-    padding: 10,
+    padding: 8,
   },
 };
 

@@ -95,38 +95,38 @@ class StoreEdit extends Component {
   }
 
   renderImage() {
-    const uri = this.state.data.logo;
-    return this.state.uploading
-      ? <Spinner />
-      : (
-        <DefaultImagePicker
-          width={400}
-          height={400}
-          maxSize={1.5}
-          cropping={true}
-          onReceiveData={this.onReceiveData}
-        >
-          <FastImage
-            style={styles.image}
-            source={{ uri }}
-            resizeMode={'cover'}
-          />
-        </DefaultImagePicker>
-      );
   }
 
   render() {
-    const { isNew } = this.state;
+    const uri = this.state.data.logo;
+    const marginTop = uri.length ? 0 : 67;
     return (
       <Container style={styles.container}>
         <IconButton
-          style={stylesHeader.backButton}
           onPress={this.props.navActions.back}
           iconName={'arrow-left'}
+          style={stylesHeader.backButton}
+          iconStyle={stylesHeader.backButtonIcon}
         />
         <Content style={{ flex: 1 }}>
-          { !isNew && this.renderImage() }
-          <Form style={{ flex: 2 }}>
+          { this.state.uploading
+          ? <Spinner />
+          : uri.length > 0 && (
+            <DefaultImagePicker
+              width={400}
+              height={400}
+              maxSize={1.5}
+              cropping={true}
+              onReceiveData={this.onReceiveData}
+            >
+              <FastImage
+                style={styles.image}
+                source={{ uri }}
+                resizeMode={'cover'}
+              />
+            </DefaultImagePicker>
+          )}
+          <Form style={{ marginTop }}>
             <Item stackedLabel>
               <Label>Nome da Loja</Label>
               <Input value={this.state.data.name} onChangeText={name => this.onChange({ name })} />
