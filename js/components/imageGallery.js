@@ -156,7 +156,7 @@ class ImageGallery extends Component {
   }
 
   sortBySeq(images) {
-    return images.sort((a, b) => a.sequence - b.sequence);
+    return _.orderBy(images, 'sequence', 'asc');
   }
 
   fillSlots(images, slots) {
