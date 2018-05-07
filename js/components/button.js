@@ -16,13 +16,12 @@ class Button extends Component {
   render() {
     const { style, children } = this.props;
     return (
-      <View style={style}>
-      <TouchableOpacity onPress={this.onPress}>
-        <View>
-          { children }
-        </View>
+      <TouchableOpacity
+        style={style}
+        onPress={this.onPress}
+      >
+        { children }
       </TouchableOpacity>
-      </View>
     );
   }
 }
