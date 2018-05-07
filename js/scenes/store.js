@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Animated, FlatList, TouchableOpacity, View, Text } from 'react-native';
-import { Container, Header, Body, Left, Right, Tabs, Tab, Title, Icon, Spinner, ScrollableTab } from 'native-base';
+import { Container, Header, Body, Left, Right, Tabs, Tab, Title, Spinner, ScrollableTab } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';

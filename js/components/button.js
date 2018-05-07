@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
