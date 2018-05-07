@@ -123,42 +123,11 @@ class ProductEdit extends Component {
     }
   }
 
-  renderImage() {
-    const { images } = this.state.data;
-    return this.state.uploading
-      ? <Spinner />
-      : this.props.product.images.length > 0 && (
-        <Carousel
-          style={styles.carrousel}
-          pageStyle={styles.slide}
-          autoplay={false}
-          pageInfo
-        >
-        { images.map(image => (
-          <View key={`product-${image.sequence}`} style={styles.slide}>
-            <Lightbox
-              activeProps={{ ...lightboxStyle }}
-              backgroundColor={'#fff'}
-              underlayColor={'#fff'}
-              onClose={() => StatusBar.setHidden(true, 'fade')}
-            >
-            <FastImage
-              style={styles.image}
-              source={{ uri: image.url }}
-              resizeMode={'contain'}
-            />
-            </Lightbox>
-          </View>
-        ))
-      }
-      </Carousel>
-      );
-  }
-
   render() {
-    const isNew = this.props.product.id === 0;
+    const { images } = this.state.data;
+    const marginTop = images.length ? 0 : 65;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: 'white' }}>
         <IconButton
           onPress={this.props.navActions.back}
           iconName={'arrow-left'}
@@ -173,8 +142,34 @@ class ProductEdit extends Component {
         />
         <Container style={styles.container}>
           <Content>
-            <Form>
-            { !isNew && this.renderImage() }
+            <Form style={{ marginTop }}>
+              { this.state.uploading
+              ? <Spinner />
+              : images.length > 0 && (
+                <Carousel
+                  style={styles.carrousel}
+                  pageStyle={styles.slide}
+                  autoplay={false}
+                  pageInfo
+                >
+                  { images.map(image => (
+                    <View key={`product-${image.sequence}`} style={styles.slide}>
+                      <Lightbox
+                        activeProps={{ ...lightboxStyle }}
+                        backgroundColor={'#fff'}
+                        underlayColor={'#fff'}
+                        onClose={() => StatusBar.setHidden(true, 'fade')}
+                      >
+                      <FastImage
+                        style={styles.image}
+                        source={{ uri: image.url }}
+                        resizeMode={'contain'}
+                      />
+                      </Lightbox>
+                    </View>
+                  )) }
+                </Carousel>
+              )}
               <Item stackedLabel>
                 <Label>Nome</Label>
                 <Input
@@ -238,7 +233,7 @@ ProductEdit.propTypes = {
     description: PropTypes.string.isRequired,
     images: PropTypes.Array,
     sizes: PropTypes.Array,
-    store_id: PropTypes.number.isRequired,
+    store_id: PropTypes.number,
     presigned_url: PropTypes.string,
     uploading: PropTypes.bool,
     loadingRequest: PropTypes.bool,
