@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
-  TouchableOpacity,
   Dimensions,
   Platform,
   StatusBar,
@@ -50,6 +49,7 @@ class ProductEdit extends Component {
     this.onPressButton = this.onPressButton.bind(this);
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangeDescription = this.onChangeDescription.bind(this);
+    this.editImages = this.editImages.bind(this);
   }
 
   componentWillMount() {
@@ -83,6 +83,10 @@ class ProductEdit extends Component {
 
   onChangeDescription(description) {
     this.onChange({ description });
+  }
+
+  editImages() {
+    this.props.storesActions.editProductImages(this.props.product);
   }
 
   normalizeImagesToSave(imagesToSave, images) {
@@ -120,7 +124,7 @@ class ProductEdit extends Component {
   }
 
   renderImage() {
-    const { images } = this.props.product;
+    const { images } = this.state.data;
     return this.state.uploading
       ? <Spinner />
       : this.props.product.images.length > 0 && (
@@ -130,8 +134,8 @@ class ProductEdit extends Component {
           autoplay={false}
           pageInfo
         >
-        { images.filter(i => i.url).map(image => (
-          <View key={`product-${image.seq}`} style={styles.slide}>
+        { images.map(image => (
+          <View key={`product-${image.sequence}`} style={styles.slide}>
             <Lightbox
               activeProps={{ ...lightboxStyle }}
               backgroundColor={'#fff'}
@@ -155,22 +159,19 @@ class ProductEdit extends Component {
     const isNew = this.props.product.id === 0;
     return (
       <View style={{ flex: 1 }}>
+        <IconButton
+          onPress={this.props.navActions.back}
+          iconName={'arrow-left'}
+          style={stylesHeader.backButton}
+          iconStyle={stylesHeader.backButtonIcon}
+        />
+        <IconButton
+          onPress={this.editImages}
+          iconName={'image'}
+          style={stylesHeader.rightButton}
+          iconStyle={stylesHeader.backButtonIcon}
+        />
         <Container style={styles.container}>
-          <IconButton
-            style={stylesHeader.backButton}
-            onPress={this.props.navActions.back}
-            iconName={'arrow-left'}
-            iconStyle={stylesHeader.backButtonIcon}
-          />
-          <View style={styles.imagesEdit}>
-            <TouchableOpacity
-              onPress={() => this.props.storesActions.editProductImages(this.props.product)}
-            >
-              <View>
-                <Text>Gerenciar Imagens</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
           <Content>
             <Form>
             { !isNew && this.renderImage() }

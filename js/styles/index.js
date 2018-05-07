@@ -36,15 +36,26 @@ export const headers = {
   backButton: {
     position: 'absolute',
     top: 20,
-    left: 15,
+    left: 10,
     zIndex: 2,
     backgroundColor: 'white',
     opacity: 0.5,
     borderRadius: 5,
-    padding: 1,
+    padding: 10,
   },
   backButtonIcon: {
     color: '#000',
+    fontSize: 24,
+  },
+  rightButton: {
+    position: 'absolute',
+    top: 20,
+    right: 10,
+    zIndex: 2,
+    backgroundColor: 'white',
+    opacity: 0.5,
+    borderRadius: 50,
+    padding: 10,
   },
 };
 
@@ -61,16 +72,6 @@ export const storeEdit = {
   image: {
     width: 400,
     height: 300,
-  },
-  imagesEdit: {
-    position: 'absolute',
-    top: 20,
-    right: 20,
-    zIndex: 2,
-    backgroundColor: 'white',
-    opacity: 0.5,
-    borderRadius: 50,
-    padding: 5,
   },
 };
 

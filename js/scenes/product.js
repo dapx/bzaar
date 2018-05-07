@@ -88,10 +88,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     opacity: 0.5,
     borderRadius: 5,
-    padding: 5,
+    padding: 10,
   },
   backButtonIcon: {
     color: '#000',
+    fontSize: 24,
   },
   details: {
     flex: 1,
@@ -175,7 +176,10 @@ class LoadStore extends React.PureComponent {
           }}
           onPress={this.openStore}
           iconName={'eye'}
-          iconStyle={{ color: 'white' }}
+          iconStyle={{
+            color: 'white',
+            fontSize: 24,
+          }}
         />
       );
     }
@@ -234,13 +238,14 @@ class Product extends Component {
 
   render() {
     const { images } = this.state;
+    console.log('Images: ', images);
     const sizes = this.filterAvailable(this.state.sizes);
     return (
       <View style={{ flex: 1 }}>
         <IconButton
+          iconName={'arrow-left'}
           style={styles.backButton}
           onPress={this.props.navActions.back}
-          iconName={'arrow-left'}
           iconStyle={styles.backButtonIcon}
         />
         <ScrollView style={styles.container}>
@@ -251,7 +256,7 @@ class Product extends Component {
             pageInfo
           >
             { images.length > 0 ? images.map(image => (
-              <View key={`product_${image}`} style={styles.slide}>
+              <View key={`product_${image.id}`} style={styles.slide}>
                 <Lightbox
                   activeProps={{ ...lightboxStyle }}
                   backgroundColor={'#fff'}

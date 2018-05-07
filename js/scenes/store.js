@@ -10,6 +10,7 @@ import * as Actions from '../actions/store';
 import * as NavActions from '../actions/navigation';
 import * as ProductsActions from '../actions/products';
 import { store } from '../styles';
+import IconButton from '../components/iconButton';
 
 const styles = StyleSheet.create(store);
 
@@ -85,17 +86,23 @@ class Store extends Component {
       <Container>
         <Header hasTabs>
           <Left>
-            <TouchableOpacity style={{ padding: 5 }} onPress={() => this.props.navActions.back()}>
-              <Icon style={{ color: 'black' }} name="arrow-left" />
-            </TouchableOpacity>
+            <IconButton
+              iconName="arrow-left"
+              iconStyle={{ fontSize: 24 }}
+              style={{ padding: 10 }}
+              onPress={() => this.props.navActions.back()}
+            />
           </Left>
           <Body>
             <Title style={{ color: 'black' }}>{this.state.name}</Title>
           </Body>
           <Right>
-            <TouchableOpacity style={{ padding: 5 }} onPress={() => this.props.navActions.bag()}>
-              <Icon style={{ color: 'black' }} name="shopping-cart" />
-            </TouchableOpacity>
+            <IconButton
+              iconName="shopping-cart"
+              iconStyle={{ fontSize: 24 }}
+              style={{ padding: 10 }}
+              onPress={() => this.props.navActions.bag()}
+            />
           </Right>
         </Header>
         <View style={{ flex: 1 }} >
