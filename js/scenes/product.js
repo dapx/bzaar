@@ -238,7 +238,6 @@ class Product extends Component {
 
   render() {
     const { images } = this.state;
-    console.log('Images: ', images);
     const sizes = this.filterAvailable(this.state.sizes);
     return (
       <View style={{ flex: 1 }}>
