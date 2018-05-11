@@ -15,11 +15,10 @@ function request() {
   };
 }
 
-function receive(data) {
+function receive({ data }) {
   return {
     type: RECEIVE_LOGIN,
-    user: data.user,
-    jwt: data.jwt,
+    ...data,
   };
 }
 

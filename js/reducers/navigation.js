@@ -5,7 +5,7 @@ import { RECEIVE_REGISTER } from '../actionTypes/register';
 import {
   USER_REGISTER,
   CREDITCARD_REGISTER,
-  BACK, USER, BAG, ORDERS,
+  BACK, USER, BAG, ORDERS, ADDRESS,
 } from '../actionTypes/navigation';
 import { SHOW_PRODUCT, ADDED_PRODUCT_TO_BAG } from '../actionTypes/products';
 import { OPEN_STORE } from '../actionTypes/stores';
@@ -64,6 +64,8 @@ export default function nav(state = initialState, action) {
       return AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'SizeModalPage' }), state);
     case ORDERS:
       return AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'OrdersPage' }), state);
+    case ADDRESS:
+      return AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'AddressModalPage' }), state);
     default:
       return state;
   }

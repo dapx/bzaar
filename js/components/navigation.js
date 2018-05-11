@@ -20,10 +20,19 @@ import ProductEdit from '../scenes/productEdit';
 import ProductImages from '../scenes/productImages'; // eslint-disable-line
 import SizeModal from '../scenes/size';
 import Orders from '../scenes/orders';
+import AddressModal from '../scenes/address';
 
 const UserNavigator = StackNavigator({
   User: {
     screen: UserRegister,
+    navigationOptions: {
+      visible: false,
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+  AddressModalPage: {
+    screen: AddressModal,
     navigationOptions: {
       visible: false,
       header: null,
@@ -38,6 +47,9 @@ const UserNavigator = StackNavigator({
       gesturesEnabled: false,
     },
   },
+}, {
+  mode: 'modal',
+  headerMode: 'none',
 });
 
 const ProductEditNavigator = StackNavigator({
