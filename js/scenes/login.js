@@ -80,10 +80,12 @@ class Login extends Component {
               source={logo}
             />
             <Text style={{
-                flex: 1,
-                alignSelf: 'center',
-                backgroundColor: 'transparent',
-              }}>Bzaar</Text>
+              flex: 1,
+              alignSelf: 'center',
+              backgroundColor: 'transparent',
+            }}>
+              Bzaar
+            </Text>
             <Form>
               <Item floatingLabel>
                 <Label>E-mail</Label>
@@ -127,16 +129,6 @@ class Login extends Component {
             </Form>
           </View>
         </Content>
-        <Toast
-          showToast="true"
-          buttonText="Okay"
-          buttonPress={() => this.setState({
-            showToast: !this.state.showToast,
-          })}
-          position="bottom"
-        >
-          <Text>Teste</Text>
-        </Toast>
       </Container>
     );
   }
