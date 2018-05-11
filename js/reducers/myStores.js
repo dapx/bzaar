@@ -61,7 +61,7 @@ function slots(state = [], action) {
     }
 
     case RECEIVE_PRODUCT_IMAGES: {
-      return [];
+      return action.items.filter(image => !image.url);
     }
 
     default:
@@ -104,10 +104,11 @@ function images(state = [], action) {
       const oldImage = action.items
         .find(i => i.sequence === action.sequence);
       const { path } = action.metaData;
-      return [
+      const allList = [
         ...listWithoutNewSequence,
         { ...oldImage, url: path, sequence: action.sequence }, // Add new image
       ];
+      return allList.filter(i => i.url);
     }
 
     case CHANGE_IMAGE_SEQUENCE: {
@@ -149,7 +150,7 @@ function product(state = {}, action) {
         ...state,
         images: images(state.images, action),
         imagesToSave: imagesToSave(state.imagesToSave, action),
-        slots: slots(state.slots, action),
+        slots: slots(state.images, action),
       };
 
     default:
