@@ -8,6 +8,7 @@ import register from './register';
 import bag from './bag';
 import myStores from './myStores';
 import orders from './orders';
+import temporary from './temporary';
 
 export default combineReducers({
   nav,
@@ -19,4 +20,5 @@ export default combineReducers({
   bag,
   myStores,
   orders,
+  temporary,
 });

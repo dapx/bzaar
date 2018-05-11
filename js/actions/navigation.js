@@ -6,6 +6,7 @@ import {
   BAG,
   PRODUCT,
   ORDERS,
+  ADDRESS,
 } from '../actionTypes/navigation';
 
 export function userRegister() {
@@ -47,5 +48,12 @@ export function product() {
 export function orders() {
   return {
     type: ORDERS,
+  };
+}
+
+export function address(data = {}) {
+  return {
+    type: ADDRESS,
+    data,
   };
 }

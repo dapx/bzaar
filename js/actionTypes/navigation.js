@@ -5,3 +5,4 @@ export const USER = 'nav/USER';
 export const BAG = 'nav/BAG';
 export const ORDERS = 'nav/ORDERS';
 export const PRODUCT = 'nav/PRODUCT';
+export const ADDRESS = 'nav/ADDRESS';
