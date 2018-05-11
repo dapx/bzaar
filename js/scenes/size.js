@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Form, Item, Input, Label, Button, Text } from 'native-base';
@@ -77,9 +77,13 @@ class SizeModal extends Component {
     } = this.state;
     const disabled = !name || (price < 1);
     return (
-      <View style={{ flex: 1, backgroundColor: 'white' }}>
+      <ScrollView style={{ flex: 1, backgroundColor: 'white' }}>
         <View style={{ flex: 1, justifyContent: 'center' }}>
-          <Text style={{ textAlign: 'center', fontSize: 30 }}>Defina o Tamanho</Text>
+          <Text style={{
+            textAlign: 'center',
+            fontSize: 30,
+            margin: 40,
+          }}>Defina o Tamanho</Text>
         </View>
         <View style={{ flex: 4 }}>
         <Form style={{ marginBottom: 20 }}>
@@ -133,7 +137,7 @@ class SizeModal extends Component {
               </Button>
             </View>
           </View>
-      </View>
+      </ScrollView>
     );
   }
 }
