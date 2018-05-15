@@ -12,8 +12,9 @@ import Button from '../../components/button';
 import * as UserActions from '../../actions/user';
 import * as NavActions from '../../actions/navigation';
 import IconButton from '../../components/iconButton';
+import { ApiUtils } from '../../utils/api';
 
-const Inactive = ({ active }) => {
+const Inactive = ({ active, onPress }) => {
   if (!active) {
     return (
       <View style={{
@@ -21,7 +22,7 @@ const Inactive = ({ active }) => {
         borderRadius: 10,
       }}>
         <Button
-          onPress={() => {}}
+          onPress={onPress}
         >
           <Text style={{
             color: '#fff',
@@ -221,6 +222,11 @@ class User extends Component {
     this.setState({ ...user, pendingRequest });
   }
 
+  sendConfirmation = () => {
+    const { user: { id }, jwt } = this.props;
+    ApiUtils.create(`users/${id}/send_confirmation`, jwt, {});
+  }
+
   handleSubmit() {
     const {
       id, name, surname, address,
@@ -241,7 +247,10 @@ class User extends Component {
       <Container>
         <HeaderBack title="Seu Perfil" back={() => this.props.navActions.back()} />
         <Content style={{ backgroundColor: 'white' }} padder>
-          <Inactive active={this.state.active} />
+          <Inactive
+            onPress={this.sendConfirmation}
+            active={this.state.active}
+          />
           <Form style={{ flex: 1 }}>
             <Item fixedLabel>
               <Label>Nome</Label>
