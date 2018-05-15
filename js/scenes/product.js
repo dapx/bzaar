@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, ScrollView, View,
-  Dimensions, Text, Platform, StatusBar,
-  ActivityIndicator,
+  StyleSheet, ScrollView, View, Text,
+  Platform, StatusBar, ActivityIndicator,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -16,124 +15,12 @@ import Size from '../components/size';
 import * as NavActions from '../actions/navigation';
 import * as StoresActions from '../actions/stores';
 import * as BagActions from '../actions/bag';
-import * as style from '../styles/index';
+import { product, lightboxStyle } from '../styles/index';
 import { ApiUtils } from '../utils/api';
 
-const imageWidth = style.getDeviceWidth(100);
-const imageHeight = style.getDeviceHeight(56);
-const { width, height } = Dimensions.get('window');
-const lightboxStyle = { style: { width, height } };
 const isIOS = Platform.OS === 'ios';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
-  title: {
-    flex: 1,
-    margin: 10,
-    color: 'black',
-    alignSelf: 'center',
-    justifyContent: 'center',
-  },
-  slide: {
-    width,
-    height,
-  },
-  carrousel: {
-    width,
-    height: imageHeight,
-  },
-  images: {
-    width: imageWidth,
-    height: imageHeight,
-    alignSelf: 'center',
-  },
-  footer: {
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: 'black',
-    opacity: 0.8,
-  },
-  currency: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  currencyText: {
-    flex: 1,
-    fontSize: 20,
-    color: 'white',
-    textAlign: 'center',
-    padding: 11,
-  },
-  footerButtonContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignContent: 'center',
-    backgroundColor: 'black',
-  },
-  footerButton: {
-    flex: 1,
-    alignSelf: 'center',
-  },
-  buyButton: {
-    color: 'white',
-  },
-  backButton: {
-    position: 'absolute',
-    top: 20,
-    left: 15,
-    zIndex: 2,
-    backgroundColor: 'white',
-    opacity: 0.5,
-    borderRadius: 5,
-    padding: 10,
-  },
-  backButtonIcon: {
-    color: '#000',
-    fontSize: 24,
-  },
-  details: {
-    flex: 1,
-  },
-  description: {
-    flex: 2,
-    padding: 10,
-    backgroundColor: 'transparent',
-    flexDirection: 'column',
-    alignContent: 'center',
-    justifyContent: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
-  },
-  info: {
-    flex: 1,
-    fontSize: 16,
-  },
-  sizesContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    marginTop: 10,
-    paddingLeft: 10,
-    backgroundColor: 'transparent',
-    borderColor: '#ddd',
-    borderBottomWidth: 1,
-  },
-  sizes: {
-    flex: 1,
-    flexDirection: 'row',
-    margin: 10,
-    backgroundColor: 'transparent',
-  },
-  size: {
-    padding: 10,
-    marginLeft: 2,
-    marginRight: 2,
-    borderRadius: 100,
-    backgroundColor: 'white',
-  },
-});
+const styles = StyleSheet.create(product);
 
 class LoadStore extends React.PureComponent {
   constructor(props) {

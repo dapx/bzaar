@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
-  Dimensions,
   Platform,
   StatusBar,
 } from 'react-native';
@@ -18,13 +17,11 @@ import IconButton from '../components/iconButton';
 import SizePicker from '../components/sizePicker';
 import * as NavActions from '../actions/navigation';
 import * as StoresActions from '../actions/myStores';
-import { storeEdit, headers } from '../styles/index';
+import { product as productStyle, lightboxStyle, headers } from '../styles/index';
 import { ApiUtils } from '../utils/api';
 
-const styles = StyleSheet.create(storeEdit);
+const styles = StyleSheet.create(productStyle);
 const stylesHeader = StyleSheet.create(headers);
-const { width, height } = Dimensions.get('window');
-const lightboxStyle = { style: { width, height } };
 const isIOS = Platform.OS === 'ios';
 
 class ProductEdit extends Component {
@@ -161,7 +158,7 @@ class ProductEdit extends Component {
                         onClose={() => StatusBar.setHidden(true, 'fade')}
                       >
                       <FastImage
-                        style={styles.image}
+                        style={styles.images}
                         source={{ uri: image.url }}
                         resizeMode={'contain'}
                       />
