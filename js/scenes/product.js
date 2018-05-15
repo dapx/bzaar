@@ -20,7 +20,7 @@ import * as style from '../styles/index';
 import { ApiUtils } from '../utils/api';
 
 const imageWidth = style.getDeviceWidth(100);
-const imageHeight = style.getDeviceHeight(50);
+const imageHeight = style.getDeviceHeight(56);
 const { width, height } = Dimensions.get('window');
 const lightboxStyle = { style: { width, height } };
 const isIOS = Platform.OS === 'ios';
