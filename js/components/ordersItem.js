@@ -4,8 +4,10 @@ import { Text, Button, Card } from 'native-base';
 import FastImage from 'react-native-fast-image';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import 'moment/locale/pt-br';
 import { ApiUtils } from '../utils/api';
 
+moment.locale('pt-br');
 
 const styles = {
   header: {
