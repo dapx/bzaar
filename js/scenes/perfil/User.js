@@ -224,7 +224,8 @@ class User extends Component {
 
   sendConfirmation = () => {
     const { user: { id }, jwt } = this.props;
-    ApiUtils.create(`users/${id}/send_confirmation`, jwt, {});
+    ApiUtils.create(`users/${id}/send_confirmation`, jwt, {})
+      .then(() => ApiUtils.success('E-mail enviado.'));
   }
 
   handleSubmit() {
