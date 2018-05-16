@@ -28,6 +28,11 @@ export const ApiUtils = {
     throw new Error(message);
   },
 
+  getValue(response) {
+    if (response.status >= 204 && response.status <= 205) return null;
+    return response.json();
+  },
+
   request(endpoint, jwt) {
     return fetch(`${API_BASE_URL}/secured/${endpoint}`, {
       method: 'GET',
@@ -42,7 +47,7 @@ export const ApiUtils = {
       method,
       body: JSON.stringify(data),
     }).then(this.checkStatus)
-      .then(response => response.json());
+      .then(this.getValue);
   },
 
   delete(endpoint, jwt, id, method = 'DELETE') {
@@ -50,7 +55,7 @@ export const ApiUtils = {
       headers: this.secureheader(jwt),
       method,
     }).then(this.checkStatus)
-      .then(response => response.json());
+      .then(this.getValue);
   },
 
   upload(url, file, mimetype, method = 'PUT') {
@@ -129,6 +134,14 @@ export const UserService = {
       body: JSON.stringify({
         access_token: accessToken,
       }),
+    }).then(ApiUtils.checkStatus)
+      .then(response => response.json());
+  },
+
+  getCep(cep) {
+    return fetch(`https://viacep.com.br/ws/${cep}/json/`, {
+      method: 'GET',
+      headers: ApiUtils.header(),
     }).then(ApiUtils.checkStatus)
       .then(response => response.json());
   },
