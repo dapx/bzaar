@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, View, LayoutAnimation } from 'react-native';
-import { Text, Button, Card } from 'native-base';
+import { Text, Button as NBButton, Card } from 'native-base';
 import FastImage from 'react-native-fast-image';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import 'moment/locale/pt-br';
+import Button from './button';
 
 moment.locale('pt-br');
 
@@ -100,6 +101,84 @@ CardStatus.propTypes = {
   updatedAt: PropTypes.string,
 };
 
+class Tag extends React.PureComponent {
+  onPress = () => {
+    const { id } = this.props;
+    this.props.onPress(id);
+  }
+
+  render() {
+    const { name, isSelected } = this.props;
+    const selectedStyle = isSelected ? { backgroundColor: '#ddd' } : {};
+    return (
+      <Button
+        onPress={this.onPress}
+        style={[
+          {
+            margin: 2,
+            padding: 5,
+            borderRadius: 10,
+            borderColor: '#ddd',
+            borderWidth: 0.5,
+          },
+          selectedStyle,
+        ]}
+      >
+        <View style={{ flex: 1 }}>
+          <Text>{name}</Text>
+        </View>
+      </Button>
+    );
+  }
+}
+
+Tag.propTypes = {
+  onPress: PropTypes.func.isRequired,
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  isSelected: PropTypes.bool.isRequired,
+};
+
+class Addresses extends React.PureComponent {
+  render() {
+    const {
+      status,
+      addresses,
+      style,
+      onPress,
+      selectedId,
+    } = this.props;
+    if (status === 0) {
+      const list = addresses.map(a => (
+        <Tag
+          key={`address_${a.id}`}
+          id={a.id}
+          name={a.name}
+          isSelected={(a.id === selectedId)}
+          onPress={onPress}
+        />
+      ));
+      return (
+        <View style={style}>
+          { list }
+        </View>
+      );
+    }
+    return null;
+  }
+}
+
+Addresses.propTypes = {
+  status: PropTypes.number.isRequired,
+  selectedId: PropTypes.number.isRequired,
+  addresses: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+  })),
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.number, PropTypes.array]),
+  onPress: PropTypes.func.isRequired,
+};
+
 const CardHeader = props => (
   <View style={styles.header}>
     <View style={styles.titleContainer}>
@@ -142,14 +221,14 @@ const FooterStatusContent = ({
 }) => {
   if (status <= 1 || status === 3) {
     return (
-      <Button
+      <NBButton
         onPress={onConfirm}
         small
         dark
         danger={(status === 1)}
       >
         <Text>{descButton[status]}</Text>
-      </Button>
+      </NBButton>
     );
   }
   return null;
@@ -223,6 +302,20 @@ const CardBody = props => (
         </View>
       </View>
     </View>
+    <Addresses
+      style={{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        borderColor: '#ddd',
+        borderWidth: 0.5,
+        borderRadius: 10,
+        margin: 5,
+      }}
+      status={props.item.status}
+      addresses={props.addresses}
+      selectedId={props.selectedId}
+      onPress={props.onPress}
+    />
   </View>
 );
 
@@ -231,13 +324,23 @@ CardBody.propTypes = {
     product_image: PropTypes.string.isRequired,
     product_price: PropTypes.number.isRequired,
     quantity: PropTypes.number.isRequired,
+    status: PropTypes.number.isRequired,
   }).isRequired,
+  selectedId: PropTypes.number,
+  addresses: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+  })),
   imageWidth: PropTypes.number.isRequired,
+  onPress: PropTypes.func.isRequired,
 };
 
 class BagItem extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      selectedId: 0,
+    };
     this.onConfirm = this.onConfirm.bind(this);
   }
 
@@ -258,7 +361,12 @@ class BagItem extends Component {
   }
 
   onConfirm() {
-    this.props.onConfirm(this.props.item);
+    const address = this.props.addresses.find(a => a.id === this.state.selectedId);
+    this.props.onConfirm(this.props.item, address);
+  }
+
+  onPress = (selectedId) => {
+    this.setState({ selectedId });
   }
 
   render() {
@@ -266,7 +374,9 @@ class BagItem extends Component {
       item,
       onRemove,
       imageWidth,
+      addresses,
     } = this.props;
+    const { selectedId } = this.state;
     return (
       <Card>
         <CardHeader
@@ -279,7 +389,11 @@ class BagItem extends Component {
         />
         <CardBody
           item={item}
-          imageWidth={imageWidth} />
+          imageWidth={imageWidth}
+          addresses={addresses}
+          selectedId={selectedId}
+          onPress={this.onPress}
+        />
         <CardFooter
           item={item}
           onConfirm={this.onConfirm}
@@ -297,6 +411,10 @@ BagItem.propTypes = {
     product_name: PropTypes.string.isRequired,
     updated_at: PropTypes.string.isRequired,
   }).isRequired,
+  addresses: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+  })),
   imageWidth: PropTypes.number.isRequired,
   onRemove: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,

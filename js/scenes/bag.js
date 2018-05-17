@@ -67,11 +67,12 @@ class Bag extends Component {
     return list.filter(item => item.status < 4);
   }
 
-  onConfirmItem(item) {
+  onConfirmItem(item, address) {
     if (item.status !== 3 && !(item.status <= 1)) return;
     const itemCart = {
       item_cart: {
         ...item,
+        address,
         status: changeStatus[item.status],
       },
     };
@@ -83,6 +84,7 @@ class Bag extends Component {
       <BagItem
         key={`bag_item_${index}`}
         item={item}
+        addresses={this.props.addresses}
         imageWidth={getDeviceWidth(20)}
         onRemove={() => this.deleteBagItem(item.id)}
         onConfirm={this.onConfirmItem}
@@ -120,6 +122,7 @@ class Bag extends Component {
 function mapStateToProps(state) {
   return {
     jwt: state.login.jwt,
+    addresses: state.login.user.address,
     loadingRequest: state.bag.loadingRequest,
     list: state.bag.list,
   };
@@ -136,6 +139,10 @@ Bag.propTypes = {
   loadingRequest: PropTypes.bool.isRequired,
   list: PropTypes.arrayOf(PropTypes.object).isRequired,
   jwt: PropTypes.string.isRequired,
+  addresses: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+  })),
   navActions: PropTypes.shape({
     back: PropTypes.func.isRequired,
   }).isRequired,
