@@ -230,6 +230,43 @@ CardFooter.propTypes = {
   isLoading: PropTypes.bool.isRequired,
 };
 
+const Address = ({ address }) => (address
+  ? (
+    <View style={{
+      flex: 1,
+      backgroundColor: '#F5FFAC',
+    }}>
+      <Text>{`Endereço: ${address.name}`}</Text>
+      <Text>{`CEP: ${address.cep}`}</Text>
+      <Text>{`UF: ${address.uf}`}</Text>
+      <Text>{`Cidade: ${address.city}`}</Text>
+      <Text>{`Bairro: ${address.neighborhood}`}</Text>
+      <Text>{`Rua: ${address.street}`}</Text>
+      <Text>{`Numero: ${address.number}`}</Text>
+      <Text>{`Compl.: ${address.complement}`}</Text>
+    </View>
+  ) : (
+    <View>
+      <Text>
+        Não existe endereço de entrega associado!
+      </Text>
+    </View>
+  )
+);
+
+Address.propTypes = {
+  address: PropTypes.shape({
+    name: PropTypes.string,
+    cep: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    uf: PropTypes.string,
+    city: PropTypes.string,
+    neighborhood: PropTypes.string,
+    street: PropTypes.string,
+    number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    complement: PropTypes.string,
+  }),
+};
+
 const CardBody = props => (
   <View style={{ flex: 1 }}>
     <View style={{
@@ -254,9 +291,13 @@ const CardBody = props => (
           <Text style={styles.bodyText}>
             Qtde: {props.item.quantity}
           </Text>
+          <Text style={styles.bodyText}>
+            Tamanho: {props.item.size_name}
+          </Text>
         </View>
       </View>
     </View>
+    <Address address={props.item.address} />
   </View>
 );
 
@@ -264,7 +305,18 @@ CardBody.propTypes = {
   item: PropTypes.shape({
     product_image: PropTypes.string.isRequired,
     product_price: PropTypes.number.isRequired,
+    size_name: PropTypes.string.isRequired,
     quantity: PropTypes.number.isRequired,
+    address: PropTypes.shape({
+      name: PropTypes.string,
+      cep: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      uf: PropTypes.string,
+      city: PropTypes.string,
+      neighborhood: PropTypes.string,
+      street: PropTypes.string,
+      number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      complement: PropTypes.string,
+    }),
   }).isRequired,
   imageWidth: PropTypes.number.isRequired,
 };
