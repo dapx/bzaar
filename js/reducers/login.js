@@ -2,6 +2,7 @@ import {
   REQUEST_LOGIN,
   RECEIVE_LOGIN,
   AUTHORIZED_FACEBOOK,
+  AUTHORIZE_FACEBOOK,
 } from '../actionTypes/login';
 import RECEIVE_ERROR from '../actionTypes/error';
 
@@ -88,6 +89,7 @@ export function user(state = {}, action) {
 export default function login(state = {}, action) {
   switch (action.type) {
     case SAVE_USER:
+    case AUTHORIZE_FACEBOOK:
     case AUTHORIZED_FACEBOOK:
     case REQUEST_LOGIN:
       return { ...state, pendingRequest: true };
