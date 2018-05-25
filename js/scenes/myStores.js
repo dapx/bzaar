@@ -18,7 +18,7 @@ class MyStores extends Component {
     this.state = {
       list: [],
       jwt: '',
-      loadingRequest: false,
+      loadingRequest: true,
     };
     this.renderItem = this.renderItem.bind(this);
   }
