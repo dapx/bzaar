@@ -57,6 +57,7 @@
 		3FAFFC132098F66600184568 /* QBImagePicker.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3FAFFC0B20956FD200184568 /* QBImagePicker.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3FD5604F1FBA69EE002FC444 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F7E7B701FBA617C009342F2 /* libRCTFBSDK.a */; };
 		5019E2A7855242C9841460BE /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47235215E6F44CBAB158ACA0 /* EvilIcons.ttf */; };
+		51B393AD994A6A1FBB2DFFE4 /* libPods-bzaar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B792CB2AC8D8FEE1286015EC /* libPods-bzaar.a */; };
 		5BB9CA7F981F46ACA1E4A351 /* Rubik-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7EEEB8C2D45447F1B7703277 /* Rubik-Medium.ttf */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		60940010B10F43778F4069AE /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4EB0DE3A6E9549449C46B5EC /* MaterialIcons.ttf */; };
@@ -515,14 +516,15 @@
 		86FCFF834EF8492789E40F20 /* Roboto_medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto_medium.ttf; path = "../node_modules/native-base/Fonts/Roboto_medium.ttf"; sourceTree = "<group>"; };
 		87C464E39BA54F7C843F9384 /* Rubik-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Rubik-Light.ttf"; path = "../node_modules/@shoutem/ui/fonts/Rubik-Light.ttf"; sourceTree = "<group>"; };
 		905E002D8D3F41C1BA2C3942 /* Rubik-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Rubik-Regular.ttf"; path = "../node_modules/@shoutem/ui/fonts/Rubik-Regular.ttf"; sourceTree = "<group>"; };
+		9A026EA95039698A1F594147 /* Pods-bzaar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bzaar.debug.xcconfig"; path = "Pods/Target Support Files/Pods-bzaar/Pods-bzaar.debug.xcconfig"; sourceTree = "<group>"; };
 		A009CC72746E4C33B93C661D /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
-		A2485B688F3D4EF587FED9FC /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		A503BDD8F02940DBBE055F92 /* libRNFS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFS.a; sourceTree = "<group>"; };
 		A6385FDF956F481F8EFC18C9 /* libFastImage.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libFastImage.a; sourceTree = "<group>"; };
 		A78CEF4F580F468D87444265 /* Rubik-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Rubik-LightItalic.ttf"; path = "../node_modules/@shoutem/ui/fonts/Rubik-LightItalic.ttf"; sourceTree = "<group>"; };
 		A859CEC465E4478C895F2863 /* libRNSVG.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSVG.a; sourceTree = "<group>"; };
 		AF06920D728B467E9BD07BDC /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		B1FA19D6302841379D76AF9C /* libimageCropPicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libimageCropPicker.a; sourceTree = "<group>"; };
+		B792CB2AC8D8FEE1286015EC /* libPods-bzaar.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-bzaar.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7A43D100A4E468EB070E7D7 /* FastImage.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = FastImage.xcodeproj; path = "../node_modules/react-native-fast-image/ios/FastImage.xcodeproj"; sourceTree = "<group>"; };
 		B8979A1AEFCD4999A75EA6AD /* Rubik-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Rubik-BlackItalic.ttf"; path = "../node_modules/@shoutem/ui/fonts/Rubik-BlackItalic.ttf"; sourceTree = "<group>"; };
 		BC5E80D13F7248078DFFD431 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/native-base/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
@@ -532,6 +534,7 @@
 		D113F6F998254FC5B6CFD457 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		D5E064EE75DC4D798F4B1B9A /* Roboto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto.ttf; path = "../node_modules/native-base/Fonts/Roboto.ttf"; sourceTree = "<group>"; };
 		E3C4F3770E87451797816A09 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
+		E757BF0E0B46D96ADDF2203F /* Pods-bzaar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bzaar.release.xcconfig"; path = "Pods/Target Support Files/Pods-bzaar/Pods-bzaar.release.xcconfig"; sourceTree = "<group>"; };
 		EE5A9A9F0D8649CBB01880EF /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		FAE3AC2417EC443DA60148B5 /* libRNPhotoView.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNPhotoView.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -573,6 +576,7 @@
 				8A87ED61B2884540ADE949AA /* libFastImage.a in Frameworks */,
 				7124C6AD184646B1874A8872 /* libBVLinearGradient.a in Frameworks */,
 				3E8809F2E85743C983BF24EC /* libRNPhotoView.a in Frameworks */,
+				51B393AD994A6A1FBB2DFFE4 /* libPods-bzaar.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -810,7 +814,7 @@
 				3F7E7AEC1FBA5FD5009342F2 /* FBSDKCoreKit.framework */,
 				3F7E7AEE1FBA5FD5009342F2 /* FBSDKLoginKit.framework */,
 				3F7E7AED1FBA5FD5009342F2 /* FBSDKShareKit.framework */,
-				A2485B688F3D4EF587FED9FC /* libz.tbd */,
+				B792CB2AC8D8FEE1286015EC /* libPods-bzaar.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -863,6 +867,15 @@
 				3FA3C3652044EC5800FA5750 /* libRNPhotoView.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		55F6014360B8576E36FB4A35 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9A026EA95039698A1F594147 /* Pods-bzaar.debug.xcconfig */,
+				E757BF0E0B46D96ADDF2203F /* Pods-bzaar.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		5E91572E1DD0AC6500FF2AA8 /* Products */ = {
@@ -929,6 +942,7 @@
 				067A331322664F71AE665B6F /* Resources */,
 				3F1B25C21F782F66008E74D1 /* Recovered References */,
 				3F459D841FA6052E00AF82AC /* Frameworks */,
+				55F6014360B8576E36FB4A35 /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -970,11 +984,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "bzaar" */;
 			buildPhases = (
+				6ED9801DDE346BA887B0F7C7 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				3F2BE2C71FC5D5140007601E /* Embed Frameworks */,
+				A41E8C7F50472B4E4C2F829D /* [CP] Embed Pods Frameworks */,
+				B9A6B33876D4FCC423970ABA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1585,6 +1602,57 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/packager/react-native-xcode.sh";
 		};
+		6ED9801DDE346BA887B0F7C7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-bzaar-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A41E8C7F50472B4E4C2F829D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-bzaar/Pods-bzaar-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B9A6B33876D4FCC423970ABA /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-bzaar/Pods-bzaar-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-bzaar/Pods-bzaar-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1733,6 +1801,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9A026EA95039698A1F594147 /* Pods-bzaar.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = bzaar/bzaar.entitlements;
@@ -1753,7 +1822,6 @@
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
-					"$(SRCROOT)/../node_modules/react-native-code-push/ios/CodePush/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
@@ -1778,6 +1846,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E757BF0E0B46D96ADDF2203F /* Pods-bzaar.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = bzaar/bzaar.entitlements;
@@ -1797,7 +1866,6 @@
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
-					"$(SRCROOT)/../node_modules/react-native-code-push/ios/CodePush/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",

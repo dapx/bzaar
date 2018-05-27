@@ -54,3 +54,6 @@ fastlane/screenshots
 
 # Facebook SDK
 FacebookSDK*
+
+# Cocoapods
+Pods

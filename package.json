@@ -34,6 +34,7 @@
     "react-native-fs": "^2.9.11",
     "react-native-image-crop-picker": "git+https://github.com/jigaryadav/react-native-image-crop-picker.git",
     "react-native-looped-carousel": "git+https://github.com/phil-r/react-native-looped-carousel.git",
+    "react-native-maps": "^0.21.0",
     "react-native-push-notification": "^3.0.2",
     "react-native-svg": "^6.0.0",
     "react-native-vector-icons": "^4.5.0",

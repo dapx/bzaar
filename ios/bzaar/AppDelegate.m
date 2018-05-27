@@ -13,6 +13,7 @@
 #import <React/RCTPushNotificationManager.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <React/RCTLog.h>
+@import GoogleMaps; //add this line if you want to use Google Maps
 
 @implementation AppDelegate
 // Facebook SDK start
@@ -23,6 +24,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [GMSServices provideAPIKey:@"AIzaSyA8GyedamXsBN15UR1q1WAILIP3EjqyX5o"]; // add this line using the api key obtained from Google Console
   RCTSetLogThreshold(RCTLogLevelInfo);
   NSURL *jsCodeLocation;
 
