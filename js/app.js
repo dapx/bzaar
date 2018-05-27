@@ -5,13 +5,11 @@
  */
 
 import React, { Component } from 'react';
-import { AppState } from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import { StyleProvider, Root } from 'native-base';
-import codePush from 'react-native-code-push';
 import {
   createReactNavigationReduxMiddleware,
   createReduxBoundAddListener,
@@ -36,31 +34,27 @@ const store = createStore(reducer, applyMiddleware(
   navMiddleware,
 ));
 
-
-const codePushOptions = {
-  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
-  installMode: codePush.InstallMode.IMMEDIATE,
-};
-
 class Bzaar extends Component {
+  /*
   componentDidMount() {
     AppState.addEventListener('change', this.handleAppStateChange);
   }
 
   componentWillUnmount() {
-    AppState.addEventListener('change', this.handleAppStateChange);
+    // AppState.addEventListener('change', this.handleAppStateChange);
   }
 
   handleAppStateChange(appState) {
     if (appState === 'background') {
-      /** Desabilitado pois não teve uso
+      /* Desabilitado pois não teve uso
       PushNotification.localNotificationSchedule({
         message: "Volta aqui!!!", // (required)
         date: new Date(Date.now() + (1 * 1000)) // in 60 secs
-      }); */
+      });
       console.log('The app is in background');
     }
   }
+  */
 
   render() {
     return (
@@ -76,4 +70,5 @@ class Bzaar extends Component {
   }
 }
 
-export default codePush(codePushOptions)(Bzaar);
+// export default codePush(codePushOptions)(Bzaar);
+export default Bzaar;
