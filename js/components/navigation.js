@@ -183,7 +183,7 @@ class AppWithNavigationState extends React.Component {
     BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
   }
 
-  onBackPress() {
+  onBackPress = () => {
     const { dispatch, nav } = this.props;
     if (nav.index === 0) {
       return false;
