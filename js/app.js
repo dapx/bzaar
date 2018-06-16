@@ -14,12 +14,19 @@ import {
   createReactNavigationReduxMiddleware,
   createReduxBoundAddListener,
 } from 'react-navigation-redux-helpers';
+import intl from 'intl';
+import 'intl/locale-data/jsonp/pt-BR';
 import reducer from './reducers/index';
 import AppWithNavigationState from './components/navigation';
 import PushController from './components/pushController';
 import getTheme from '../native-base-theme/components';
 import theme from '../native-base-theme/variables/commonColor';
 // import PushNotification from 'react-native-push-notification';
+
+// Intl Polyfill NumberFormat for android
+if (!global.Intl.NumberFormat) {
+  Intl.NumberFormat = intl.NumberFormat;
+}
 
 const navMiddleware = createReactNavigationReduxMiddleware(
   'root',
