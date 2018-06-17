@@ -36,7 +36,8 @@ class DefaultImagePicker extends Component {
     return fileSize > (this.state.maxSize * this.state.megaByte);
   }
 
-  onPress() {
+  onPress = () => {
+    this.props.onPress();
     return ImagePicker.openPicker(this.state.options).then((file) => {
       const imageName = this.getImageName(file);
       const mimetype = file.mime;
@@ -44,14 +45,13 @@ class DefaultImagePicker extends Component {
 
       if (this.isValidSize(file.size)) return this.props.onMaxSize();
       if (this.isValidFormat(mimetype)) return this.props.onUnsupported();
-
       return this.props.onReceiveData(metaDataImage);
     }).catch(error => this.props.onError(error));
   }
 
   render() {
     return (
-      <TouchableOpacity onPress={() => this.onPress()}>
+      <TouchableOpacity onPress={this.onPress}>
         { this.props.children }
       </TouchableOpacity>
     );
@@ -68,6 +68,7 @@ DefaultImagePicker.propTypes = {
   onMaxSize: PropTypes.func.isRequired,
   onReceiveData: PropTypes.func.isRequired,
   onError: PropTypes.func.isRequired,
+  onPress: PropTypes.func.isRequired,
 };
 
 export default DefaultImagePicker;

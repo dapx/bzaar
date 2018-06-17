@@ -4,17 +4,20 @@ import DefaultImagePicker from './DefaultImagePicker';
 import { ApiUtils } from '../utils/api';
 
 class DefaultImagePickerWithErrorHandler extends Component {
-  onMaxSize() {
-    ApiUtils.error('Imagem muito grande, tente diminuir a qualidade da imagem.');
+  throwError(error) {
+    if (this.props.onError) this.props.onError();
+    ApiUtils.error(error);
   }
 
-  onUnsupported() {
-    ApiUtils.error('A imagem não corresponde aos formatos permitidos. Os formatos permitidos são JPG ou PNG.');
+  onMaxSize = () => {
+    this.throwError('Imagem muito grande, tente diminuir a qualidade da imagem.');
   }
 
-  onError(error) {
-    ApiUtils.error(`Ocorreu um erro ao buscar a imagem: ${error}`);
+  onUnsupported = () => {
+    this.throwError('A imagem não corresponde aos formatos permitidos. Os formatos permitidos são JPG ou PNG.');
   }
+
+  onError = error => this.throwError(`Ocorreu um erro ao buscar a imagem: ${error}`);
 
   render() {
     return (
@@ -34,6 +37,7 @@ DefaultImagePickerWithErrorHandler.propTypes = {
   height: PropTypes.number,
   maxSize: PropTypes.number,
   cropping: PropTypes.bool,
+  onError: PropTypes.func,
 };
 
 export default DefaultImagePickerWithErrorHandler;

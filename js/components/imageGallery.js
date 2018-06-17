@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, InteractionManager } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  InteractionManager,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import FastImage from 'react-native-fast-image';
 import AnimatedDND from 'react-native-animated-dnd';
-import { Icon } from 'native-base';
+import { Icon, Spinner } from 'native-base';
 import _ from 'lodash';
 import DefaultImagePicker from './DefaultImagePickerWithErrorHandler';
 
@@ -75,10 +80,21 @@ DeleteItem.propTypes = {
 };
 
 class Item extends Component {
+  state = {
+    isLoading: false,
+  }
+
+  componentWillReceiveProps() {
+    this.setState({ isLoading: false });
+  }
+
+  onPress = () => this.setState({ isLoading: true });
+  onError = () => this.setState({ isLoading: false });
+
   onReceiveImage = (image) => {
-    const { item: { sequence }, onPress } = this.props;
+    const { item: { sequence } } = this.props;
     const data = { ...image, sequence };
-    onPress(data);
+    this.props.onPress(data);
   }
 
   render() {
@@ -95,13 +111,20 @@ class Item extends Component {
         width={width}
         height={height}
         cropping={true}
+        onPress={this.onPress}
+        onError={this.onError}
         onReceiveData={this.onReceiveImage}
       >
-        <FastImage
-          style={style}
-          source={{ uri: url }}
-          resizeMode={'cover'}
-        />
+        <View style={[styles.slots, { margin: 0 }]}>
+          { this.state.isLoading
+            ? <Spinner />
+            : <FastImage
+              style={style}
+              source={{ uri: url }}
+              resizeMode={'cover'}
+            />
+          }
+        </View>
       </DefaultImagePicker>
     );
   }
@@ -206,6 +229,7 @@ class ImageGallery extends Component {
         />
       ) : (
       <View style={styles.container}>
+        <Text>Carregando..</Text>
       </View>
       );
   }
