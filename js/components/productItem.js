@@ -34,6 +34,7 @@ class ProductItem extends React.PureComponent {
   render() {
     const { item } = this.props;
     const image = item.images[0];
+    const lowerPrice = item.sizes[0].price;
     const uri = (image && image.url) || 'https://www.pixedelic.com/themes/geode/demo/wp-content/uploads/sites/4/2014/04/placeholder.png';
     return (
       <Button
@@ -50,7 +51,14 @@ class ProductItem extends React.PureComponent {
           <Text
             numberOfLines={1}
             ellipsizeMode={'tail'}
-            style={{ textAlign: 'center' }}>{`${item.name}`}
+            style={{ textAlign: 'center' }}>
+              {`${item.name}`}
+          </Text>
+          <Text
+            numberOfLines={1}
+            ellipsizeMode={'tail'}
+            style={{ textAlign: 'center', color: 'green', margin: 10 }}>
+              {`A partir de R$ ${lowerPrice}`}
           </Text>
         </Card>
       </Button>
