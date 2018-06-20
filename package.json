@@ -7,6 +7,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
+    "android:apk": "cd android && ./gradlew assembleRelease",
     "expo": "exp start",
     "test": "jest",
     "lint": "./node_modules/.bin/eslint ./js",
