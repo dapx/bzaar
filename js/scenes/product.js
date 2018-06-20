@@ -17,6 +17,7 @@ import * as StoresActions from '../actions/stores';
 import * as BagActions from '../actions/bag';
 import { product, lightboxStyle } from '../styles/index';
 import { ApiUtils } from '../utils/api';
+import { Price } from '../utils/utils';
 
 const isIOS = Platform.OS === 'ios';
 
@@ -95,7 +96,7 @@ class Product extends Component {
     return sizes.filter(size => size.quantity > 0);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (isIOS) StatusBar.setHidden(true, 'fade');
   }
 
@@ -124,8 +125,9 @@ class Product extends Component {
   }
 
   render() {
-    const { images } = this.state;
+    const { images, selectedSize } = this.state;
     const sizes = this.filterAvailable(this.state.sizes);
+    const selectedPrice = Price.format(selectedSize.price);
     return (
       <View style={{ flex: 1 }}>
         <IconButton
@@ -167,7 +169,7 @@ class Product extends Component {
           <View style={styles.footer}>
             <View style={styles.currency}>
               <View>
-                <Text style={styles.currencyText}>R${this.state.selectedSize.price}</Text>
+                <Text style={styles.currencyText}>{selectedPrice}</Text>
               </View>
             </View>
             <View style={styles.footerButtonContainer}>

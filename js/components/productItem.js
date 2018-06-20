@@ -4,6 +4,7 @@ import { Card } from 'native-base';
 import PropTypes from 'prop-types';
 import FastImage from 'react-native-fast-image';
 import Button from '../components/button';
+import { Price } from '../utils/utils';
 
 import { getDeviceWidth } from '../styles';
 
@@ -34,7 +35,7 @@ class ProductItem extends React.PureComponent {
   render() {
     const { item } = this.props;
     const image = item.images[0];
-    const lowerPrice = item.sizes[0].price;
+    const lowerPrice = Price.format(item.sizes[0].price);
     const uri = (image && image.url) || 'https://www.pixedelic.com/themes/geode/demo/wp-content/uploads/sites/4/2014/04/placeholder.png';
     return (
       <Button
@@ -58,7 +59,7 @@ class ProductItem extends React.PureComponent {
             numberOfLines={1}
             ellipsizeMode={'tail'}
             style={{ textAlign: 'center', color: 'green', margin: 10 }}>
-              {`A partir de R$ ${lowerPrice}`}
+              {`A partir de ${lowerPrice}`}
           </Text>
         </Card>
       </Button>
