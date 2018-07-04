@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
 import { View, Animated } from 'react-native';
-import { Container, Content, Toast, Form, Item, Label, Icon, Input, Text, Button, Spinner } from 'native-base';
+import {
+  Container,
+  Content,
+  Toast,
+  Item,
+  Label,
+  Icon,
+  Input,
+  Text,
+  Button,
+  Spinner,
+} from 'native-base';
 import { SocialIcon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -86,10 +97,10 @@ class Login extends Component {
             }}>
               Bzaar
             </Text>
-            <Form>
+            <View>
               <Item floatingLabel>
-                <Label>E-mail</Label>
                 <Icon active name="user" />
+                <Label>E-mail</Label>
                 <Input
                   value={this.state.email}
                   onChangeText={email => this.setState({ email })}
@@ -106,27 +117,33 @@ class Login extends Component {
                   onChangeText={password => this.setState({ password })}
                 />
               </Item>
-              {this.state.pendingRequest ? (<Spinner />) :
-              <View>
-                <Button
-                  block
-                  dark
-                  onPress={() => this.handleSubmit(this.state.email, this.state.password)}
-                >
-                  <Text>Conectar-se</Text>
-                </Button>
-                <SocialIcon
-                  title='Conectar-se com o Facebook'
-                  button
-                  type='facebook'
-                  onPress={() => this.handleFacebook()}
-                />
-                <Button transparent block dark onPress={() => this.props.navActions.userRegister()}>
-                  <Text>Registrar-se</Text>
-                </Button>
-              </View>
+              { this.state.pendingRequest
+                ? (<Spinner />)
+                : <View>
+                  <Button
+                    block
+                    dark
+                    onPress={() => this.handleSubmit(this.state.email, this.state.password)}
+                  >
+                    <Text>Conectar-se</Text>
+                  </Button>
+                  <SocialIcon
+                    title='Conectar-se com o Facebook'
+                    button
+                    type='facebook'
+                    onPress={() => this.handleFacebook()}
+                  />
+                  <Button
+                    transparent
+                    block
+                    dark
+                    onPress={() => this.props.navActions.userRegister()}
+                  >
+                    <Text>Registrar-se</Text>
+                  </Button>
+                </View>
               }
-            </Form>
+            </View>
           </View>
         </Content>
       </Container>
