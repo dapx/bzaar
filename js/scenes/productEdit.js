@@ -49,7 +49,7 @@ class ProductEdit extends Component {
     this.editImages = this.editImages.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (isIOS) StatusBar.setHidden(true, 'fade');
   }
 

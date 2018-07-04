@@ -34,7 +34,7 @@ class StoreEdit extends Component {
     this.onPressButton = this.onPressButton.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (isIOS) StatusBar.setHidden(true, 'fade');
   }
 
