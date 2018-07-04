@@ -1,72 +1,36 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Dimensions, Text } from 'react-native';
+import { StyleSheet, View, Text, SectionList, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Container, Icon, Content } from 'native-base';
 import PropTypes from 'prop-types';
-import Button from '../components/debounceNativeBaseButton';
 import HeaderBack from '../components/headerBack';
 import * as NavActions from '../actions/navigation';
 import * as StoresActions from '../actions/myStores';
-import * as style from '../styles/index';
-
-const imageWidth = style.getDeviceWidth(100);
-const imageHeight = style.getDeviceHeight(30);
-const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
   },
-  title: {
+  button: {
     flex: 1,
-    margin: 10,
-    color: 'black',
-    alignSelf: 'center',
-    justifyContent: 'center',
-  },
-  slide: {
-    width,
-    height,
-  },
-  carrousel: {
-    width,
-    height: imageHeight,
-  },
-  images: {
-    width: imageWidth,
-    height: imageHeight,
-    resizeMode: 'contain',
-    alignSelf: 'center',
-  },
-  description: {
-    flex: 2,
-    flexDirection: 'column',
-  },
-  info: {
-    flex: 1,
-  },
-  footer: {
+    margin: 5,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'black',
-    opacity: 0.8,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 10,
+    padding: 10,
   },
-  currency: {
-    flex: 2,
-    alignItems: 'center',
+  buttonIcon: {
+    marginRight: 10,
+    marginLeft: 10,
   },
-  currencyText: {
+  section: {
     fontSize: 20,
-    color: 'white',
-  },
-  buyButton: {
-    color: 'white',
-  },
-  footerButton: {
-    flex: 2,
-    justifyContent: 'center',
+    fontWeight: 'bold',
+    margin: 15,
   },
 });
 
@@ -84,67 +48,53 @@ class MyStore extends Component {
     });
   }
 
+  editStore = () => this.props.storesActions.editStore(this.state.store);
+  openProducts = () => this.props.storesActions.openProducts(this.state.store.id);
+  openOrders = () => this.props.navActions.orders();
+
+  sections = [{
+    title: 'Configuração',
+    data: [{ icon: 'edit', name: 'Edit', onPress: this.editStore }],
+  },
+  {
+    title: 'Gerenciamento',
+    data: [{
+      icon: 'tag',
+      name: 'Produtos',
+      onPress: this.openProducts,
+    },
+    {
+      icon: 'package',
+      name: 'Pedidos',
+      onPress: this.openOrders,
+    }],
+  }];
+
   render() {
     return (
       <Container style={styles.container}>
         <HeaderBack title={this.state.store.name} back={() => this.props.navActions.back()} />
         <Content style={{ flex: 1 }}>
-          <View>
-            <Button
-              full
-              style={{ backgroundColor: '#B22222', flex: 1, margin: 1 }}
-              onPress={() => this.props.storesActions.editStore(this.state.store)}
-            >
-              <View style={{ flexDirection: 'row' }}>
-                <Icon style={{ color: 'black' }} name="home" />
-                <Text style={{ alignSelf: 'center' }}>Editar</Text>
+        <SectionList
+          renderItem={({ item, index }) => (
+            <TouchableOpacity onPress={item.onPress}>
+              <View style={styles.button}>
+                <Icon
+                  style={styles.buttonIcon}
+                  name={item.icon}
+                />
+                <Text key={index}>{item.name}</Text>
               </View>
-            </Button>
-          </View>
-          <View style={{ flex: 2, flexDirection: 'row' }}>
-            <Button
-                large
-                style={{ backgroundColor: '#7CFC00', flex: 1, margin: 1 }}
-                onPress={() => this.props.storesActions.openProducts(this.state.store.id)}
-            >
-              <View style={{ flexDirection: 'row' }}>
-                <Icon style={{ color: 'black' }} name="octagon" />
-                <Text style={{ alignSelf: 'center' }}>Produtos</Text>
-              </View>
-            </Button>
-            <Button
-              large
-              style={{ backgroundColor: '#00BFFF', flex: 1, margin: 1 }}
-              onPress={() => this.props.navActions.back()}
-            >
-              <View style={{ flexDirection: 'row' }}>
-                <Icon style={{ color: 'black' }} name="octagon" />
-                <Text style={{ alignSelf: 'center' }}>Entregadores</Text>
-              </View>
-            </Button>
-          </View>
-          <View style={{ flex: 2, flexDirection: 'row' }}>
-            <Button
-              large
-              style={{ backgroundColor: '#7B68EE', flex: 1, margin: 1 }}
-              onPress={() => this.props.navActions.orders()}
-            >
-              <View style={{ flexDirection: 'row' }}>
-                <Icon style={{ color: 'black' }} name="octagon" />
-                <Text style={{ alignSelf: 'center' }}>Orders</Text>
-              </View>
-            </Button>
-            <Button
-              large
-              style={{ backgroundColor: '#FFD700', flex: 1, margin: 1 }}
-              onPress={() => this.props.navActions.back()}
-            >
-              <View style={{ flexDirection: 'row' }}>
-                <Icon style={{ color: 'black' }} name="octagon" />
-                <Text style={{ alignSelf: 'center', textAlign: 'right' }}>Promoções</Text>
-              </View>
-            </Button>
-          </View>
+            </TouchableOpacity>
+          )}
+          renderSectionHeader={({ section: { title } }) => (
+            <Text style={styles.section}>
+              {title}
+            </Text>
+          )}
+          sections={this.sections}
+          keyExtractor={(item, index) => item + index}
+        />
         </Content>
       </Container>
     );
