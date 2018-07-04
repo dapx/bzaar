@@ -14,11 +14,9 @@
     "prepush": "npm run lint"
   },
   "dependencies": {
-    "@expo/vector-icons": "^5.0.0",
     "@monterosa/react-native-parallax-scroll": "^1.5.3",
     "@shoutem/ui": "^0.23.4",
     "babel-polyfill": "^6.26.0",
-    "expo": "^22.0.3",
     "intl": "^1.2.5",
     "lodash": "^4.17.4",
     "moment": "^2.22.1",
