@@ -4,6 +4,7 @@ import { Text } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import FastImage from 'react-native-fast-image';
 import * as Actions from '../actions/stores';
 import { stores } from '../styles';
 import Button from '../components/button';
@@ -56,14 +57,11 @@ class Stores extends Component {
             alignItems: 'center',
           }]}
         >
-          <Text style={{
-            backgroundColor: 'transparent',
-            color: 'white',
-            fontSize: 40,
-          }}
-          >
-            {item.name}
-          </Text>
+          <FastImage
+            style={imageStyle}
+            source={{ uri: item.logo }}
+            resizeMode={'contain'}
+          />
         </ImageBackground>
       </Button>
     );
