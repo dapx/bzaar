@@ -30,8 +30,6 @@ class StoreEdit extends Component {
       uploading: false,
       wasChangedImage: false,
     };
-    this.onReceiveData = this.onReceiveData.bind(this);
-    this.onPressButton = this.onPressButton.bind(this);
   }
 
   componentDidMount() {
@@ -53,26 +51,32 @@ class StoreEdit extends Component {
     });
   }
 
-  onPressButton() {
+  onPressButton = () => {
     this.setState({ loadingRequest: true });
     const signedURL = this.state.presigned_url;
-    const { isNew } = this.state;
+    const {
+      isNew,
+      data,
+      mimetype,
+      image_url, // eslint-disable-line camelcase
+      wasChangedImage,
+    } = this.state;
+    const {
+      jwt,
+      storesActions: { createStore, updateStore, sendImage },
+    } = this.props;
+
     if (isNew) {
-      this.props.storesActions.createStore(this.props.jwt, this.state.data);
+      createStore(jwt, data);
     } else {
-      const { wasChangedImage } = this.state;
-      if (wasChangedImage) {
-        this.props.storesActions.sendImage(signedURL, this.state.data.logo, this.state.mimetype)
-          .then(() => {
-            const store = { ...this.state.data, logo: this.state.image_url };
-            this.props.storesActions.updateStore(
-              this.props.jwt,
-              store,
-            );
-          });
-      } else {
-        this.props.storesActions.updateStore(this.props.jwt, this.state.data);
+      if (!wasChangedImage) {
+        updateStore(jwt, data);
+        return;
       }
+      sendImage(signedURL, data.logo, mimetype).then(() => {
+        const store = { ...data, logo: image_url };
+        updateStore(jwt, store);
+      });
     }
   }
 
@@ -81,20 +85,22 @@ class StoreEdit extends Component {
     this.setState({ data });
   }
 
-  onReceiveData(metaData) {
-    this.props.storesActions.requestStoreSignedURL(this.props.jwt, metaData, this.state.data)
+  onReceiveData = (metaData) => {
+    const {
+      jwt,
+      storesActions: { requestStoreSignedURL },
+    } = this.props;
+    const { data } = this.state;
+    requestStoreSignedURL(jwt, metaData, data)
       .then(() => {
-        const data = { ...this.state.data, logo: metaData.path };
+        const newData = { ...data, logo: metaData.path };
         this.setState({
           isNew: false,
           wasChangedImage: true,
-          data,
+          data: newData,
           mimetype: metaData.mimetype,
         });
       });
-  }
-
-  renderImage() {
   }
 
   render() {
