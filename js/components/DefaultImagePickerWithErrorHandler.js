@@ -33,11 +33,13 @@ class DefaultImagePickerWithErrorHandler extends Component {
 
 DefaultImagePickerWithErrorHandler.propTypes = {
   children: PropTypes.element.isRequired,
+  onReceiveData: PropTypes.func.isRequired,
   width: PropTypes.number,
   height: PropTypes.number,
   maxSize: PropTypes.number,
   cropping: PropTypes.bool,
   onError: PropTypes.func,
+  onPress: PropTypes.func,
 };
 
 export default DefaultImagePickerWithErrorHandler;

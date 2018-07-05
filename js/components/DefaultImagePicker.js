@@ -37,7 +37,8 @@ class DefaultImagePicker extends Component {
   }
 
   onPress = () => {
-    this.props.onPress();
+    const { onPress } = this.props;
+    if (onPress) onPress();
     return ImagePicker.openPicker(this.state.options).then((file) => {
       const imageName = this.getImageName(file);
       const mimetype = file.mime;
@@ -68,7 +69,7 @@ DefaultImagePicker.propTypes = {
   onMaxSize: PropTypes.func.isRequired,
   onReceiveData: PropTypes.func.isRequired,
   onError: PropTypes.func.isRequired,
-  onPress: PropTypes.func.isRequired,
+  onPress: PropTypes.func,
 };
 
 export default DefaultImagePicker;
