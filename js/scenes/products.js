@@ -28,7 +28,7 @@ class SearchInput extends React.PureComponent {
     return (
       <Animated.View {...this.props}>
         <Input
-          style={{ color: 'white', fontSize: 15 }}
+          style={{ color: 'white', fontSize: 15, minWidth: 100 }}
           placeholder={'Pesquisar'}
           onChangeText={this.doSearch}
         />
