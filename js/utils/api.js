@@ -33,8 +33,8 @@ export const ApiUtils = {
     return response.json();
   },
 
-  request(endpoint, jwt) {
-    return fetch(`${API_BASE_URL}/secured/${endpoint}`, {
+  request(endpoint, jwt, search = '') {
+    return fetch(`${API_BASE_URL}/secured/${endpoint}${search && `?search=${search}`}`, {
       method: 'GET',
       headers: this.secureheader(jwt),
     }).then(this.checkStatus)
