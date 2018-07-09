@@ -1,6 +1,8 @@
 import React from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, Animated } from 'react-native';
 import PropTypes from 'prop-types';
+
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 class List extends React.PureComponent {
   constructor(props) {
@@ -33,18 +35,24 @@ class List extends React.PureComponent {
       refreshing,
       onRefresh,
       ListEmptyComponent,
+      scrollEventThrottle,
+      scrollY,
     } = this.props;
     return (
-      <FlatList
+      <AnimatedFlatList
         keyExtractor={this.keyExtractor}
         renderItem={this.renderItem}
         style={{ backgroundColor: 'white' }}
         numColumns={2}
         horizontal={false}
-        data={data}
+        data={data.length > 0 ? data : null}
         onRefresh={onRefresh}
         refreshing={refreshing}
         ListEmptyComponent={ListEmptyComponent}
+        scrollEventThrottle={scrollEventThrottle || 0}
+        onScroll={Animated.event([
+          { nativeEvent: { contentOffset: { y: scrollY } } },
+        ], { useNativeDriver: true })}
       />
     );
   }
@@ -57,6 +65,8 @@ List.propTypes = {
   ListEmptyComponent: PropTypes.element.isRequired,
   onPressItem: PropTypes.func.isRequired,
   onRefresh: PropTypes.func.isRequired,
+  scrollEventThrottle: PropTypes.number,
+  scrollY: PropTypes.object,
 };
 
 export default List;
