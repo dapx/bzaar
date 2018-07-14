@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Animated, FlatList, TouchableOpacity, View, Text } from 'react-native';
-import { Container, Header, Body, Left, Right, Tabs, Tab, Title, Spinner, ScrollableTab } from 'native-base';
+import { Platform, SafeAreaView, StyleSheet, Animated, FlatList, TouchableOpacity, View, Text } from 'react-native';
+import { Container, Tabs, Tab, Spinner, ScrollableTab } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -13,6 +13,101 @@ import { store } from '../styles';
 import IconButton from '../components/iconButton';
 
 const styles = StyleSheet.create(store);
+const HEADER_BUTTON_PADDING_TOP = Platform.OS === 'ios' ? 10 : 20;
+
+const StoreHeader = ({
+  name,
+  email,
+  logo,
+  handleBack,
+  handleBag,
+}) => (
+  <SafeAreaView style={{
+    flex: 1,
+    flexDirection: 'row',
+  }}>
+    <IconButton
+      iconName="arrow-left"
+      iconStyle={{ fontSize: 24 }}
+      style={{ padding: 15, paddingTop: HEADER_BUTTON_PADDING_TOP }}
+      onPress={handleBack}
+    />
+    <View style={{
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignContent: 'center',
+      alignItems: 'center',
+    }}>
+      <StoreLogo logo={logo} />
+      <StoreTitle
+        name={name}
+        email={email}
+      />
+    </View>
+    <IconButton
+      iconName="shopping-cart"
+      iconStyle={{ fontSize: 24 }}
+      style={{ padding: 15, paddingTop: HEADER_BUTTON_PADDING_TOP }}
+      onPress={handleBag}
+    />
+  </SafeAreaView>
+);
+
+StoreHeader.propTypes = {
+  logo: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  handleBack: PropTypes.func.isRequired,
+  handleBag: PropTypes.func.isRequired,
+};
+
+const StoreTitle = ({ name, email }) => (
+  <View style={{
+    padding: 10,
+  }}>
+    <Text style={{
+      fontWeight: 'bold',
+    }}>
+      {name}
+    </Text>
+    <Text>
+      {email}
+    </Text>
+  </View>
+);
+
+StoreTitle.propTypes = {
+  name: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+};
+
+const StoreLogo = ({ logo }) => (
+  <View style={{
+    flex: 1,
+    maxWidth: 50,
+    minHeight: 50,
+    minWidth: 50,
+    maxHeight: 50,
+    borderWidth: 2,
+    borderRadius: 100,
+    borderColor: '#ddd',
+    overflow: 'hidden',
+    alignItems: 'center',
+  }}>
+    <FastImage
+      style={{ flex: 1 }}
+      source={{ uri: logo }}
+      width={80}
+      height={80}
+      resizeMode={'contain'}
+    />
+  </View>
+);
+
+StoreLogo.propTypes = {
+  logo: PropTypes.string.isRequired,
+};
 
 class Store extends Component {
   constructor(props) {
@@ -77,36 +172,34 @@ class Store extends Component {
   }
 
   render() {
-    const { list = [] } = this.state;
+    const {
+      list = [],
+      logo,
+      name,
+      email,
+    } = this.state;
     const groupedProducts = _.groupBy(
       list,
       product => product.name.split(' ')[0],
     );
     return (
-      <Container>
-        <Header hasTabs>
-          <Left>
-            <IconButton
-              iconName="arrow-left"
-              iconStyle={{ fontSize: 24 }}
-              style={{ padding: 10 }}
-              onPress={() => this.props.navActions.back()}
-            />
-          </Left>
-          <Body>
-            <Title style={{ color: 'black' }}>{this.state.name}</Title>
-          </Body>
-          <Right>
-            <IconButton
-              iconName="shopping-cart"
-              iconStyle={{ fontSize: 24 }}
-              style={{ padding: 10 }}
-              onPress={() => this.props.navActions.bag()}
-            />
-          </Right>
-        </Header>
-        <View style={{ flex: 1 }} >
-        <Tabs tabBarBackgroundColor={'white'} renderTabBar={() => <ScrollableTab />}>
+      <Container style={{ flex: 1 }}>
+        <View style={{
+          flex: 1,
+          flexDirection: 'column',
+          backgroundColor: '#fff',
+        }}>
+          <StoreHeader
+            name={name}
+            email={email}
+            logo={logo}
+            handleBack={this.props.navActions.back}
+            handleBag={this.props.navActions.bag}
+          />
+          <Tabs
+            style={{ flex: 5 }}
+            tabBarBackgroundColor={'white'}
+            renderTabBar={() => <ScrollableTab />}>
             { list.length > 0 ? Object.entries(groupedProducts).map(([key, value]) => (
               <Tab key={`store-tab-${key}`} heading={key}>
                 { this.state.loadingRequest
