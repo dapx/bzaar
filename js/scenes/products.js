@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Animated } from 'react-native';
+import { Platform, KeyboardAvoidingView, View, Text, Animated } from 'react-native';
 import { Input } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -43,6 +43,11 @@ SearchInput.propTypes = {
   getResult: PropTypes.func.isRequired,
   setLoading: PropTypes.func.isRequired,
 };
+
+const keyboardBehavior = Platform.OS === 'ios' ? {
+  behavior: 'padding',
+  keyboardVerticalOffset: 100,
+} : {};
 
 class Products extends Component {
   constructor(props) {
@@ -107,6 +112,10 @@ class Products extends Component {
 
   render() {
     return (
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        { ...keyboardBehavior }
+      >
       <View style={{ flex: 1 }}>
         <List
           ref={(ref) => { this.listRef = ref; }}
@@ -140,6 +149,7 @@ class Products extends Component {
           setLoading={this.setLoading}
         />
       </View>
+      </KeyboardAvoidingView>
     );
   }
 }
