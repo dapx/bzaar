@@ -1,3 +1,16 @@
+// Required by onesignal
+buildscript {
+    repositories {
+        maven { url 'https://plugins.gradle.org/m2/' } // Gradle Plugin Portal 
+    }
+    dependencies {
+        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:[0.10.0, 0.99.99]'
+    }
+}
+
+apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
+// END
+
 apply plugin: "com.android.application"
 
 import com.android.build.OutputFile
@@ -89,9 +102,9 @@ android {
     defaultConfig {
         applicationId "com.bzaar"
         minSdkVersion 16
-        targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 26
+        versionCode 6
+        versionName "0.0.4"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -140,6 +153,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-onesignal')
     compile project(':react-native-push-notification')
     compile project(':react-native-vector-icons')
     compile project(':react-native-svg')
