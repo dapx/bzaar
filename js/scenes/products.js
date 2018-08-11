@@ -8,29 +8,15 @@ import _ from 'lodash';
 import List from '../components/list';
 import ListItem from '../components/productItem';
 import * as Actions from '../actions/products';
-import { ApiUtils } from '../utils/api';
 
 class SearchInput extends React.PureComponent {
-  doSearch = _.debounce(
-    (text) => {
-      const { jwt, setLoading, getResult } = this.props;
-      setLoading(true);
-      return ApiUtils.request('products', jwt, text)
-        .then(({ data }) => {
-          setLoading(false);
-          return getResult(data);
-        });
-    },
-    500,
-  )
-
   render() {
     return (
       <Animated.View {...this.props}>
         <Input
           style={{ color: 'white', fontSize: 15, minWidth: 100 }}
           placeholder={'Pesquisar'}
-          onChangeText={this.doSearch}
+          onChangeText={this.props.onSearch}
         />
       </Animated.View>
     );
@@ -39,9 +25,7 @@ class SearchInput extends React.PureComponent {
 
 SearchInput.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.number, PropTypes.array]),
-  jwt: PropTypes.string.isRequired,
-  getResult: PropTypes.func.isRequired,
-  setLoading: PropTypes.func.isRequired,
+  onSearch: PropTypes.func.isRequired,
 };
 
 const keyboardBehavior = Platform.OS === 'ios' ? {
@@ -53,9 +37,6 @@ class Products extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      list: [],
-      jwt: '',
-      loadingRequest: false,
       animatedY: new Animated.Value(10),
     };
     this.onPress = this.onPress.bind(this);
@@ -65,33 +46,17 @@ class Products extends Component {
     this.props.productsActions.list(this.props.jwt);
   }
 
-  componentWillReceiveProps(nextProps) {
-    // TODO - MIGRAR FILTRO PARA O SERVER
-    const list = this.filterProductsAvailable(nextProps.list);
-    this.setState({
-      loadingRequest: nextProps.loadingRequest,
-      jwt: nextProps.jwt,
-      list,
-    });
-  }
-
   onPress(item) {
     this.props.productsActions.showProduct(item);
   }
 
-  filterProductsAvailable(products) {
-    return products.filter((product) => {
-      const isProductAvailable = this.filterQuantityAvailable(product.sizes).length > 0;
-      return isProductAvailable;
-    });
-  }
-
-  filterQuantityAvailable(sizes) {
-    return sizes.filter(size => size.quantity > 0);
-  }
-
-  getResult = list => this.setState({ list })
-  setLoading = loadingRequest => this.setState({ loadingRequest })
+  handleSearch = _.debounce(
+    (text) => {
+      const { jwt } = this.props;
+      this.props.productsActions.search(jwt, text);
+    },
+    500,
+  )
 
   getSearchYPosition = () => {
     const { animatedY } = this.state;
@@ -119,8 +84,8 @@ class Products extends Component {
       <View style={{ flex: 1 }}>
         <List
           ref={(ref) => { this.listRef = ref; }}
-          data={this.state.list}
-          refreshing={this.state.loadingRequest}
+          data={this.props.list}
+          refreshing={this.props.loadingRequest}
           onRefresh={() => this.handleRefresh()}
           ListEmptyComponent={<Text>Não foi possivel encontrar produtos.</Text>}
           ListItem={ListItem}
@@ -144,9 +109,7 @@ class Products extends Component {
             },
             this.getSearchYPosition(),
           ]}
-          jwt={this.props.jwt}
-          getResult={this.getResult}
-          setLoading={this.setLoading}
+          onSearch={this.handleSearch}
         />
       </View>
       </KeyboardAvoidingView>
@@ -179,6 +142,7 @@ Products.propTypes = {
   loadingRequest: PropTypes.bool,
   productsActions: PropTypes.shape({
     list: PropTypes.func.isRequired,
+    search: PropTypes.func.isRequired,
     showProduct: PropTypes.func.isRequired,
   }).isRequired,
 };

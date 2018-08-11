@@ -30,6 +30,15 @@ export function list(jwt) {
   };
 }
 
+export function search(jwt, text) {
+  return (dispatch) => {
+    dispatch(request());
+    return ApiUtils.request('products', jwt, text)
+      .then(data => dispatch(receive(data)))
+      .catch(error => ApiUtils.error(error.message));
+  };
+}
+
 export function showProduct(data) {
   return dispatch => dispatch({ type: SHOW_PRODUCT, data });
 }
