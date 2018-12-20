@@ -115,7 +115,7 @@ class Item extends Component {
         onError={this.onError}
         onReceiveData={this.onReceiveImage}
       >
-        <View style={[styles.slots, { margin: 0 }]}>
+        <View style={[styles.slots, style, { margin: 0 }]}>
           { this.state.isLoading
             ? <Spinner />
             : <FastImage
