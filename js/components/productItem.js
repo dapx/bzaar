@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Card } from 'native-base';
 import PropTypes from 'prop-types';
 import FastImage from 'react-native-fast-image';
@@ -10,8 +10,9 @@ import { getDeviceWidth } from '../styles';
 
 const styles = StyleSheet.create({
   storeUniqueImage: {
-    width: getDeviceWidth(35),
-    height: getDeviceWidth(35),
+    margin: 5,
+    width: getDeviceWidth(45),
+    height: getDeviceWidth(45),
     alignSelf: 'center',
   },
 });
@@ -43,11 +44,12 @@ class ProductItem extends React.PureComponent {
         style={{ flex: 1 }}
         onPress={this.onPress}
       >
-        <Card>
+        <Card style={{ borderRadius: 5 }}>
           <FastImage
             style={styles.storeUniqueImage}
             source={{ uri }}
             resizeMode={'contain'}
+            borderRadius={5}
           />
           <Text
             numberOfLines={1}

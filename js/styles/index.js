@@ -31,6 +31,7 @@ export const product = {
     height,
   },
   carrousel: {
+    flex: 1,
     width,
     height: imageHeight,
   },

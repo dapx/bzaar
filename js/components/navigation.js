@@ -9,7 +9,6 @@ import Login from '../scenes/login';
 import Home from '../scenes/home';
 import UserRegister from '../scenes/perfil/User';
 import Signup from '../scenes/signup';
-import CreditCard from '../scenes/perfil/CreditCard';
 import Bag from '../scenes/bag';
 import Store from '../scenes/store';
 import Product from '../scenes/product';
@@ -33,14 +32,6 @@ const UserNavigator = StackNavigator({
   },
   AddressModalPage: {
     screen: AddressModal,
-    navigationOptions: {
-      visible: false,
-      header: null,
-      gesturesEnabled: false,
-    },
-  },
-  CreditCardPage: {
-    screen: CreditCard,
     navigationOptions: {
       visible: false,
       header: null,

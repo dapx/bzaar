@@ -48,7 +48,7 @@ class Login extends Component {
   }
 
   handleSubmit(email, password) {
-    if (email === '' || password === '') {
+    if (!email || !password) {
       Toast.show({
         text: 'Usuário/Senha não informado!',
         position: 'bottom',
