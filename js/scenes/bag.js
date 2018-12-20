@@ -10,11 +10,21 @@ import * as NavActions from '../actions/navigation';
 import * as BagActions from '../actions/bag';
 import { getDeviceWidth } from '../styles';
 import Header from '../components/headerFilter';
+import { ITEM_STATUS } from '../utils/constants';
 
+/**
+ * Cart button actions based on current actual state
+ * It map the current state to the next state.
+ *
+ * Diagram:
+ * current_state => next_state
+ *
+ */
 const changeStatus = {
-  0: 1,
-  1: 0,
-  3: 4,
+  0: ITEM_STATUS.BUY_REQUESTED,
+  1: ITEM_STATUS.IN_BAG,
+  3: ITEM_STATUS.DELIVERED,
+  6: ITEM_STATUS.DELIVERED,
 };
 
 class Bag extends Component {
@@ -60,15 +70,19 @@ class Bag extends Component {
   }
 
   filterClosedStatus(list) {
-    return list.filter(item => item.status >= 4);
+    return list.filter(item => item.status >= ITEM_STATUS.DELIVERED
+      && item.status !== ITEM_STATUS.IN_LOCO);
   }
 
   filterOpenedStatus(list) {
-    return list.filter(item => item.status < 4);
+    return list.filter(item => item.status < ITEM_STATUS.DELIVERED
+      || item.status === ITEM_STATUS.IN_LOCO);
   }
 
   onConfirmItem(item, address) {
-    if (item.status !== 3 && !(item.status <= 1)) return;
+    if (item.status !== ITEM_STATUS.WAITING_DELIVERY &&
+      !(item.status <= ITEM_STATUS.BUY_REQUESTED) &&
+      item.status !== ITEM_STATUS.IN_LOCO) return;
     const itemCart = {
       item_cart: {
         ...item,
@@ -107,12 +121,17 @@ class Bag extends Component {
           keyExtractor={item => item.id.toString()}
           refreshing={this.state.loadingRequest}
           onRefresh={() => this.handleRefresh()}
-          ListEmptyComponent={<Text style={{ margin: 10, textAlign: 'center' }}>Não foi possivel encontrar itens.</Text>}
+          ListEmptyComponent={
+            <Text style={{ margin: 10, textAlign: 'center' }}>
+              Não foi possivel encontrar itens.
+            </Text>
+          }
           ListHeaderComponent={
             <Header
               onPress={this.changeIsOpened}
               isOpenedPressed={this.state.isOpenedPressed}
-            />}
+            />
+          }
         />
       </Container>
     );

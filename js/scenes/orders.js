@@ -10,6 +10,7 @@ import * as NavActions from '../actions/navigation';
 import * as OrdersActions from '../actions/orders';
 import { getDeviceWidth } from '../styles';
 import Header from '../components/headerFilter';
+import { ITEM_STATUS as STATUS } from '../utils/constants';
 
 class Orders extends Component {
   constructor(props) {
@@ -51,18 +52,19 @@ class Orders extends Component {
   }
 
   filterClosedStatus(list) {
-    return list.filter(item => item.status >= 4);
+    return list.filter(item => item.status >= STATUS.DELIVERED);
   }
 
   filterOpenedStatus(list) {
-    return list.filter(item => item.status < 4);
+    return list.filter(item => item.status < STATUS.DELIVERED);
   }
 
   onConfirmItem(item) {
+    const newStatus = item.address ? (item.status + 1) : STATUS.IN_LOCO;
     const itemCart = {
       item_cart: {
         ...item,
-        status: (item.status + 1),
+        status: newStatus,
       },
     };
     return this.props.ordersActions.update(this.props.jwt, itemCart, this.props.store.id);

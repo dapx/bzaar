@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, View, LayoutAnimation } from 'react-native';
-import { Text, Button as NBButton, Card } from 'native-base';
+import { Text, Card } from 'native-base';
 import FastImage from 'react-native-fast-image';
 import PropTypes from 'prop-types';
-import moment from 'moment';
-import 'moment/locale/pt-br';
 import Button from './button';
-
-moment.locale('pt-br');
+import CardStatus from './card/CardStatus';
+import FooterButton from './card/FooterButton';
 
 const styles = {
   header: {
@@ -46,10 +44,12 @@ const styles = {
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
+    flexWrap: 'wrap',
   },
   totalContainer: {
     flex: 1,
     flexDirection: 'row',
+    flexWrap: 'wrap',
     borderTopColor: '#ddd',
     borderTopWidth: 0.5,
     padding: 5,
@@ -68,15 +68,6 @@ const styles = {
   },
 };
 
-const statusInfo = {
-  0: '',
-  1: 'Aguardando confirmação da Loja',
-  2: 'Venda Confirmada, aguarde o envio',
-  3: 'Produto em trânsito',
-  4: 'Produto entregue!',
-  5: 'Compra cancelada pela loja!',
-};
-
 const statusColor = {
   0: 'transparent',
   1: '#ddd',
@@ -84,22 +75,20 @@ const statusColor = {
   3: '#0DFF83',
   4: '#0DFF83',
   5: '#ddd',
+  6: '#FFCA15',
 };
 
-const CardStatus = ({ status, updatedAt }) => (
-  <View style={{ flex: 1 }}>
-      { !!status &&
-        <View style={{ backgroundColor: statusColor[status] }}>
-          <Text>{`${statusInfo[status]} - ${moment(updatedAt).fromNow()}`}</Text>
-        </View>
-      }
-  </View>
-);
-
-CardStatus.propTypes = {
-  status: PropTypes.number.isRequired,
-  updatedAt: PropTypes.string,
+const statusInfo = {
+  0: '',
+  1: 'Aguardando confirmação da Loja',
+  2: 'Venda Confirmada, aguarde o envio',
+  3: 'Produto em trânsito',
+  4: 'Produto entregue!',
+  5: 'Compra cancelada pela loja!',
+  6: 'Aguardando você buscar o produto!',
 };
+
+const mustShow = status => status !== 0 && status !== 4 && status !== 5;
 
 class Tag extends React.PureComponent {
   onPress = () => {
@@ -161,6 +150,13 @@ class Addresses extends React.PureComponent {
       return (
         <View style={style}>
           { list }
+          <Tag
+            key={`address_${0}`}
+            id={0}
+            name={'Buscar na loja'}
+            isSelected={(selectedId === 0)}
+            onPress={onPress}
+          />
         </View>
       );
     }
@@ -211,33 +207,14 @@ const descButton = {
   0: 'Pedir',
   1: 'Cancelar',
   2: '',
-  3: 'Confirmar Entrega',
+  3: 'Finalizar',
   4: '',
   5: '',
+  6: 'Finalizar',
 };
 
-const FooterStatusContent = ({
-  status, onConfirm,
-}) => {
-  if (status <= 1 || status === 3) {
-    return (
-      <NBButton
-        onPress={onConfirm}
-        small
-        dark
-        danger={(status === 1)}
-      >
-        <Text>{descButton[status]}</Text>
-      </NBButton>
-    );
-  }
-  return null;
-};
-
-FooterStatusContent.propTypes = {
-  status: PropTypes.number.isRequired,
-  onConfirm: PropTypes.func.isRequired,
-};
+const mustShowButton = status => status <= 1 || status === 3 || status === 6;
+const isCancelButton = status => status === 1;
 
 const CardFooter = ({
   item, onConfirm,
@@ -257,9 +234,11 @@ const CardFooter = ({
         </Text>
       </View>
       <View style={styles.buttonContainer}>
-        <FooterStatusContent
-          status={item.status}
+        <FooterButton
+          description={descButton[item.status]}
           onConfirm={onConfirm}
+          isHide={!mustShowButton(item.status)}
+          isCancel={isCancelButton(item.status)}
         />
       </View>
     </View>
@@ -361,6 +340,11 @@ class BagItem extends Component {
   }
 
   onConfirm() {
+    const { selectedId } = this.state;
+    if (selectedId === 0) {
+      this.props.onConfirm(this.props.item, null);
+      return;
+    }
     const address = this.props.addresses.find(a => a.id === this.state.selectedId);
     this.props.onConfirm(this.props.item, address);
   }
@@ -384,7 +368,9 @@ class BagItem extends Component {
           onRemove={onRemove}
         />
         <CardStatus
-          status={item.status}
+          status={statusInfo[item.status]}
+          color={statusColor[item.status]}
+          isHide={!mustShow(item.status)}
           updatedAt={item.updated_at}
         />
         <CardBody

@@ -1,0 +1,11 @@
+
+export const ITEM_STATUS = {
+  IN_BAG: 0,
+  BUY_REQUESTED: 1,
+  SALE_CONFIRMED: 2,
+  WAITING_DELIVERY: 3,
+  DELIVERED: 4,
+  CANCELED: 5,
+  IN_LOCO: 6,
+};
+

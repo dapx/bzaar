@@ -5,7 +5,9 @@ import FastImage from 'react-native-fast-image';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import 'moment/locale/pt-br';
+import CardStatus from './card/CardStatus';
 import { ApiUtils } from '../utils/api';
+import { ITEM_STATUS as STATUS } from '../utils/constants';
 
 moment.locale('pt-br');
 
@@ -83,7 +85,10 @@ const statusColor = {
   3: '#0DFF83',
   4: 'transparent',
   5: 'transparent',
+  6: 'transparent',
 };
+
+const mustShow = status => status !== 0 && status !== 4 && status !== 5;
 
 const descButton = {
   0: '',
@@ -95,20 +100,7 @@ const descStatus = {
   3: 'Sendo enviado para ',
   4: 'Entregue para ',
   5: 'Cancelado pedido de ',
-};
-
-const CardStatus = ({ status, updatedAt }) => (status !== 0 && status !== 4 && status !== 5)
-  && (
-    <View style={{ flex: 1 }}>
-      <View style={{ backgroundColor: statusColor[status] }}>
-        <Text>{`${statusInfo[status]} - ${moment(updatedAt).fromNow()}`}</Text>
-      </View>
-    </View>
-  );
-
-CardStatus.propTypes = {
-  status: PropTypes.number.isRequired,
-  updatedAt: PropTypes.string,
+  6: 'Aguardando cliente ',
 };
 
 const CardHeader = props => (
@@ -142,12 +134,12 @@ CardHeader.propTypes = {
 const FooterStatusContent = ({
   status, username, onConfirm, onCancel, isLoading,
 }) => {
-  if (status === 0) {
+  if (status === STATUS.IN_BAG) {
     return (
       <Text>{`Sacola de ${username}`}</Text>
     );
   }
-  if (status === 1) {
+  if (status === STATUS.BUY_REQUESTED) {
     return (
       <View style={{
         flex: 1,
@@ -172,7 +164,7 @@ const FooterStatusContent = ({
       </View>
     );
   }
-  if (status <= 2) {
+  if (status <= STATUS.SALE_CONFIRMED) {
     return (
       <Button
         onPress={onConfirm}
@@ -183,7 +175,7 @@ const FooterStatusContent = ({
       </Button>
     );
   }
-  if (status <= 5) {
+  if (status <= STATUS.CANCELED) {
     return (<Text>{descStatus[status] + username}</Text>);
   }
   return (<Text>{'error'}</Text>);
@@ -248,7 +240,7 @@ const Address = ({ address }) => (address
   ) : (
     <View>
       <Text>
-        Não existe endereço de entrega associado!
+        O cliente informou que irá retirar o produto na loja.
       </Text>
     </View>
   )
@@ -375,7 +367,9 @@ class Item extends Component {
           onRemove={this.onRemove}
         />
         <CardStatus
-          status={item.status}
+          status={statusInfo[item.status]}
+          color={statusColor[item.status]}
+          isHide={!mustShow(item.status)}
           updatedAt={item.updated_at}
         />
         <CardBody
