@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { Container, Header, Content, Toast, Form, Title, Item, Left, Icon, Input, Text, Button, Spinner } from 'native-base';
+import { Container, Content, Toast, Form, Item, Input, Text, Button, Spinner } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import HeaderBack from '../components/headerBack';
 import * as Actions from '../actions/register';
 import * as NavActions from '../actions/navigation';
 
@@ -59,14 +60,7 @@ class Signup extends Component {
   render() {
     return (
       <Container>
-        <Header style={{ backgroundColor: 'white' }}>
-          <Left style={{ flexDirection: 'row' }}>
-            <Button transparent onPress={() => this.props.navActions.back()}>
-              <Icon style={{ color: 'black' }} name="arrow-left" />
-            </Button>
-            <Title style={{ color: 'black', alignSelf: 'center' }}>Cadastrar</Title>
-          </Left>
-        </Header>
+        <HeaderBack title="Cadastrar" back={this.props.navActions.back} />
         <Content style={{ backgroundColor: 'white' }} padder>
           <View>
             <Form>

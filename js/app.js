@@ -14,6 +14,7 @@ import {
   createReactNavigationReduxMiddleware,
   createReduxBoundAddListener,
 } from 'react-navigation-redux-helpers';
+import OneSignal from 'react-native-onesignal';
 import intl from 'intl';
 import 'intl/locale-data/jsonp/pt-BR';
 import reducer from './reducers/index';
@@ -42,6 +43,9 @@ const store = createStore(reducer, applyMiddleware(
 ));
 
 class Bzaar extends Component {
+  componentDidMount() {
+    OneSignal.init('c05d8228-2801-4667-837c-58229d79d06f');
+  }
   /*
   componentDidMount() {
     AppState.addEventListener('change', this.handleAppStateChange);
