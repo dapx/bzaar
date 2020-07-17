@@ -19,7 +19,7 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-flow": "^6.23.0",
     "intl": "^1.2.5",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.19",
     "moment": "^2.22.1",
     "native-base": "^2.6.1",
     "native-base-shoutem-theme": "^0.2.2",
