@@ -29,7 +29,7 @@
     "react-native-animated-dnd": "git+https://github.com/dap1995/react-native-animated-dnd.git",
     "react-native-code-push": "^5.2.0-beta",
     "react-native-elements": "^0.18.2",
-    "react-native-fast-image": "^2.2.5",
+    "react-native-fast-image": "^8.3.0",
     "react-native-fbsdk": "^0.6.3",
     "react-native-fs": "^2.9.11",
     "react-native-image-crop-picker": "git+https://github.com/jigaryadav/react-native-image-crop-picker.git",
