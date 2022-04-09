@@ -20,7 +20,7 @@
     "babel-preset-flow": "^6.23.0",
     "intl": "^1.2.5",
     "lodash": "^4.17.4",
-    "moment": "^2.22.1",
+    "moment": "^2.29.2",
     "native-base": "^2.6.1",
     "native-base-shoutem-theme": "^0.2.2",
     "prop-types": "^15.6.0",
